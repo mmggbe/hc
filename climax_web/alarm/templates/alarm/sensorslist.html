@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="col-md-6">
+    <ul class="list-unstyled">
+        {% for sensor in sensors %}
+        <li>
+          <p><a href={% url 'sensor_modify' pk=sensor.pk  %}> <img src="{% static 'images/'%}{{sensor.ico}}"/> Name: {{ sensor.name }}  </a> 
+            <a class="btn btn-default" href="{% url 'sensor_delete' pk=sensor.pk %}"><span class="glyphicon glyphicon-trash"></span></a> 
+            </p>                
+        </li>
+        {% endfor %}
+    </ul>
+</div>  
+    
+{% endblock %}

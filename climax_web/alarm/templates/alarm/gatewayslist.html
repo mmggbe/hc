@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="col-md-6">
+    <ul class="list-unstyled">
+        {% for gw in gateways %}
+        <li>
+          <p>Gateway from {{ gw.userID }} : {{ gw.mac }}  :
+            <a class="btn btn-default" href="{% url 'gateway_delete' pk=gw.pk %}"><span class="glyphicon glyphicon-trash"></span></a> 
+            </p>                
+        </li>
+        {% endfor %}
+    </ul>
+</div>  
+    
+{% endblock %}

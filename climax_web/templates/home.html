@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+
+{% block myscript %}
+<script type="text/javascript">
+
+    var status_gw={{ status }};
+    
+    //
+    $('.btn-group-lg button').eq(status_gw).addClass("active");
+    
+      
+    //
+    // Preserve the active status only for the clicked button
+    //
+    $('.btn-group-lg button').on('click', function(e) {
+        $('.btn-group-lg button').not(this).removeClass("active");
+        $(this).addClass("active");
+        var btnActive = $('.btn-group-lg button.active');
+        console.log("1");
+
+        
+        $.ajax({
+            url: 'gateway/status',
+            type: 'get',
+            data: {
+				'btnActive': btnActive.index()
+            },
+            dataType: 'json',
+
+            success: function(data){
+//                alert(data.attribute);
+            },
+            
+            failure: function(data){
+                alert('Got an error');
+            },
+            
+            complete : function(data){
+                console.log("Ajax: no data from backend");
+
+       }
+        });
+
+        console.log("2");
+        var param = ( btnActive.text().trim()  + ' is the button ' + btnActive.index() + ' active');
+        $('#texteJQ').html(param);
+             
+    });
+    
+  
+</script>
+{% endblock %}
+       
+        
+{% block content %}
+
+
+            <div class="row">
+
+                <div class="col-md-5">
+
+
+                    <div class="btn-group btn-group-lg btn-responsive" href="{% url 'gateway_status' %}">
+
+
+                         
+                        <button class="btn btn-default" href="{% url 'gateway_status' %}" type="button">
+                            <em class="glyphicon glyphicon-lock"></em> Armed
+                        </button> 
+                        <button class="btn btn-default" type="button">
+                            <em class="glyphicon glyphicon-lamp"></em> Home
+                        </button> 
+                        <button class="btn btn-default" type="button">
+                            <em class="glyphicon glyphicon-home"></em> Unarm
+                        </button> 
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">                       
+                        {% for evt in events %}
+                        <li> <p>{{ evt.eventtime}}: {{ evt.translation}}  </p>                
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+            <span id="texteJQ"></span>
+            
+            <div class="alert alert-success alert-dismissable">
+                 
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                </button>
+                <h4>
+                    Alert!
+                </h4> <strong>Warning!</strong> Best check yo self, you're not looking too good. <a href="#" class="alert-link">alert link</a>
+            </div>
+
+
+
+
+
+{% endblock %}
