@@ -7,16 +7,17 @@
     var status_gw={{ status }};
     
     //
-    $('.btn-group-lg button').eq(status_gw).addClass("active");
+//    $('.btn-group-lg button').eq(status_gw).addClass("active");
+    $('.btn-group button').eq(status_gw).addClass("active");
     
       
     //
     // Preserve the active status only for the clicked button
     //
-    $('.btn-group-lg button').on('click', function(e) {
-        $('.btn-group-lg button').not(this).removeClass("active");
+    $('.btn-group button').on('click', function(e) {
+        $('.btn-group button').not(this).removeClass("active");
         $(this).addClass("active");
-        var btnActive = $('.btn-group-lg button.active');
+        var btnActive = $('.btn-group button.active');
         console.log("1");
 
         
@@ -60,22 +61,24 @@
 
                 <div class="col-md-5">
 
-
-                    <div class="btn-group btn-group-lg btn-responsive" href="{% url 'gateway_status' %}">
-
-
-                         
-                        <button class="btn btn-default" href="{% url 'gateway_status' %}" type="button">
+                    <div class="btn-group" href="{% url 'gateway_status' %}">
+<!-- 
+                    <div class="btn-group btn-group-lg" href="{% url 'gateway_status' %}">
+                        <button class="btn btn-default btn-responsive" href="{% url 'gateway_status' %}" type="button">
+-->
+                        <button class="btn btn-lg btn-responsive"  type="button">
                             <em class="glyphicon glyphicon-lock"></em> Armed
                         </button> 
-                        <button class="btn btn-default" type="button">
+                        <button class="btn btn-lg btn-responsive" type="button">
                             <em class="glyphicon glyphicon-lamp"></em> Home
                         </button> 
-                        <button class="btn btn-default" type="button">
+                        <button class="btn btn-lg btn-responsive" type="button">
                             <em class="glyphicon glyphicon-home"></em> Unarm
                         </button> 
 
                     </div>
+<!--
+-->
                 </div>
                 <div class="col-md-6">
                     <ul class="list-unstyled">                       
