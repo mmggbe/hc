@@ -4,6 +4,7 @@ import sys
 #import curses.ascii
 from socket import error as SocketError
 import errno
+import configparser
 
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 
@@ -114,8 +115,14 @@ def translate(contactID):
 def Main():
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
     # Bind the socket to the port
-    server_address = ('192.168.157.4', 52016)
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    server_port=config.get('server', 'port')
+    server_ip=config.get('server', 'ip')
+    server_address = (server_ip, int(server_port))
+    
     print('starting up on %s port %s' % server_address)
     sock.bind(server_address)
     # Listen for incoming connections
@@ -129,6 +136,9 @@ def Main():
 
     gw=DB_gw(db_cur)
 
+
+
+                      
     
     while True:
         # Wait for a connection

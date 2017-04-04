@@ -75,7 +75,7 @@ example:
   webserver-foobar-8080.err webserver-foobar-8080.log webserver-foobar-8080.pid
   
   To install configparser:   
-      pip3 install configParser
+      pip3 install Parser
 
 
 '''
@@ -119,7 +119,7 @@ import cgi
 import logging
 import os
 import sys
-import configparser
+import parser
 
 from lxml import etree
 
@@ -406,7 +406,7 @@ def make_request_handler_class(opts):
             
             if MAC_xml != "" :
             
-                db_cur= DB_mngt("config.ini") 
+                db_cur= DB_mngt(".ini") 
             
                 if db_cur.echec:
                     sys.exit()

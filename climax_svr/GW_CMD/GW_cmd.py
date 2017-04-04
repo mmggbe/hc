@@ -76,7 +76,7 @@ class cmdTo_climax():
             <errnotify value="20" />
         </command>
         <command id="106" action="setRpt">
-            <url1 value="rptn://{1}@192.168.157.4:52016" />
+            <url1 value="rptn://{1}@192.168.157.4:27017" />
             <acct2 value="{2}" />
         </command>
     </commands>
@@ -122,8 +122,8 @@ class cmdTo_climax():
             <errnotify value="20" />
         </command>
         <command id="105" action="setRpt">
-            <url1 value="rptn://0701@192.168.157.4:52016" />
-            <url2 value="rptg://0701@192.168.157.4:52016" />
+            <url1 value="rptn://0701@192.168.157.4:27017" />
+            <url2 value="rptg://0701@192.168.157.4:27017" />
             <acct2 value="330260" />
         </command>
         <command id="106" action="setPanel">
