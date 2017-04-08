@@ -12,41 +12,41 @@ from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 
 # [0730#74 181751000032CA2]
 
-EventCode={ b'100':"Medical",
-            b'101':"Personal Emergency",
-            b'110':"Fire",
-            b'111':"Smoke",
-            b'120':"Panic",
-            b'121':"Duress",
-            b'130':"Buglar",
-            b'131':"Perimeter",
-            b'132':"Interior",
-            b'137':"Tamper Burglar",
-            b'139':"Verification/alarm confirmation",
-            b'147':"Sensor supervision failure",
-            b'154':"Water leakage",
-            b'162':"CO detector",
-            b'301':"AC failure",
-            b'302':"Low Battery",
-            b'344':"Interference",
-            b'354':"Net device miss",
-            b'400':"by remote controller",
-            b'401':"by WEB panel",
-            b'406':"Cancel",
-            b'407':"by remote keypad",
-            b'602':"Periodic test report",
-            b'611':"Technical alarm",
-            b'641':"Mobility",
-            b'655':"Test reporting",
-            b'704':"Entry zone",
-            b'750':"Mobility DC",
-            b'751':"Mobility IR",
-            b'752':"Siren sound On/Off",}
+EventCode={ '100':"Medical",
+            '101':"Personal Emergency",
+            '110':"Fire",
+            '111':"Smoke",
+            '120':"Panic",
+            '121':"Duress",
+            '130':"Buglar",
+            '131':"Perimeter",
+            '132':"Interior",
+            '137':"Tamper Burglar",
+            '139':"Verification/alarm confirmation",
+            '147':"Sensor supervision failure",
+            '154':"Water leakage",
+            '162':"CO detector",
+            '301':"AC failure",
+            '302':"Low Battery",
+            '344':"Interference",
+            '354':"Net device miss",
+            '400':"by remote controller",
+            '401':"by WEB panel",
+            '406':"Cancel",
+            '407':"by remote keypad",
+            '602':"Periodic test report",
+            '611':"Technical alarm",
+            '641':"Mobility",
+            '655':"Test reporting",
+            '704':"Entry zone",
+            '750':"Mobility DC",
+            '751':"Mobility IR",
+            '752':"Siren sound On/Off",}
 
-ArmingRequest={ b'00':"General",
-                b'01':"Home arm",
-                b'02':"Force arm",
-                b'03':"Force home arm",}
+ArmingRequest={ '00':"General",
+                '01':"Home arm",
+                '02':"Force arm",
+                '03':"Force home arm",}
                 
                 
 def translate(contactID):
@@ -58,22 +58,21 @@ def translate(contactID):
     evt= contactID[-13:-10]
     GG = contactID[-10:-8] 
     sensor= contactID[-7:-5]
-
     
 #    print("Event={}".format(evt))
     try:
-        
+
         alarmMsg += ArmingRequest[GG]
         alarmMsg += ": "
         
-        if Q== b'1':
-            if sensor == b'14' or sensor == b'15' :
+        if Q== '1':
+            if sensor == '14' or sensor == '15' :
                 alarmMsg += "Disarm: "
             else:
                 alarmMsg += "New event: "
                 
-        elif Q == b'3':
-            if sensor == b'14' or sensor == b'15' :
+        elif Q == '3':
+            if sensor == '14' or sensor == '15' :
                 alarmMsg += "Armed: "
             else:
                 alarmMsg += "Restore: "
@@ -82,32 +81,33 @@ def translate(contactID):
         
         
         # arm vie RC
-        if evt == b'400':
+        if evt == '400':
             alarmMsg += EventCode[evt]
             alarmMsg += "User "
-            alarmMsg += sensor.decode()
+            alarmMsg += sensor
             
         # arm via WEB
-        elif evt ==b'401' and (sensor == b'14' or sensor == b'15'):
+        elif evt =='401' and (sensor == '14' or sensor == '15'):
             alarmMsg += EventCode[evt]
 
         # arm via Keypad
-        elif evt == b'407':
+        elif evt == '407':
             alarmMsg += EventCode[evt]
             alarmMsg += "User "
-            alarmMsg += sensor.decode()
+            alarmMsg += sensor
 
         
         else:
             alarmMsg += EventCode[evt]
             alarmMsg += " Sensor "
-            alarmMsg += sensor.decode()
+            alarmMsg += sensor
             
             
     except:
-        print("Error ContactID")
+        print("Error ContactID: {}".format(contactID), end=' ')
     else:
-        print("Event= {}".format(alarmMsg), end='') 
+#        print("Event= {}".format(alarmMsg), end='')
+        print("Event= {}".format(alarmMsg), end=' ') 
     
     
 
@@ -153,35 +153,47 @@ def Main():
          
                 try: 
                     data = connection.recv(32)
+                    
+                except SocketError as e:
+                    errno, strerror = e.args
+                    print("Socket errorI/O error({0}): {1}".format(errno,strerror))
+
+                else:
+                    
                     if data:
-                        connection.sendall( b'\x06' )
-                        print ("Received: {} ".format(data))
-                        translate(data)
-#                        [0730#74 181751000032CA2]
-
-                        rptipid = data[1:5].decode()
-                        tmp = data[6:].split(b' ')
-                        acct2 = tmp[0].decode()
                         
-                        gw_id = gw.search_gw_from_acct( rptipid, acct2 )
-                        if gw_id == []:    
-                            print( " No Gw found with acct2= {}".format(acct2))
-                        else:
-                            print( " on Gw_id {}".format(gw_id[0][0]))
-                            now = time.strftime("%Y-%m-%d %H:%M:%S")
-     
-                            req="INSERT INTO {} (event, eventtime, gwID_id) VALUES ( %s, %s, %s )".format("alarm_events")
-                            value= (data.decode(), now, gw_id[0][0],)
-                            db_cur.executerReq(req, value)
-                            db_cur.commit() 
-
+                        now = time.strftime("%Y-%m-%d %H:%M:%S")
+                        connection.sendall( b'\x06' )
+                        print ("Received: {} {} ".format(now, data), end=' ')
+                        
+                        try:                         
+                            data = data.decode()
+                            
+                            translate(data)
+    #                        [0730#74 181751000032CA2]   
+                            rptipid = data[1:5]
+                            tmp = data[6:].split(' ')
+                            acct2 = tmp[0]
+                            
+                            gw_id = gw.search_gw_from_acct( rptipid, acct2 )
+                            if gw_id == []:    
+                                print( " No Gw found with acct2= {}".format(acct2))
+                            else:
+                                print( " on Gw_id {}".format(gw_id[0][0]))
+    #                            now = time.strftime("%Y-%m-%d %H:%M:%S")
+         
+                                req="INSERT INTO {} (event, eventtime, gwID_id) VALUES ( %s, %s, %s )".format("alarm_events")
+                                value= (data, now, gw_id[0][0],)
+                                db_cur.executerReq(req, value)
+                                db_cur.commit() 
+                        except:
+                            print("Error translating ContactID or writing DB")
+                            
                     else:
 #                        print ('no more data from {}'.format(client_address))
                         break   
                                     
-                except SocketError as e:
-                    errno, strerror = e.args
-                    print("Socket errorI/O error({0}): {1}".format(errno,strerror))
+               
                     
     
         finally:

@@ -406,7 +406,7 @@ def make_request_handler_class(opts):
             
             if MAC_xml != "" :
             
-                db_cur= DB_mngt(".ini") 
+                db_cur= DB_mngt("config.ini") 
             
                 if db_cur.echec:
                     sys.exit()

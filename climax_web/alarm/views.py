@@ -63,7 +63,7 @@ def index( request):
         else :
             sts="2"      
     
-        evts = events.objects.filter(gwID = Glob.current_GW.id )[:5]  
+        evts = events.objects.filter(gwID = Glob.current_GW.id ).order_by('id').reverse()[:5]  
         
         for evt in evts :
             evt.translation=translate( evt.event )
