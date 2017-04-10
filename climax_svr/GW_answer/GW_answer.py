@@ -50,8 +50,8 @@ CLIMAX_CMD_BDY = r'<polling>' \
     '</commands>' \
     '</polling>'
 """
-"""
-CLIMAX_CMD_BDY = r'<polling>
+
+CLIMAX_CMD_BDY = r"""<polling>
   <mac value="00:1D:94:03:0A:5A"/><rptipid value=""/>
   <ver value="CTC-1815 1.0.34 I1815W36A "/>
   <sensor_mod value="0"/>
@@ -151,11 +151,77 @@ CLIMAX_CMD_BDY = r'<polling>
 </zone>
   </xmldata>
 </command>
+<command id="97" action="getUsers">
+  <result>1</result>
+  <message>OK</message>
+  <xmldata>
+<user>
+  <index value="1"/>
+  <code value="1234"/>
+  <name value=""/>
+  <latch value="enabled"/>
+</user>
+<user>
+  <index value="2"/>
+  <code value=""/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+<user>
+  <index value="3"/>
+  <code value=""/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+<user>
+  <index value="4"/>
+  <code value=""/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+<user>
+  <index value="5"/>
+  <code value=""/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+<user>
+  <index value="6"/>
+  <code value=""/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+<user>
+  <index value="7"/>
+  <code value=""/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+<user>
+  <index value="8"/>
+  <code value=""/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+<user>
+  <index value="9"/>
+  <code value="798213"/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+<user>
+  <index value="10"/>
+  <code value="1111"/>
+  <name value=""/>
+  <latch value="disabled"/>
+</user>
+  </xmldata>
+</command>
   </commands>
-</polling>
-"""
+</polling>"""
 
-CLIMAX_CMD_BDY = r"""<polling>
+"""
+CLIMAX_CMD_BDY = r       <polling>
   <mac value="00:1D:94:03:0F:16"/><rptipid value="0730"/>
   <ver value="CTC-1815 1.0.38 I1815W39A "/>
   <sensor_mod value="0"/>
@@ -245,105 +311,181 @@ class answerFrom_climax():
     def __init__(self, db_cur, MAC, user_ID, GW_ID):
         '''
         Constructor
-        '''
-        
+        '''  
         self.db_cur = db_cur 
         self.MAC = MAC
         self.user_ID = user_ID
         self.GW_ID = GW_ID
+    
+    def getUsers(self, data):
+          
+        # store all sensors parameters to DB
         
-    def getUsers(self, data):   
-        
-        value= ( self.GW_ID,)
-        req ="DELETE FROM %s WHERE %s = %%s" % ("alarm_users", "gwID_id")
-        logging.debug("req={}\nvalues={}".format(req,value ))
-        self.db_cur.executerReq(req, value)
-        self.db_cur.commit()  
-
-# store all sensors parameters to DB       
         for cmdParam in data:
             logging.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
             if cmdParam.tag == "xmldata":
 
                 users=cmdParam.findall("user")
                 for user in users: 
-                
-                    fields ="(gwID_id,"           # chain that will contain  the field names dynamically built
-                    values =[self.GW_ID,]            # list of corresponding values
-                    balises = "(%s,"
-
                     logging.debug("{}".format(user.tag) )       
                     for params in user:
-                        logging.debug("   {}= {}".format(params.tag, params.get ("value", "0")) )
-                        field = params.tag.replace("-","_")   # mysql : field names with "-" are not allowed
+                        
+                        field = params.tag
+                        value = params.get("value", "0")
+                        logging.debug("   {}= {}".format(field, value) )
                         
                         if field == "index":
-                            field = field +"_usr"           # "index" is a reserved keyword for mysql 
-                                 
-                        fields = fields + field + ","     
-                        balises = balises + "%s,"
-                        
-                        value = params.get("value", "0")
-                        
+                            index_usr_val= value
+                            continue
+                    
                         if field == "latch":                    # when reading from GW, latch = enabled/disabled 
                             if value == "disabled":
-                                value = "0"                     # when writing to gw, it should be "0" or "1"
+                                latch_val = "0"                 # when writing to gw, it should be "0" or "1"
                             else:
-                                value= "1"
-                                
-                        values.append(value)          
+                                latch_val = "1"
+                            continue
+                        
+                        if field == "code":
+                            code_val= value
+                            continue
                     
-                    balises = balises[:-1] + ")" 
-                    fields = fields[:-1] + ")" 
-                    req ="INSERT INTO %s %s VALUES %s" % ("alarm_users", fields, balises)
-                    logging.debug( "req={}\nvalues={}".format(req,values))
-                    self.db_cur.executerReq(req, values)
-                    self.db_cur.commit()  
-        
+                        if field == "name":
+                            name_val= value
+                            continue
+                                                                # search if user already exists in DB
+                    req ="SELECT index_usr FROM %s WHERE %s = %%s AND %s = %%s" % ("alarm_users", "gwID_id", "index_usr") 
+                    values= ( self.GW_ID, index_usr_val)
+                    self.db_cur.executerReq(req, values )
+                    index_usr=self.db_cur.resultatReq() # returns a tuple
+# MaGe      
+
+              
+                    if len( index_usr ) > 0:                  # user has been found, just update DB
+#						UPDATE table_name
+#						SET column1 = value1, column2 = value2...., columnN = valueN
+#						WHERE [condition];					
+
+                        req="UPDATE %s SET code=%%s, name=%%s, latch=%%s WHERE gwID_id = %%s AND index_usr=%%s" % ("alarm_users")
+                        values= (code_val, name_val, latch_val, self.GW_ID, index_usr_val ) 
+                        self.db_cur.executerReq(req, values)
+                             
+   
+                    else:
+# 						INSERT INTO TABLE_NAME (column1, column2, column3,...columnN)  
+# 						VALUES (value1, value2, value3,...valueN); 
     
+                        req ="INSERT INTO %s (gwID_id, index_usr, code, name, latch) VALUES (%%s, %%s, %%s, %%s, %%s)" % ("alarm_users")
+                        values= ( self.GW_ID, index_usr_val, code_val, name_val, latch_val ) 
+                        self.db_cur.executerReq(req, values)
+                    
+                    logging.debug( "req={}".format(req % values))
+
+                self.db_cur.commit()
+                
+    def getSensors(self, data):
         
-    def getSensors(self, data): 
-         
-         
-# Delete previous sensor configuration in DB 
-# DELETE FROM sensors where gwID=23;
-
-        value= ( self.GW_ID,)
-        req ="DELETE FROM %s WHERE %s = %%s" % ("alarm_sensors", "gwID_id")
-        logging.debug( "req={}\nvalues={}".format(req,value ))
-        self.db_cur.executerReq(req, value)
-        self.db_cur.commit()  
-
-# store all sensors parameters to DB       
+        # store all sensors parameters to DB
+        
         for cmdParam in data:
             logging.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
             if cmdParam.tag == "xmldata":
-
-                zones=cmdParam.find("size")
-                size=int(zones.get ("value", "0"))
-                logging.debug("size = {}\n".format(size))
                 
-
+                sensor_nbr=cmdParam.find("size")
+                size=int(sensor_nbr.get ("value", "0"))
+                logging.debug("Nbr of Sensors= {}\n".format(size))
+                
                 zones=cmdParam.findall("zone")
-                for zone in zones: 
-                
-                    fields ="(gwID_id,"           # chain that will contain  the field names dynamically built
-                    values =[self.GW_ID,]            # list of corresponding values
-                    balises = "(%s,"
-
-                    logging.debug("{}".format(zone.tag) )       
-                    for params in zone:
-                        logging.debug("   {}= {}".format(params.tag, params.get ("value", "0")) )                                        
-                        fields = fields + params.tag.replace("-","_") + ","     # mysql : field names with "-" are not allowed
-                        balises = balises + "%s,"
-                        values.append(params.get("value", "0"))          
-                    balises = balises[:-1] + ")" 
-                    fields = fields[:-1] + ")" 
-                    req ="INSERT INTO %s %s VALUES %s" % ("alarm_sensors", fields, balises)
-                    logging.debug( "req={}\nvalues={}".format(req,values))
-                    self.db_cur.executerReq(req, values)
-                    self.db_cur.commit()  
+                for zone in zones:
                     
+                    logging.debug("{}".format(zone.tag) )
+                    
+                    for params in zone:
+                        status_switch_val = status_power_val = status_energy_val = ""
+                        field = params.tag
+                        value = params.get("value", "0")
+                        logging.debug("   {}= {}".format(field, value) )
+                        
+                        if field == "no":
+                            no_val= value
+                            continue                      
+                        if field == "rf":
+                            rf_val= value
+                            continue
+                        if field == "address":
+                            address_val= value
+                            continue
+                        if field == "type":
+                            type_val= value
+                            continue
+                        if field == "attr":
+                            attr_val= value
+                            continue
+                        if field == "latch":
+                            latch_val= value
+                            continue
+                        if field == "name":
+                            name_val= value
+                            continue
+                        if field == "status1":
+                            status1_val= value
+                            continue
+                        if field == "status2":
+                            status2_val= value
+                            continue
+                        if field == "rssi":
+                            rssi_val= value
+                            continue
+                        if field == "status-switch":
+                            status_switch_val= value
+                            continue
+                        if field == "status-power":
+                            status_power_val= value
+                            continue
+                        if field == "status-energy":
+                            status_energy_val= value
+                            continue
+
+
+                    
+                                                                # search if sensor already exists in DB
+                    req ="SELECT no FROM %s WHERE %s = %%s AND %s = %%s" % ("alarm_sensors", "gwID_id", "no") 
+                    values= (self.GW_ID, no_val)
+                    self.db_cur.executerReq(req, values)
+                    index_sensor = self.db_cur.resultatReq() # returns a tuple
+# MaGe      
+
+              
+                    if len( index_sensor ) > 0 :                  # sensor has been found, just update DB
+#						UPDATE table_name
+#						SET column1 = value1, column2 = value2...., columnN = valueN
+#						WHERE [condition];					
+
+#	no, rf, address, type, attr, latch, name, status1, status2, rssi, status-switch, status-power, status-energy					
+                        req= ("UPDATE %s SET rf=%%s, address=%%s, type=%%s, attr=%%s, latch=%%s, name=%%s, status1=%%s," \
+							"status2=%%s, rssi=%%s, status_switch=%%s, status_power=%%s, status_energy=%%s  WHERE gwID_id=%%s AND no=%%s") % ("alarm_sensors")
+                        values= (rf_val, address_val, type_val, attr_val, latch_val, name_val, status1_val, 
+							status2_val, rssi_val, status_switch_val, status_power_val, status_energy_val, self.GW_ID, no_val ) 
+                        self.db_cur.executerReq(req, values)
+                             
+   
+                    else:
+# 						INSERT INTO TABLE_NAME (column1, column2, column3,...columnN)  
+# 						VALUES (value1, value2, value3,...valueN); 
+    
+                        req = ("INSERT INTO %s (gwID_id, no, rf, address, type, attr, latch, name, status1, "\
+							"status2, rssi, status_switch, status_power, status_energy) " \
+                            "VALUES( %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s)") % ("alarm_sensors")
+                        values= ( self.GW_ID, no_val, rf_val, address_val, type_val, attr_val, latch_val, name_val, status1_val, 
+							status2_val, rssi_val, status_switch_val, status_power_val, status_energy_val) 
+
+                        self.db_cur.executerReq(req, values) 
+
+                    logging.debug( "req={}".format(req % values))
+
+                self.db_cur.commit()      
+
+
+
     def getMode(self, data): 
  
         #find mode in xml
@@ -392,18 +534,27 @@ class answerFrom_climax():
 
 def main(argv):
     
+    logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=logging.DEBUG)
+    
     db_cur= DB_mngt("config.ini")
             
     if db_cur.echec:
         sys.exit()
     
-    cmd_list=answerFrom_climax(db_cur,"00:1D:94:03:0F:16", "usr001", 23)
+    
+    db_cur.executerReq("DELETE from alarm_users WHERE id > 0", "" )    
+    db_cur.executerReq("DELETE from alarm_sensors WHERE id > 0", "" )    
+
+        
+    cmd_list=answerFrom_climax(db_cur,"00:1D:94:03:0F:16", "usr001", 4)
     
     climax_xml= etree.fromstring((CLIMAX_CMD_HDR+CLIMAX_CMD_BDY).encode('iso-8859-1'))
     commands_xml=climax_xml.find("commands")
     
     if cmd_list != None:
-        cmd_list.parsing(commands_xml)
+        cmd_list.parsing(commands_xml)  # 1st time to check the INSERT
+        cmd_list.parsing(commands_xml)  # second time to check the UPDATE
+        
         
     db_cur.commit()
     db_cur.close()
