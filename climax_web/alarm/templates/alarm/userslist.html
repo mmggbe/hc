@@ -6,7 +6,7 @@
     <ul class="list-unstyled">
         {% for user in users %}
         <li>
-            <p><a href={% url 'user_details' pk=user.pk %}> User: {{ user.index_usr }}, {{user.name}} </a> </p>
+            <p><a href={% url 'user_edit' pk=user.pk %}> User: {{ user.index_usr }}, {{user.name}} , {{user.latch}}</a> </p>
         </li>
         {% endfor %}
     </ul>

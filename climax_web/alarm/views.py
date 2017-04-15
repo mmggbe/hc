@@ -77,11 +77,6 @@ def users_list( request):
     return render( request, 'alarm/userslist.html', {'users':usr})
 
 @login_required(login_url="/login/")
-def user_details( request, pk):
-    usr = users.objects.get(pk=pk)
-    return render( request, 'alarm/userdetails.html', {'user':usr})
-
-@login_required(login_url="/login/")
 def user_edit( request, pk ):
     post = get_object_or_404(users, pk=pk)
     if request.method == 'POST':
@@ -92,7 +87,7 @@ def user_edit( request, pk ):
             cmd=cmdTo_climax()
             cmd.setUsers( post.index_usr, post.code, post.name, post.latch )
             post.save()
-            return redirect('user_details', pk=post.pk)
+            return redirect('users_list')
     else:
         usr_form = userForm( instance = post )
     return render( request, 'alarm/useredit.html', {'form': usr_form})
@@ -182,8 +177,7 @@ def sensors_list( request):
     for sensor in snrs_list:        
         sensor.ico = SensorIcon.icon_list[int(sensor.type)]
     
-    ico= "icon_doorsensor.png"
-    return render( request, 'alarm/sensorslist.html', {'sensors':snrs_list, 'ico': ico})
+    return render( request, 'alarm/sensorslist.html', {'sensors':snrs_list})
 
 @login_required(login_url="/login/")
 def sensor_details( request, pk):

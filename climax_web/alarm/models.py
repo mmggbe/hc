@@ -51,8 +51,8 @@ class sensors( models.Model):
     no = models.CharField(max_length=2)             # "Sensor zone eg 1,2,3..."),
     rf = models.CharField(max_length=2)             # "rf value"),
     address = models.CharField(max_length=6)        # "Sensor address"),
-    type = models.CharField(max_length=1)           # "Sensor type"),
-    attr = models.CharField(max_length=1, \
+    type = models.CharField(max_length=2)           # "Sensor type"),
+    attr = models.CharField(max_length=2, \
             choices=SENSOR_ATTRIBUTE, default='0') # "Sensor Attributes"),
     latch = models.CharField(max_length=1)          # "Sensor latch"),
     name = models.CharField(max_length=30)          # "Sensor name"),
@@ -78,7 +78,7 @@ class users( models.Model):
     code = models.CharField(max_length=7)                       #"code value eg. 1234" ),
     name = models.CharField(max_length=20)                      #"name value" ),
     latch = models.CharField(max_length=2, \
-            choices=USER_LATCH, default='0')                    # "latch_value eg. enabled" )]}
+            choices=USER_LATCH, default='0')                    # "latch_value eg. "1" for enabled )]}
     def __str__(self):
         return self.index_usr + " " + self.name
     
