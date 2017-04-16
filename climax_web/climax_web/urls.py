@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'', include('mylogin.urls')),
     url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
     url(r'^logout/$', views.logout, {'next_page': '/login'}),  
+    url(r'^camera/', include ('camera.urls')),
     url(r'^alarm/', include ('alarm.urls')),
 #    url(r'^$', index, name='index'),
 ]

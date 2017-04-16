@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="col-md-6">
+    <ul class="list-unstyled">
+        {% for camera in cameras %}
+        <li>
+          <p>Camera: {{ camera.description }}</p>                
+        </li>
+        {% empty %}
+        <p>No camera found.</p>
+        {% endfor %}
+    </ul>
+    <ul class="list-unstyled">
+        {% for file in files %}
+        <li>
+          <p>Name: {{ file.filename }} </a></p>                
+        </li>
+        {% empty %}
+        <p>No uploaded file found for this camera.</p>
+        {% endfor %}
+    </ul>
+</div>  
+    
+{% endblock %}
