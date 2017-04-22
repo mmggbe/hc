@@ -9,7 +9,7 @@ class gatewaysForm(forms.ModelForm):
 class userForm(forms.ModelForm):
     class Meta:
         model = users
-        fields = ('code', 'name', 'latch',)
+        fields = ('code', 'name', 'latch')
         
         
 class sensorModifyForm(forms.ModelForm):

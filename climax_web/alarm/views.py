@@ -25,7 +25,27 @@ class SensorIcon:
                 "glass",
                 "wrist",
                 "wrist",
-                "icon_watersensor.png"]
+                "icon_watersensor.png",
+                "12",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "20",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "icon_smartplug.png",
+                "",
+                "",]
     
     
 # Create your views here.
@@ -176,11 +196,12 @@ def sensors_list( request):
     # add icon to sensor list
     for sensor in snrs_list:        
         sensor.ico = SensorIcon.icon_list[int(sensor.type)]
+#        print("sensor type={}".format (int(sensor.type)) )
     
     return render( request, 'alarm/sensorslist.html', {'sensors':snrs_list})
 
 @login_required(login_url="/login/")
-def sensor_details( request, pk):
+def sensor_details_brol( request, pk):
     snrs = sensors.objects.get(pk=pk)
     return render( request, 'alarm/sensordetails.html', {'sensor':snrs})
 
@@ -215,3 +236,14 @@ def sensor_modify( request, pk ):
         usr_form = sensorModifyForm( instance = post )
     return render( request, 'alarm/sensormodify.html', {'form': usr_form})
 
+
+@login_required(login_url="/login/")
+def smartplug_list( request):
+    
+    smartplug_list = sensors.objects.filter(gwID = Glob.current_GW.id).filter(type="29")
+   
+    # add icon to sensor list
+    for splug in smartplug_list:        
+       print("sensor type={}, power={}".format (int(splug.type),splug.status_switch) )
+    
+    return render( request, 'alarm/smartpluglist.html', {'smartplug_list':smartplug_list})

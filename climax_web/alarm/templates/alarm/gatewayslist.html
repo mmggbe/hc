@@ -11,6 +11,8 @@
             <a class="btn btn-default" href="{% url 'gateway_delete' pk=gw.pk %}"><span class="glyphicon glyphicon-trash"></span></a> 
             </p>                
         </li>
+        {% empty %}
+          <p>No gateway configured.</p>
         {% endfor %}
     </ul>
 </div>  

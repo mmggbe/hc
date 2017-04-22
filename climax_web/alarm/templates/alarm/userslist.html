@@ -8,6 +8,8 @@
         <li>
             <p><a href={% url 'user_edit' pk=user.pk %}> User: {{ user.index_usr }}, {{user.name}} , {{user.latch}}</a> </p>
         </li>
+        {% empty %}
+          <p>No user found.</p>
         {% endfor %}
     </ul>
 </div>	

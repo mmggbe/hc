@@ -63,6 +63,10 @@ class sensors( models.Model):
     status_power = models.CharField(max_length=2)   # "Power switch value"),
     status_energy = models.CharField(max_length=2)  # "Power switch energy")],
 
+# <status-switch value="1"/>
+# <status-power value="13.7"/>
+# <status-energy value="0.0"/>
+# <status-time value="2017/04/22 11:37:30"/>
 
     
     

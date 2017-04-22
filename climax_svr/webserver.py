@@ -199,7 +199,7 @@ def make_request_handler_class(opts):
             self.wfile.write(b'    </table>')
             self.wfile.write(b'  </body>')
             self.wfile.write(b'</html>')
-
+"""
         def do_GET(self):
             '''
             Handle a GET request.
@@ -368,7 +368,7 @@ def make_request_handler_class(opts):
                         self.wfile.write(b'    </table>')
                         self.wfile.write(b'  </body>')
                         self.wfile.write(b'</html>')
-
+"""
         def do_POST(self):
             '''
             Handle POST requests.
