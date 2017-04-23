@@ -119,7 +119,8 @@ import cgi
 import logging
 import os
 import sys
-import parser
+#import parser
+import configparser
 
 from lxml import etree
 
@@ -199,7 +200,7 @@ def make_request_handler_class(opts):
             self.wfile.write(b'    </table>')
             self.wfile.write(b'  </body>')
             self.wfile.write(b'</html>')
-"""
+
         def do_GET(self):
             '''
             Handle a GET request.
@@ -239,6 +240,8 @@ def make_request_handler_class(opts):
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
                 self.info()
+            
+            '''               
             else:
                 # Get the file path.
                 path = MyRequestHandler.m_opts.rootdir + rpath
@@ -368,7 +371,8 @@ def make_request_handler_class(opts):
                         self.wfile.write(b'    </table>')
                         self.wfile.write(b'  </body>')
                         self.wfile.write(b'</html>')
-"""
+        '''
+       
         def do_POST(self):
             '''
             Handle POST requests.

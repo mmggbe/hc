@@ -133,9 +133,11 @@ CLIMAX_CMD_BDY = r"""<polling>
   <status1 value="80"/>
   <status2 value="00"/>
   <rssi value="00"/>
-  <status-switch value="0"/>
-  <status-power value="0.0"/>
+  <status-switch value="1"/>
+  <status-power value="13.7"/>
   <status-energy value="0.0"/>
+  <status-time value="2017/04/22 11:37:30"/>
+  
 </zone>
 <zone>
   <no value="7"/>
@@ -398,9 +400,9 @@ class answerFrom_climax():
                 for zone in zones:
                     
                     logging.debug("{}".format(zone.tag) )
-                    
+                    status_switch_val = status_power_val = status_energy_val = status_time_val = ""
                     for params in zone:
-                        status_switch_val = status_power_val = status_energy_val = ""
+
                         field = params.tag
                         value = params.get("value", "0")
                         logging.debug("   {}= {}".format(field, value) )
@@ -445,6 +447,10 @@ class answerFrom_climax():
                             status_energy_val= value
                             continue
 
+                        if field == "status-time":
+                            status_time_val= value.replace( '/', '-')
+                            continue
+
 
                     
                                                                 # search if sensor already exists in DB
@@ -462,9 +468,9 @@ class answerFrom_climax():
 
 #	no, rf, address, type, attr, latch, name, status1, status2, rssi, status-switch, status-power, status-energy					
                         req= ("UPDATE %s SET rf=%%s, address=%%s, type=%%s, attr=%%s, latch=%%s, name=%%s, status1=%%s," \
-							"status2=%%s, rssi=%%s, status_switch=%%s, status_power=%%s, status_energy=%%s  WHERE gwID_id=%%s AND no=%%s") % ("alarm_sensors")
+							"status2=%%s, rssi=%%s, status_switch=%%s, status_power=%%s, status_energy=%%s, status_time=%%s  WHERE gwID_id=%%s AND no=%%s") % ("alarm_sensors")
                         values= (rf_val, address_val, type_val, attr_val, latch_val, name_val, status1_val, 
-							status2_val, rssi_val, status_switch_val, status_power_val, status_energy_val, self.GW_ID, no_val ) 
+							status2_val, rssi_val, status_switch_val, status_power_val, status_energy_val, status_time_val, self.GW_ID, no_val ) 
                         self.db_cur.executerReq(req, values)
                              
    
@@ -473,10 +479,10 @@ class answerFrom_climax():
 # 						VALUES (value1, value2, value3,...valueN); 
     
                         req = ("INSERT INTO %s (gwID_id, no, rf, address, type, attr, latch, name, status1, "\
-							"status2, rssi, status_switch, status_power, status_energy) " \
-                            "VALUES( %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s)") % ("alarm_sensors")
+							"status2, rssi, status_switch, status_power, status_energy, status_time) " \
+                            "VALUES( %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s, %%s)") % ("alarm_sensors")
                         values= ( self.GW_ID, no_val, rf_val, address_val, type_val, attr_val, latch_val, name_val, status1_val, 
-							status2_val, rssi_val, status_switch_val, status_power_val, status_energy_val) 
+							status2_val, rssi_val, status_switch_val, status_power_val, status_energy_val, status_time_val) 
 
                         self.db_cur.executerReq(req, values) 
 

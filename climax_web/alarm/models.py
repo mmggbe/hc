@@ -53,15 +53,16 @@ class sensors( models.Model):
     address = models.CharField(max_length=6)        # "Sensor address"),
     type = models.CharField(max_length=2)           # "Sensor type"),
     attr = models.CharField(max_length=2, \
-            choices=SENSOR_ATTRIBUTE, default='0') # "Sensor Attributes"),
+    choices=SENSOR_ATTRIBUTE, default='0')          # "Sensor Attributes"),
     latch = models.CharField(max_length=1)          # "Sensor latch"),
     name = models.CharField(max_length=30)          # "Sensor name"),
     status1 = models.CharField(max_length=2)        # "Sensor status1"),
     status2 = models.CharField(max_length=2)        # "Sensor status2"),
     rssi = models.CharField(max_length=2)           # "Signal strength"),
     status_switch = models.CharField(max_length=1)  # "Power switch ON-OFF"),   # "-" may not be used in field name
-    status_power = models.CharField(max_length=2)   # "Power switch value"),
-    status_energy = models.CharField(max_length=2)  # "Power switch energy")],
+    status_power = models.CharField(max_length=8)   # "Power switch value"),
+    status_energy = models.CharField(max_length=8)  # "Power switch energy")],
+    status_time = models.DateTimeField(default="2000-01-01 01:01:01")           # "Power switch last measurement#
 
 # <status-switch value="1"/>
 # <status-power value="13.7"/>
