@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+
+{% block myscript %}
+<script type="text/javascript">
+
+
+$('.btn-toggle').click(function() {
+    $(this).find('.btn').toggleClass('active'); 
+    if ($(this).find('.btn-primary')){
+//    if ($(this).find('.btn-primary').size()>0) {
+        $(this).find('.btn').toggleClass('btn-primary');
+    }
+ //   $(this).find('.btn').toggleClass('btn-default');
+    
+    console.log("3");
+    var param = 'Button ID = '+($(this).find('.btn').attr('id'))+ ' ' +($(this).find('.btn').value);
+    $('#texteJQ').html(param); 
+    
+});
+  
+  
+</script>
+{% endblock %}
+
+
+
+{% block content %}
+{% load staticfiles %}
+
+<div class="col-md-6">
+    <ul class="list-unstyled">
+        {% for splug in smartplug_list %}
+        <li>
+            <p> Name: {{ splug.name }}, ON-OFF = {{ splug.status_switch }}, Power = {{ splug.status_power }} W
+                <div class="btn-group btn-toggle">
+                    <button class="btn btn-lg btn-default" id="{{splug.id}}_ON" > ON </button>
+                    <button class="btn btn-lg btn-primary active" id="{{splug.id}}_OFF" > OFF </button>
+                </div>
+            </p>
+
+       </li>
+
+        {% empty %}
+          <p>No smartplug found.</p>
+        {% endfor %}
+        
+    </ul>
+  
+</div>  
+    
+<div class="col-md-7">
+        <span id="texteJQ"></span>
+</div> 
+    
+{% endblock %}

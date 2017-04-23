@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class = "post">
+        <h1> {{sensor.name}} </h1>
+        <p> GwID = {{ sensor.gwID }} </p>
+        <p> Name = {{ sensor.name }} </p>
+        <p> Type = {{ sensor.type }} </p>
+        <p> Zone = {{ sensor.no }} </p>
+        <p> Adress = {{ sensor.address }} </p>
+        <p> Attr = {{ sensor.attr }} </p>
+        <p> Latch = {{ sensor.latch }} </p>
+        <p> Status1 = {{ sensor.status1 }} </p>
+        <p> Status2 = {{ sensor.status2 }} </p>
+        <p> rf = {{ sensor.rf }} </p>
+        <p> rssi = {{ sensor.rssi }} </p>
+        <p> Switch = {{ sensor.status_switch }} </p>
+        <p> Power = {{ sensor.status_power }} </p>
+        <p> Energy = {{ sensor.status_energy }} </p>        
+       
+        <a class="btn btn-default" href="{% url 'sensors_list' %}"><span class="glyphicon glyphicon-ok"></span></a>
+   
+    </div>  
+   
+   
+{% endblock %}
