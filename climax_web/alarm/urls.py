@@ -20,5 +20,6 @@ urlpatterns= [
       
         url(r'^gateway/status$', views.gateway_status, name='gateway_status'),                                                                                   
         url(r'^gateway/smartplug$', views.smartplug_list, name='smartplug_list'),
+        url(r'^gateway/smartplug/cmd$', views.smartplug_cmd, name='smartplug_cmd'),
 
 ]

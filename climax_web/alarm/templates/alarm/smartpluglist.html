@@ -5,17 +5,48 @@
 {% block myscript %}
 <script type="text/javascript">
 
+    {% for splug in smartplug_list %}
+        var status_switch={{splug.status_switch}};
+        if(status_switch == 0 ){
+            $(this).find('.btn').toggleClass('active');
+            $(this).find('.btn').toggleClass('btn-primary');        
+        }
+        
+//        $('.btn-toggle').eq(status_switch).addClass("active")     
+    {% empty %}
+        <p>No smartplug found.</p>
+    {% endfor %}
+    
 
 $('.btn-toggle').click(function() {
     $(this).find('.btn').toggleClass('active'); 
-    if ($(this).find('.btn-primary')){
-//    if ($(this).find('.btn-primary').size()>0) {
-        $(this).find('.btn').toggleClass('btn-primary');
-    }
- //   $(this).find('.btn').toggleClass('btn-default');
-    
-    console.log("3");
-    var param = 'Button ID = '+($(this).find('.btn').attr('id'))+ ' ' +($(this).find('.btn').value);
+    $(this).find('.btn').toggleClass('btn-primary');
+
+ 
+    $.ajax({
+        url: 'smartplug/cmd',
+        type: 'get',
+        data: {
+            'btnActive': ($(this).find('.btn-primary').attr('id'))
+        },
+        dataType: 'json',
+
+        success: function(data){
+            alert(data.attribute);
+        },
+        
+        failure: function(data){
+            alert('Got an error');
+        },
+        
+        complete : function(data){
+            console.log("Ajax: no data from backend");
+
+        }
+    });
+ 
+
+    var param = 'Button ID = '+($(this).find('.btn-primary').attr('id'))+ ' ' +($(this).find('.btn').value);
     $('#texteJQ').html(param); 
     
 });
@@ -33,12 +64,14 @@ $('.btn-toggle').click(function() {
     <ul class="list-unstyled">
         {% for splug in smartplug_list %}
         <li>
-            <p> Name: {{ splug.name }}, ON-OFF = {{ splug.status_switch }}, Power = {{ splug.status_power }} W
+            <HR>
+            <p> Name: {{ splug.name }}, ON-OFF = {{ splug.status_switch }}, Power = {{ splug.status_power }} W&nbsp; 
                 <div class="btn-group btn-toggle">
-                    <button class="btn btn-lg btn-default" id="{{splug.id}}_ON" > ON </button>
-                    <button class="btn btn-lg btn-primary active" id="{{splug.id}}_OFF" > OFF </button>
+                    <button class="btn btn-lg btn-default btn-responsive" id="{{splug.id}}_ON" > ON  </button>
+                    <button class="btn btn-lg btn-primary btn-responsive" id="{{splug.id}}_OFF" > OFF </button>
                 </div>
             </p>
+            </HR>
 
        </li>
 

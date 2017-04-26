@@ -243,7 +243,20 @@ def smartplug_list( request):
     smartplug_list = sensors.objects.filter(gwID = Glob.current_GW.id).filter(type="29")
    
     # add icon to sensor list
-    for splug in smartplug_list:        
-       print("sensor type={}, power={}".format (int(splug.type),splug.status_switch) )
+    # for splug in smartplug_list:        
+    #   print("sensor type={}, power={}".format (int(splug.type),splug.status_switch) )
     
-    return render( request, 'alarm/smartpluglist.html', {'smartplug_list':smartplug_list})
+    return render( request, 'alarm/smartpluglist.html', {'status': 1 , 'smartplug_list':smartplug_list})
+
+
+@login_required(login_url="/login/")
+def smartplug_cmd( request):
+    
+    btn = request.GET.get('btnActive', None)  
+    print("Btn= {}".format(btn))
+    
+    data = {
+        'attribute' : 'smrt_plug = ' + btn
+    }
+    return JsonResponse(data)
+ 
