@@ -254,6 +254,17 @@ def smartplug_cmd( request):
     
     btn = request.GET.get('btnActive', None)  
     print("Btn= {}".format(btn))
+   
+    cmd=cmdTo_climax()
+    
+    zone = btn.split('_')[0]
+    switch= btn[-2:]
+    if switch == 'ON':
+        switch=1
+    else:
+        switch=0  
+
+    cmd.setSmartPlug( zone, switch )
     
     data = {
         'attribute' : 'smrt_plug = ' + btn

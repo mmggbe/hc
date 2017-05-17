@@ -91,7 +91,19 @@ class cmdTo_climax():
         
         cmd_id = self.inc_last_cmd_id()
         self.add_queue (CLIMAX_CMD_BODY.format(cmd_id, zone, name, attr, latch), cmd_id )
+    
+    def setSmartPlug(self, zone, switch ):
         
+        CLIMAX_CMD_BODY= """
+        <command id="{}" action="switchZPSS" >
+            <zone value="{}"/>
+            <switch value="{}"/>
+        </command >"""
+        
+        cmd_id = self.inc_last_cmd_id()
+        self.add_queue (CLIMAX_CMD_BODY.format(cmd_id, zone, switch), cmd_id )    
+    
+    
     def setMode(self, mode):
 
         CLIMAX_CMD_BODY= """

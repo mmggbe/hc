@@ -490,6 +490,16 @@ class answerFrom_climax():
 
                 self.db_cur.commit()      
 
+    def getSmartPlug(self,data):
+            #find mode in xml
+        for cmdParam in data:
+            logging.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
+            if cmdParam.tag == "xmldata":
+                elt=cmdParam.find("switchZPSS")
+                SmartPlug=elt.get ("result", "0")
+                break
+# do nothing
+    
 
 
     def getMode(self, data): 
@@ -535,6 +545,9 @@ class answerFrom_climax():
                 
             if cmd_name == "getUsers":
                 self.getUsers(cmd)
+            
+            if cmd_name == "switchZPSS":
+                self.getSmartPlug(cmd)
             
          
 

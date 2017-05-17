@@ -87,20 +87,20 @@ class cmdTo_climax():
         
         return response
     
-    def getUsers(self, cmd_id):
+    def getUsers_old(self, cmd_id):
         
         CLIMAX_CMD_BODY= """
         <command id= "{}" action="getUsers"/>""" 
         self.queue.add ( self.GW_ID, CLIMAX_CMD_BODY.format(cmd_id), cmd_id )
     
-    def getSensors(self, cmd_id):
+    def getSensors_old(self, cmd_id):
         
         CLIMAX_CMD_BODY= """
         <command id= "{}" action="getSensors"/>""" 
         self.queue.add ( self.GW_ID, CLIMAX_CMD_BODY.format(cmd_id), cmd_id )
  
     
-    def setMode(self, cmd_id, mode):
+    def setMode_old(self, cmd_id, mode):
         
         CLIMAX_CMD_BODY= """
         <command id= "{0}" action="setMode">
@@ -110,7 +110,7 @@ class cmdTo_climax():
         self.queue.add ( self.GW_ID, CLIMAX_CMD_BODY.format(cmd_id,mode), cmd_id )   
     
     
-    def configAll(self, rptipid):
+    def configAll_old(self, rptipid):
         
         CLIMAX_CMD_BODY= """
         <command id="101" action="getUsers" />
@@ -140,7 +140,7 @@ class cmdTo_climax():
         
         return response
      
-    def setPolling(self, rptipid):
+    def setPolling_old(self, rptipid):
         CLIMAX_CMD_BODY= """
 <polling>
     <mac value="{}" />
@@ -162,7 +162,7 @@ class cmdTo_climax():
     
 
     
-    def test(self, rptipid):
+    def test_old(self, rptipid):
         CLIMAX_CMD_BODY= """
 <polling>
     <mac value="00:1D:94:03:0A:9E" />
@@ -177,6 +177,7 @@ class cmdTo_climax():
         return response
     
     def server_cmd( self ):
+        # check if there is a command to be sent
         
         CLIMAX_CMD_BODY= """
 <polling>
