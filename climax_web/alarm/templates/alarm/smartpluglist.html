@@ -5,25 +5,7 @@
 {% block myscript %}
 <script type="text/javascript">
 
-    $(document).ready(function(){
 
-        {% for splug in smartplug_list %}
-            var status_switch={{splug.status_switch}};
-            if(status_switch == 0 ){
-                $(this).find('#{{splug.no}}_ON').removeClass( 'active' ).removeClass( 'btn-primary' ).addClass( 'btn-default' );
-                $(this).find('#{{splug.no}}_OFF').addClass( 'active' ).addClass( 'btn-primary' );
-            }
-            
-            else{
-                $(this).find('#{{splug.no}}_ON').addClass( 'active' ).addClass( 'btn-primary' );
-                $(this).find('#{{splug.no}}_OFF').removeClass( 'active' ).removeClass( 'btn-primary' ).addClass( 'btn-default' );   
-            }
-
-        {% empty %}
-            <p>no smartplug found.</p>
-
-        {% endfor %}
-    });
 
 $('.btn-toggle').click(function() {
     $(this).find('.btn').toggleClass('active'); 
@@ -52,7 +34,7 @@ $('.btn-toggle').click(function() {
         }
     });
  
-
+// for debug purpose
     var param = 'Button ID = '+($(this).find('.btn-primary').attr('id'));
     $('#texteJQ').html(param); 
     
@@ -74,8 +56,14 @@ $('.btn-toggle').click(function() {
             <HR>
             <p> Name: {{ splug.name }}, ON-OFF = {{ splug.status_switch }}, Power = {{ splug.status_power }} W&nbsp; 
                 <div class="btn-group btn-toggle">
-                    <button class="btn btn-lg btn-default btn-responsive" id="{{splug.no}}_ON" > ON  </button>
-                    <button class="btn btn-lg btn-primary btn-responsive" id="{{splug.no}}_OFF" > OFF </button>
+                    {% if splug.status_switch == "1" %}
+                        <button class="btn btn-lg btn-primary btn-responsive" id="{{splug.no}}_ON" > ON  </button>
+                        <button class="btn btn-lg btn-default btn-responsive" id="{{splug.no}}_OFF" > OFF </button>
+                    {% else %}
+                        <button class="btn btn-lg btn-default btn-responsive" id="{{splug.no}}_ON" > ON  </button>
+                        <button class="btn btn-lg btn-primary btn-responsive" id="{{splug.no}}_OFF" > OFF </button>
+                    {% endif %}
+                    
                 </div>
             </p>
             </HR>
@@ -83,7 +71,7 @@ $('.btn-toggle').click(function() {
        </li>
 
         {% empty %}
-          <p>no smartplug found.</p>
+          <p>No smartplug found</p>
         {% endfor %}
         
     </ul>

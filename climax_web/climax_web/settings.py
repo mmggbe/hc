@@ -95,6 +95,8 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
+SESSION_COOKIE_AGE = 3000
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
