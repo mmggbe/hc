@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils import timezone
@@ -6,12 +6,14 @@ from random import randrange
 from django.http import JsonResponse
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
+from django.forms import ModelForm
+from django.template import RequestContext
 
 from django.contrib.auth.models import User
 from .models import gateways, users, sensors, events
-from .forms import gatewaysForm, userForm, sensorModifyForm
+from .forms import gatewaysForm, userForm, sensorModifyForm, sensorModifyForm_1, sensorModifyForm2
 from .Dj_GW_cmd import cmdTo_climax, Glob
-from .event_translate import translate
+from .event_translate import translate 
 
 class SensorIcon:
     icon_list= ["icon_keyfob.png",
@@ -233,9 +235,19 @@ def sensor_modify( request, pk ):
             post.save()
             return redirect('sensors_list')
     else:
-        usr_form = sensorModifyForm( instance = post )
+        if post.type == '3':
+            usr_form = sensorModifyForm( instance = post )
+        else:
+            usr_form = sensorModifyForm_1( instance = post )
+            
     return render( request, 'alarm/sensormodify.html', {'form': usr_form})
 
+@login_required(login_url="/login/")    
+def sensor_modify2( request, pk ):
+    post = get_object_or_404(sensors, pk=pk)
+    usr_form = sensorModifyForm2(instance = post)
+    return render_to_response('alarm/sensormodify.html', {'form': usr_form}, context_instance=RequestContext(request))
+    
 
 @login_required(login_url="/login/")
 def smartplug_list( request):
@@ -252,19 +264,25 @@ def smartplug_list( request):
 @login_required(login_url="/login/")
 def smartplug_cmd( request):
     
-    btn = request.GET.get('btnActive', None)  
+    btn = request.GET.get('btnActive', None) 
+    btn = btn[0:5]      # for security
     print("Btn= {}".format(btn))
+    btn = btn[0:4]
    
     cmd=cmdTo_climax()
     
     zone = btn.split('_')[0]
     switch= btn[-2:]
     if switch == 'ON':
-        switch=1
+        switch="1"
     else:
-        switch=0  
+        switch="0"  
 
     cmd.setSmartPlug( zone, switch )
+
+    # update the switch value in DB (Gateway answer can take up to 20 sec)
+    smartplug = sensors.objects.filter(gwID = Glob.current_GW.id, no=zone).update(status_switch = switch)
+    
     
     data = {
         'attribute' : 'smrt_plug = ' + btn
