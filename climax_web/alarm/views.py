@@ -11,7 +11,9 @@ from django.template import RequestContext
 
 from django.contrib.auth.models import User
 from .models import gateways, users, sensors, events
-from .forms import gatewaysForm, userForm, sensorModifyForm, sensorModifyForm_1, sensorModifyForm2
+#from .forms import gatewaysForm, userForm, sensorModifyForm, sensorModifyForm_1, sensorModifyForm2
+from .forms import *
+
 from .Dj_GW_cmd import cmdTo_climax, Glob
 from .event_translate import translate 
 
@@ -225,7 +227,16 @@ def sensor_delete( request, pk):
 def sensor_modify( request, pk ):
     post = get_object_or_404(sensors, pk=pk)
     if request.method == 'POST':
-        usr_form = sensorModifyForm(request.POST, instance=post)
+        
+        if post.type == '0':
+            usr_form = sensorModifyForm_0( request.POST, instance = post )
+        elif post.type == '1':
+            usr_form = sensorModifyForm_1( request.POST, instance = post )
+        elif post.type == '3':
+            usr_form = sensorModifyForm_3( request.POST, instance = post )           
+        else:
+            usr_form = sensorModifyForm_other( request.POST, instance = post )
+        
         if usr_form.is_valid():
             post = usr_form.save(commit=False)
             #gateways.userID = "Marc"          
@@ -235,10 +246,14 @@ def sensor_modify( request, pk ):
             post.save()
             return redirect('sensors_list')
     else:
-        if post.type == '3':
-            usr_form = sensorModifyForm( instance = post )
-        else:
+        if post.type == '0':
+            usr_form = sensorModifyForm_0( instance = post )
+        elif post.type == '1':
             usr_form = sensorModifyForm_1( instance = post )
+        elif post.type == '3':
+            usr_form = sensorModifyForm_3( instance = post )           
+        else:
+            usr_form = sensorModifyForm_other( instance = post )
             
     return render( request, 'alarm/sensormodify.html', {'form': usr_form})
 

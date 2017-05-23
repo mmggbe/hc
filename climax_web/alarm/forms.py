@@ -15,16 +15,13 @@ class userForm(forms.ModelForm):
     class Meta:
         model = users
         fields = ('code', 'name', 'latch')
+ 
         
-        
-class sensorModifyForm(forms.ModelForm):
+# Keyfo        
+class sensorModifyForm_0(forms.ModelForm):
     SENSOR_ATTRIBUTE = (
-        ('1', 'abcBuglar'),
-        ('2', 'defHome Omit'),
-        ('3', 'Delay Zone'),
-        ('4', 'Entry Zone'),
-        ('5', 'Away Only'),
-        ('6', 'Home Access'),      
+        ('13', 'Personal Attack'),
+        ('11', 'Medical Emergency'),      
     )
     
     attr = forms.ChoiceField(widget=RadioSelect,\
@@ -33,15 +30,19 @@ class sensorModifyForm(forms.ModelForm):
     class Meta:
         model = sensors
         fields = ['name','attr','address']
-        
+
+# Door Contact
 class sensorModifyForm_1(forms.ModelForm):
     SENSOR_ATTRIBUTE = (
-        ('1', 'qrtBuglar'),
-        ('2', 'zvtHome Omit'),
-        ('3', 'Delay Zone'),
+        ('1', 'Buglar'),
+        ('2', 'Home Omit'),
         ('4', 'Entry Zone'),
         ('5', 'Away Only'),
-        ('6', 'Home Access'),      
+        ('6', 'Home Access'), 
+        ('9', 'Fire'),
+        ('10', '24 Hour'),
+        ('11', 'Medical Emergency'),
+        ('12', 'Water'), 
     )
     
     attr = forms.ChoiceField(widget=RadioSelect,\
@@ -51,6 +52,48 @@ class sensorModifyForm_1(forms.ModelForm):
         model = sensors
         fields = ['name','attr','address']
 
+
+# IR sensor     
+class sensorModifyForm_3(forms.ModelForm):
+    SENSOR_ATTRIBUTE = (
+        ('1', 'Buglar'),
+        ('2', 'Home Omit'),
+        ('4', 'Entry Zone'),
+        ('5', 'Away Only'),
+        ('6', 'Home Access'),    
+    )
+    
+    attr = forms.ChoiceField(widget=RadioSelect,\
+    choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
+
+    class Meta:
+        model = sensors
+        fields = ['name','attr','address']
+
+# others
+class sensorModifyForm_other(forms.ModelForm):
+    SENSOR_ATTRIBUTE = (
+        ('1', '1'),
+        ('2', '2'),       
+        ('4', '4'),
+        ('5', '5'),
+        ('6', '6'), 
+        ('9', '9'),
+        ('10', '10'),   
+        ('11', '11'),   
+        ('12', '12'),   
+        
+           
+    )
+    
+    attr = forms.ChoiceField(widget=RadioSelect,\
+    choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
+
+    class Meta:
+        model = sensors
+        fields = ['name','attr','address']
+        
+        
 class sensorModifyForm2(forms.Form):
     
     SENSOR_ATTRIBUTE = (

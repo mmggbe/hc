@@ -39,12 +39,23 @@ class commands(models.Model):
 class sensors( models.Model):
           
     SENSOR_ATTRIBUTE = (
+        ('0', 'Default 0'),
         ('1', 'Buglar'),
         ('2', 'Home Omit'),
         ('3', 'Delay Zone'),
         ('4', 'Entry Zone'),
         ('5', 'Away Only'),
-        ('6', 'Home Access'),      
+        ('6', 'Home Access'), 
+        ('7', 'Away Entry'),
+        ('8', 'Set/UnSet'),
+        ('9', 'Fire'),
+        ('10', '24 Hour'),
+        ('11', 'Medical Emergency'),
+        ('12', 'Water'),     
+        ('13', 'Personal Attack'),
+        ('14', 'Reserved'),
+        ('15', 'Technical alarm'), 
+        ('16', 'Door Unlock'),            
     )      
                    
     gwID = models.ForeignKey(gateways, on_delete=models.CASCADE)   # "Gateway ID key"),                   
