@@ -72,6 +72,7 @@ class sensorModifyForm_3(forms.ModelForm):
 
 # others
 class sensorModifyForm_other(forms.ModelForm):
+    """
     SENSOR_ATTRIBUTE = (
         ('1', '1'),
         ('2', '2'),       
@@ -82,16 +83,17 @@ class sensorModifyForm_other(forms.ModelForm):
         ('10', '10'),   
         ('11', '11'),   
         ('12', '12'),   
-        
+  
            
     )
     
     attr = forms.ChoiceField(widget=RadioSelect,\
     choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
-
+   """  
     class Meta:
         model = sensors
-        fields = ['name','attr','address']
+#        fields = ['name','attr','address']
+        fields = ['name','address']
         
         
 class sensorModifyForm2(forms.Form):

@@ -1,4 +1,6 @@
 import time
+from .models import gateways, users, sensors, events
+from .Dj_GW_cmd import Glob
 
 
 # [0730#74 181751000032CA2]
@@ -43,28 +45,36 @@ ArmingRequest={  '00':"General",
 def translate(contactID):
     
     alarmMsg=""
+    sensor_id=""                       # to be sure it will be processed as a string
+    sensor_name = ""
+
 #[0730#74 18_1_751_00_003_2CA2]
 #         MT Q XYZ GG CCC
     Q = contactID[-14:-13]
     evt= contactID[-13:-10]
     GG = contactID[-10:-8] 
-    sensor= contactID[-7:-5]
+    sensor_id= contactID[-7:-5].lstrip("0")
 
+    #sensor = sensors.objects.filter(gwID = Glob.current_GW.id, no = sensor_id)
+    sensor = sensors.objects.filter(gwID__id = Glob.current_GW.id, no=sensor_id)
     
+    if sensor.exists() :      
+        sensor_name = sensor[0].name
+
 #    print("Event={}".format(evt))
     try:
         
-        alarmMsg += ArmingRequest[GG]
-        alarmMsg += ": "
+#        alarmMsg += ArmingRequest[GG]
+#        alarmMsg += ": "
         
         if Q==  '1':
-            if sensor ==  '14' or sensor ==  '15' :
+            if sensor_id ==  '14' or sensor_id ==  '15' :
                 alarmMsg += "Disarm: "
             else:
                 alarmMsg += "New event: "
                 
         elif Q ==  '3':
-            if sensor ==  '14' or sensor ==  '15' :
+            if sensor_id ==  '14' or sensor_id ==  '15' :
                 alarmMsg += "Armed: "
             else:
                 alarmMsg += "Restore: "
@@ -76,7 +86,7 @@ def translate(contactID):
         if evt ==  '400':
             alarmMsg += EventCode[evt]
             alarmMsg += "User "
-            alarmMsg += sensor
+            alarmMsg += sensor_name
             
         # arm via WEB
         elif evt == '401' and (sensor ==  '14' or sensor ==  '15'):
@@ -86,13 +96,13 @@ def translate(contactID):
         elif evt ==  '407':
             alarmMsg += EventCode[evt]
             alarmMsg += "User "
-            alarmMsg += sensor
+            alarmMsg += sensor_name
 
         
         else:
             alarmMsg += EventCode[evt]
             alarmMsg += " Sensor "
-            alarmMsg += sensor
+            alarmMsg += sensor_name
             
             
     except:

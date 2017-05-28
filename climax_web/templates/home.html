@@ -6,8 +6,6 @@
 
     var status_gw={{ status }};
     
-    //
-//    $('.btn-group-lg button').eq(status_gw).addClass("active");
     $('.btn-group button').eq(status_gw).addClass("active");
     
       
@@ -62,10 +60,7 @@
                 <div class="col-md-5">
 
                     <div class="btn-group" href="{% url 'gateway_status' %}">
-<!-- 
-                    <div class="btn-group btn-group-lg" href="{% url 'gateway_status' %}">
-                        <button class="btn btn-default btn-responsive" href="{% url 'gateway_status' %}" type="button">
--->
+
                         <button class="btn btn-lg btn-responsive"  type="button">
                             <em class="glyphicon glyphicon-lock"></em> Armed
                         </button> 

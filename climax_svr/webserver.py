@@ -130,12 +130,6 @@ from GW_CMD.GW_cmd import cmdTo_climax
 from GW_answer.GW_answer import answerFrom_climax
 
 
-"""
-last_acct2_created=""
-rptipid=0
-"""
-
-
 def make_request_handler_class(opts):
     '''
     Factory to make the request handler and add arguments to it.
@@ -205,7 +199,7 @@ def make_request_handler_class(opts):
             '''
             Handle a GET request.
             '''
-            logging.debug('GET %s' % (self.path))
+            logging.info('GET %s' % (self.path))
 
             # Parse out the arguments.
             # The arguments follow a '?' in the URL. Here is an example:
@@ -241,143 +235,13 @@ def make_request_handler_class(opts):
                 self.end_headers()
                 self.info()
             
-            '''               
-            else:
-                # Get the file path.
-                path = MyRequestHandler.m_opts.rootdir + rpath
-                dirpath = None
-                logging.debug('FILE %s' % (path))
 
-                # If it is a directory look for index.html
-                # or process it directly if there are 3
-                # trailing slashed.
-                if rpath[-3:] == '///':
-                    dirpath = path
-                elif os.path.exists(path) and os.path.isdir(path):
-                    dirpath = path  # the directory portion
-                    index_files = ['index.html', 'index.htm', ]  # Mage
-                    for index_file in index_files:
-                        tmppath = path + index_file
-                        if os.path.exists(tmppath):
-                            path = tmppath
-                            break
-
-                # Allow the user to type "///" at the end to see the
-                # directory listing.
-                if os.path.exists(path) and os.path.isfile(path):
-                    # This is valid file, send it as the response
-                    # after determining whether it is a type that
-                    # the server recognizes.
-                    _, ext = os.path.splitext(path)
-                    ext = ext.lower()
-                    content_type = {
-                        '.css': 'text/css',
-                        '.gif': 'image/gif',
-                        '.htm': 'text/html',
-                        '.html': 'text/html',
-                        '.jpeg': 'image/jpeg',
-                        '.jpg': 'image/jpg',
-                        '.js': 'text/javascript',
-                        '.png': 'image/png',
-                        '.text': 'text/plain',
-                        '.txt': 'text/plain',
-                    }
-
-                    # If it is a known extension, set the correct
-                    # content type in the response.
-                    if ext in content_type:
-                        self.send_response(200)  # OK
-                        self.send_header('Content-type', content_type[ext])
-                        self.end_headers()
-
-                        with open(path,"rb") as ifp:                           
-                            self.wfile.write(ifp.read())
-                    else:
-                        # Unknown file type or a directory.
-                        # Treat it as plain text.
-                        self.send_response(200)  # OK
-                        self.send_header('Content-type', 'text/plain')
-                        self.end_headers()
-
-                        with open(path, "rb") as ifp:
-                            self.wfile.write(ifp.read())
-                else:
-                    if dirpath is None or self.m_opts.no_dirlist == True:
-                        # Invalid file path, respond with a server access error
-                        self.send_response(500)  # generic server error for now
-                        self.send_header('Content-type', 'text/html')
-                        self.end_headers()
-
-                        self.wfile.write(b'<html>')
-                        self.wfile.write(b'  <head>')
-                        self.wfile.write(b'    <title>Server Access Error</title>')
-                        self.wfile.write(b'  </head>')
-                        self.wfile.write(b'  <body>')
-                        self.wfile.write(b'    <p>Server access error.</p>')
-                        self.wfile.write(b'    <p>%r</p>' % (self.path))
-                        self.wfile.write(b'    <p><a href="%r">Back</a></p>' % (rpath))
-                        self.wfile.write(b'  </body>')
-                        self.wfile.write(b'</html>')
-                    else:
-                        # List the directory contents. Allow simple navigation.
-                        logging.debug('DIR %s' % (dirpath))
-
-                        self.send_response(200)  # OK
-                        self.send_header('Content-type', 'text/html')
-                        self.end_headers()
-                        
-                        self.wfile.write(b'<html>')
-                        self.wfile.write(b'  <head>')
-                        self.wfile.write(b'    <title>%s</title>' % dirpath.encode('utf-8'))
-                        self.wfile.write(b'  </head>')
-                        self.wfile.write(b'  <body>')
-                        self.wfile.write(b'    <a href="%s">Home</a><br>' % '/'.encode('utf-8'));
-
-                        # Make the directory path navigable.
-                        dirstr = ''
-                        href = None
-                        for seg in rpath.split('/'):
-                            if href is None:
-                                href = seg
-                            else:
-                                href = href + '/' + seg
-                                dirstr += '/'
-                            dirstr += '<a href="%s">%s</a>' % (href, seg)
-                        self.wfile.write(b'    <p>Directory: %s</p>' % dirstr.encode('utf-8'))
-
-                        # Write out the simple directory list (name and size).
-                        self.wfile.write(b'    <table border="0">')
-                        self.wfile.write(b'      <tbody>')
-                        fnames = ['..']
-                        fnames.extend(sorted(os.listdir(dirpath), key=str.lower))
-                        for fname in fnames:
-                            self.wfile.write(b'        <tr>')
-                            self.wfile.write(b'          <td align="left">')
-                            path = rpath + '/' + fname
-                            fpath = os.path.join(dirpath, fname)
-   
-   #MAGe ICI http://192.168.157.4:8080/'webserver.js'
-   
-                            if os.path.isdir(path):  
-                                
-                                self.wfile.write(b'            <a href="%s">%s/</a>' % (path.encode('utf-8'),fname.encode('utf-8') )) 
-                            else:
-                                self.wfile.write(b'            <a href="%s">%s</a>' % (fname.encode('utf-8'),fname.encode('utf-8') ))
-                            self.wfile.write(b'          <td>&nbsp;&nbsp;</td>')
-                            self.wfile.write(b'          </td>')
-                            self.wfile.write(b'          <td align="right">%d</td>' % (os.path.getsize(fpath)))
-                            self.wfile.write(b'        </tr>')
-                        self.wfile.write(b'      </tbody>')
-                        self.wfile.write(b'    </table>')
-                        self.wfile.write(b'  </body>')
-                        self.wfile.write(b'</html>')
-        '''
        
         def do_POST(self):
             '''
             Handle POST requests.
             '''
-            logging.debug('POST received %s' % (self.path))
+            logging.info('POST received %s' % (self.path))
 
             # CITATION: http://stackoverflow.com/questions/4233218/python-basehttprequesthandler-post-variables
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
@@ -386,7 +250,6 @@ def make_request_handler_class(opts):
             elif ctype == 'application/x-www-form-urlencoded':
                 length = int(self.headers['content-length'])
                 raw_cmd=self.rfile.read(length)
-#                logging.debug('Raw POST: {}\n'.format(raw_cmd))
                 postvars =  urllib.parse.parse_qs(raw_cmd, encoding='iso-8859-1', keep_blank_values=1)
 
             else:
@@ -400,7 +263,7 @@ def make_request_handler_class(opts):
             
 # decryt xml frame            
             command_xml = AES.decrypt(command_enc[0])
-            logging.debug("POST decrypted: MAC = {0}\n{1}\n".format(MAC, command_xml.replace('\x00',"")) )    # remove trailling zeros
+            logging.info("POST decrypted: MAC = {0}\n{1}\n".format(MAC, command_xml.replace('\x00',"")) )    # remove trailling zeros
      
 # check if MAC is defined in DB_GW
             climax_xml= etree.fromstring(command_xml.encode('iso-8859-1'))
@@ -490,17 +353,13 @@ def make_request_handler_class(opts):
 
                  
                 else:
-                    logging.debug("Polling : MAC not found in DB {}".format(MAC_xml) )
+                    logging.info("Polling : MAC not found in DB {}".format(MAC_xml) )
                 
                 
                 db_cur.close()
             
             logging.debug("POST: exit POST function\n\n\n" )
    
-
-
-            
-
     return MyRequestHandler
 
 
