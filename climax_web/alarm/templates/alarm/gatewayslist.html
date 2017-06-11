@@ -7,7 +7,7 @@
     <ul class="list-unstyled">
         {% for gw in gateways %}
         <li>
-          <p>Gateway from {{ gw.userID }} : {{ gw.mac }}  :
+          <p>Gateway from {{ gw.userWEB }} : {{ gw.mac }}  :
             <a class="btn btn-default" href="{% url 'gateway_delete' pk=gw.pk %}"><span class="glyphicon glyphicon-trash"></span></a> 
             </p>                
         </li>

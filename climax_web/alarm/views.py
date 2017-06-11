@@ -95,7 +95,7 @@ def index( request):
         return render( request, 'home.html',{'status': sts,'events':evts })
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def users_list( request):
     usr = users.objects.filter(gwID = Glob.current_GW.id )
     return render( request, 'alarm/userslist.html', {'users':usr})
@@ -116,7 +116,7 @@ def user_edit( request, pk ):
         usr_form = userForm( instance = post )
     return render( request, 'alarm/useredit.html', {'form': usr_form})
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def gateways_list( request ):
     gws_list = gateways.objects.filter(id = Glob.current_GW.id )
     if gws_list == []:
@@ -124,7 +124,7 @@ def gateways_list( request ):
     else:
         return render( request, 'alarm/gatewayslist.html', {'gateways':gws_list})
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def gateways_delete( request, pk):
     gw = gateways.objects.get(pk=pk)
 
@@ -132,7 +132,7 @@ def gateways_delete( request, pk):
     gw.delete()
     return redirect('gateways_list')
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def gateway_new( request):
     if request.method == 'POST':
         gw_form = gatewaysForm(request.POST)
@@ -167,7 +167,7 @@ def gateway_new( request):
         
     return render(request, 'alarm/gatewayedit.html', {'form': gw_form})
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def gateway_status( request):
 #    return HttpResponse("Gw Status")
 #    return render( request, 'alarm/test3.html')
@@ -193,7 +193,7 @@ def gateway_status( request):
     }
     return JsonResponse(data)
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def sensors_list( request):
     snrs_list = sensors.objects.filter(gwID = Glob.current_GW.id )
    
@@ -204,12 +204,7 @@ def sensors_list( request):
     
     return render( request, 'alarm/sensorslist.html', {'sensors':snrs_list})
 
-@login_required(login_url="/login/")
-def sensor_details_brol( request, pk):
-    snrs = sensors.objects.get(pk=pk)
-    return render( request, 'alarm/sensordetails.html', {'sensor':snrs})
-
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def sensor_delete( request, pk):
 
     snrs = sensors.objects.get(pk=pk)
@@ -223,7 +218,7 @@ def sensor_delete( request, pk):
  
     return redirect('sensors_list')
     
-@login_required(login_url="/login/")    
+@login_required(login_url="/")    
 def sensor_modify( request, pk ):
     post = get_object_or_404(sensors, pk=pk)
     if request.method == 'POST':
@@ -256,15 +251,9 @@ def sensor_modify( request, pk ):
             usr_form = sensorModifyForm_other( instance = post )
             
     return render( request, 'alarm/sensormodify.html', {'form': usr_form})
-
-@login_required(login_url="/login/")    
-def sensor_modify2( request, pk ):
-    post = get_object_or_404(sensors, pk=pk)
-    usr_form = sensorModifyForm2(instance = post)
-    return render_to_response('alarm/sensormodify.html', {'form': usr_form}, context_instance=RequestContext(request))
     
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def smartplug_list( request):
     
     smartplug_list = sensors.objects.filter(gwID = Glob.current_GW.id).filter(type="29")
@@ -276,7 +265,7 @@ def smartplug_list( request):
     return render( request, 'alarm/smartpluglist.html', {'status': 1 , 'smartplug_list':smartplug_list})
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def smartplug_cmd( request):
     
     btn = request.GET.get('btnActive', None) 
