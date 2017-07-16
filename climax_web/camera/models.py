@@ -18,7 +18,7 @@ class camera(models.Model):
    
 class action_list(models.Model):
     camera = models.ForeignKey(camera)
-    action = models.CharField(max_length=100)
+    action = models.CharField(max_length=200)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name="Submission time")
     
     def __str__(self):

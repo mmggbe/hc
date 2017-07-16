@@ -19,6 +19,8 @@ from alarm.views import index
 
 from django.contrib.auth import views
 from mylogin.forms import LoginForm
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -26,6 +28,8 @@ urlpatterns = [
     url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
     url(r'^logout/$', views.logout, {'next_page': '/login'}),  
     url(r'^camera/', include ('camera.urls')),
+    url(r'^history/', include ('history.urls')),
     url(r'^alarm/', include ('alarm.urls')),
 #    url(r'^$', index, name='index'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

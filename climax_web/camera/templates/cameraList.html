@@ -1,21 +1,23 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load static %}
 
 {% block myscript %}
 <script type="text/javascript">
-    {% for camera in cameras %}
-        var securityStatus={{camera.securityStatus}};
-        $('.camera{{camera.pk}} button').eq(securityStatus).addClass("active");
+
+    $('.btn-toggle').click(function() {
         
-        $('.camera{{camera.pk}} button').on('click', function(e) {
-            $('.camera{{camera.pk}} button').not(this).removeClass("active");
-            $(this).addClass("active");
-            var btnActive = $('.camera{{camera.pk}} button.active');
-            
-            $.ajax({
+
+        $(this).find('.btn').toggleClass('btn-primary');
+        $(this).find('.btn').toggleClass('btn-default');
+        
+        var cam_arm = ($(this).find('.btn-primary').attr('id')).split("_");
+        
+        
+        $.ajax({
             url: 'cameraArming',
             type: 'get',
-            data: {'cameraId': '{{camera.pk}}', 'status': btnActive.index()
+            data: {'cameraId': cam_arm[0], 'status': cam_arm[1]
             },
             dataType: 'json',
 
@@ -32,8 +34,10 @@
 
        }
         });
-        })
-    {% endfor %}
+        
+
+    });
+    
 </script>
 {% endblock %}
 
@@ -42,26 +46,50 @@
 {% block content %}
 
 <div class="col-md-6">
-    <ul class="list-unstyled">
+     <table class="table table-striped" id="table">
+    <thead>
+      <tr>
+        <th>Camera description</th>
+        <th>Arming</th>
+        <th>Status</th>
+
+      </tr>
+    </thead>
+    
+     <tbody>
         {% for camera in cameras %}
-        <li>
-          <p>Name: <a href={% url 'cameraEdit' pk=camera.pk  %}>{{ camera.description }} </a></p> 
-          
-          <div class="camera{{camera.pk}} btn-group-lg btn-responsive">                        
-                        
-                        <button class="btn btn-default" type="button">
-                            <em class="fa fa-unlock"></em> Unarm
-                        </button> 
-                        <button class="btn btn-default" type="button">
-                            <em class="glyphicon glyphicon-lock"></em> Armed
-                        </button> 
-            </div>
-            <br>
-        </li>
+        
+        <tr>
+            <td><a href={% url 'cameraEdit' pk=camera.pk  %}>{{ camera.description }} </a></td>
+            <td>    
+                <div class="btn-group-sm btn-toggle">                        
+                    {% if camera.securityStatus == "1" %}   
+                        <button class="btn btn-default" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
+                        <button class="btn btn-primary  " type="button" id="{{camera.pk}}_1"><em class="glyphicon glyphicon-lock"></em> Armed</button> 
+                    {% else %}
+                        <button class="btn btn-primary   " type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
+                        <button class="btn btn-default" type="button" id="{{camera.pk}}_1"><em class="glyphicon glyphicon-lock"></em> Armed</button> 
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+               
+                {% if camera.status %}
+                    <img src="{% static "images/Green1.png" %}" alt="Nok" style="width:40px;height:40px;">
+                {% else %}
+                    <img src="/static/images/Red1.png" alt="Ok" style="width:40px;height:40px;">
+                {% endif %}
+          </tr>  
+            
+      
         {% empty %}
-        <p>No camera configured.</p>
+        <tr>
+            <td>No camera configured.</td>
+        </tr>
         {% endfor %}
-    </ul>
+        
+    </tbody>
+    
 </div>  
     
 {% endblock %}

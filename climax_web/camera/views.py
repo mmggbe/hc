@@ -55,7 +55,7 @@ def cameraArming(request):
     cameraId=request.GET.get('cameraId', '')
     securityStatus=request.GET.get('status', '')
     
-    cmd1='GET /adm/set_group.cgi?group=SYSTEM&pir_mot_mode=1&pir_mode=' + securityStatus +' HTTP/1.1\r\n'
+    cmd1='GET /adm/set_group.cgi?group=SYSTEM&pir_mode=' + securityStatus +' HTTP/1.1\r\n'
     cmd2='GET /adm/set_group.cgi?group=EVENT&event_trigger=1&event_interval=0&event_pir=ftpu:1&event_attach=avi,1,10,20 HTTP/1.1\r\n'
     n=action_list.objects.create(action=cmd1, camera_id=cameraId)
     n.save()
@@ -68,3 +68,9 @@ def cameraArming(request):
         'attribute' : 'securiyStaus= ok'
     }
     return JsonResponse(data)
+
+def video (request, filename):
+    c = {}
+    c['username'] = request.user.get_username()
+    c['filename'] = filename
+    return render(request,"videoPlayer.html", c)
