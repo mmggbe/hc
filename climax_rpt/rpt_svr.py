@@ -164,16 +164,16 @@ def Main():
                     
                     if data:
                         
-                        data = data.decode()
-                        now = time.strftime("%Y-%m-%d %H:%M:%S")
-                        
-                        if Contact_ID_filter.match(data):
-                            connection.sendall( b'\x06' )       # respond only if Contact ID is correct
-                            
-                            print ("Received correct Contact ID: {} {} ".format(now, data), end=' ')
-                            
-                            try:                         
-#                                data = data.decode()
+                        now = time.strftime("%Y-%m-%d %H:%M:%S")                        
+                        print ("Contact ID: {} {} ".format(now, data), end=' ')
+                      
+                        try:                         
+                            data = data.decode()                                
+                                               
+                            if Contact_ID_filter.match(data):
+                                connection.sendall( b'\x06' )       # respond only if Contact ID is correct
+                                
+                                print ("OK:", end=' ')
                                 
                                 translate(data)
         #                        [0730#74 181751000032CA2]   
@@ -192,13 +192,13 @@ def Main():
                                     value= (data, now, gw_id[0][0],)
                                     db_cur.executerReq(req, value)
                                     db_cur.commit() 
-                            except:
-                                print("Error translating ContactID or writing DB")
+     
+                            else:
+                                print ("ERROR")
 
-                        else:
-                            print ("Received wrong Contact ID: {} {} ".format(now, data), end=' ')
-
-                                
+                        except:
+                            print("Error translating ContactID or writing DB")
+                                 
                     else:
 #                        print ('no more data from {}'.format(client_address))
                         break   

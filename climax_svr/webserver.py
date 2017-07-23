@@ -294,7 +294,7 @@ def make_request_handler_class(opts):
                     rptipid_xml= elt.get ("value", "0")
                     
                     if rptipid_xml == "" or rptip_ID_gwParams == "":
-                        logging.debug("Register GW MAC : {}".format(MAC_xml))
+                        logging.info("Register GW MAC : {}".format(MAC_xml))
    
                         # get acct2 number in config file					
                         config = configparser.ConfigParser()

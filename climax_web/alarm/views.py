@@ -79,7 +79,7 @@ def index( request):
         cmd.getSensors()
         
         
-        # return oe value for DW and adapt it to the buttons
+        # return the value for GW and adapt it to the buttons
         if gw.mode == "3":
             sts="0"
         elif gw.mode == "2":
@@ -117,8 +117,9 @@ def user_edit( request, pk ):
     return render( request, 'alarm/useredit.html', {'form': usr_form})
 
 @login_required(login_url="/")
-def gateways_list( request ):
-    gws_list = gateways.objects.filter(id = Glob.current_GW.id )
+def gateways_list( request ):       
+    
+    gws_list = gateways.objects.filter(userWEB = request.user.id )
     if gws_list == []:
         gateway_new( request)
     else:
