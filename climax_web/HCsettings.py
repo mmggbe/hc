@@ -3,8 +3,8 @@
 
 class Notifier:
     __conf = {
-        "CLIENT_ID" : "",
-        "CLIENT_SECRET" : ""
+        "CLIENT_ID" : "tECLyAst04Lkfv5K_VgftPkc7Swa",
+        "CLIENT_SECRET" : "Y4oy9qhXJs3BEDbcgVLyzoJ4DMwa"
     }
     @staticmethod
     def config(name):
