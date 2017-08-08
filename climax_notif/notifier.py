@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import requests
-from HCsettings import Notifier
+import json 
+
+from HCsettings import Notifier, HcDB
 
 
-payload = {'grant_type': 'client_credentials', 'scope': 'openid'}
 
-print( "Acquiring token" )
-print()
+print( "Acquiring token\n" )
+
+payload = {'grant_type': 'client_credentials', 'scope': 'openid'} 
 
 r = requests.post("https://api.enco.io/token", data=payload, auth=( Notifier.config("CLIENT_ID"), Notifier.config("CLIENT_SECRET")))
 print(r.text)
@@ -16,8 +18,8 @@ authInfo = r.json()
 tokenBearer = authInfo['access_token']
 
 print()
-print( "Using token to retrieve user information")
-print
+print( "Using token to retrieve user information\n")
+
 auth_header = {'Authorization':'Bearer {}'.format(tokenBearer), 'Accept':'application/json'}
 r = requests.get("https://api.enco.io/userinfo?schema=openid", headers=auth_header)
 print(r.text)
@@ -37,7 +39,8 @@ curl -i -X POST 'https://api.enco.io/sms/1.0.0/sms/outboundmessages?forceCharact
 -d '{"message":"Hello World Test Message","destinations":["+32000000000"]}'
 """
 
-payload = {'message':'Hello Marc','destinations':['+32475618115',]}
+payload = json.dumps( {'message':'Hello Marc 2','destinations':['+32475618115']} )
+
 auth_header = {'Authorization':'Bearer {}'.format(tokenBearer), 'Content-Type':'application/json', 'Accept':'application/json'}
 r = requests.post("https://api.enco.io/sms/1.0.0/sms/outboundmessages?forceCharacterLimit=false", data=payload, headers=auth_header)
 print(r.text)

@@ -62,6 +62,8 @@ import sys
 import time
 import logging
 import configparser
+from HCsettings import HcDB
+
 
 """
 class Glob:
@@ -74,12 +76,15 @@ class Glob:
 """
  
 class DB_mngt:
-    def __init__(self, configFileName ):
-        
+    
+    def __init__(self, params ):
+
+        """     
+        def __init__(self, configFileName ):
         config = configparser.ConfigParser()
         config.read(configFileName)
         params = config['database']
-        
+        """     
         #"DB cursor creation"
         try:
             self.DB = mariadb.connect(user=params['user'], password=params['password'],

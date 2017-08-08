@@ -3,6 +3,8 @@
 	<name>climax_svr</name>
 	<comment></comment>
 	<projects>
+		<project>climax_rpt</project>
+		<project>climax_web</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

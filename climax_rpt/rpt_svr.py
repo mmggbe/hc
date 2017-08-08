@@ -8,6 +8,7 @@ import errno
 import configparser
 
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
+from HCsettings import HcDB, Rpt_svr
 
 
 
@@ -118,25 +119,31 @@ def Main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
     # Bind the socket to the port
+    """
     config = configparser.ConfigParser()
     config.read("config.ini")
     server_port=config.get('server', 'port')
     server_ip=config.get('server', 'ip')
+    server_address = (server_ip, int(server_port))
+    """
+    
+    server_ip = Rpt_svr.config("ip")
+    server_port = Rpt_svr.config("port")
     server_address = (server_ip, int(server_port))
     
     print('starting up on %s port %s' % server_address)
     sock.bind(server_address)
     # Listen for incoming connections
     sock.listen(1)
-    
-    db_cur= DB_mngt("config.ini") 
+    """
+    db_cur= DB_mngt( HcDB.config() ) 
 
     if db_cur.echec:
         print("Cannot open DB")
         sys.exit()
 
     gw=DB_gw(db_cur)
-
+    """
 
     Contact_ID_filter = re.compile(r'^\[[0-9A-Fa-f]{4}#[0-9A-Fa-f\s]{4}18[0-9A-Fa-f\s]{13}\]$') # contact ID
 
@@ -164,6 +171,7 @@ def Main():
                     
                     if data:
                         
+                        
                         now = time.strftime("%Y-%m-%d %H:%M:%S")                        
                         print ("Contact ID: {} {} ".format(now, data), end=' ')
                       
@@ -181,23 +189,31 @@ def Main():
                                 tmp = data[6:].split(' ')
                                 acct2 = tmp[0]
                                 
-                                gw_id = gw.search_gw_from_acct( rptipid, acct2 )
-                                if gw_id == []:    
-                                    print( " No Gw found with acct2= {}".format(acct2))
-                                else:
-                                    print( " on Gw_id {}".format(gw_id[0][0]))
-        #                            now = time.strftime("%Y-%m-%d %H:%M:%S")
-             
-                                    req="INSERT INTO {} (event, eventtime, gwID_id) VALUES ( %s, %s, %s )".format("alarm_events")
-                                    value= (data, now, gw_id[0][0],)
-                                    db_cur.executerReq(req, value)
-                                    db_cur.commit() 
-     
+                                db_cur= DB_mngt( HcDB.config() ) 
+    
+                                if db_cur.echec:
+                                    print("Cannot open DB")
+    
+                                else :
+                                    gw=DB_gw(db_cur)
+                                    gw_id = gw.search_gw_from_acct( rptipid, acct2 )
+    
+                                    if gw_id == []:    
+                                        print( " No Gw found with acct2= {}".format(acct2))
+                                    else:
+                                        print( " on Gw_id {}".format(gw_id[0][0]))
+               
+                                        req="INSERT INTO {} (event, eventtime, gwID_id) VALUES ( %s, %s, %s )".format("alarm_events")
+                                        value= (data, now, gw_id[0][0],)
+                                        db_cur.executerReq(req, value)
+                                        db_cur.commit() 
+                                   
+                                    db_cur.close()   
                             else:
-                                print ("ERROR")
+                                print ("Error: bad contact id format")
 
                         except:
-                            print("Error translating ContactID or writing DB")
+                            print("Error: bad Contact ID translation or user not found in DB or during writing DB")
                                  
                     else:
 #                        print ('no more data from {}'.format(client_address))

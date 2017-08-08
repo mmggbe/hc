@@ -108,7 +108,7 @@ import urllib
 #   1.0  initial release
 #   1.1  replace req with self in request handler, add favicon
 #   1.2  added directory listings, added --no-dirlist, fixed plain text displays, logging level control, daemonize
-VERSION = '1.2'
+VERSION = '1.3'
 
 import argparse
 #import BaseHTTPServer
@@ -128,6 +128,7 @@ from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 from GW_Crypto.cryptoAES import AESCipher
 from GW_CMD.GW_cmd import cmdTo_climax
 from GW_answer.GW_answer import answerFrom_climax
+from HCsettings import HcDB
 
 
 def make_request_handler_class(opts):
@@ -241,7 +242,7 @@ def make_request_handler_class(opts):
             '''
             Handle POST requests.
             '''
-            logging.info('POST received %s' % (self.path))
+            logging.debug('POST received %s' % (self.path))
 
             # CITATION: http://stackoverflow.com/questions/4233218/python-basehttprequesthandler-post-variables
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
@@ -263,7 +264,8 @@ def make_request_handler_class(opts):
             
 # decryt xml frame            
             command_xml = AES.decrypt(command_enc[0])
-            logging.info("POST decrypted: MAC = {0}\n{1}\n".format(MAC, command_xml.replace('\x00',"")) )    # remove trailling zeros
+            logging.info("POST decrypted: MAC = {}".format(MAC) )    # remove trailling zeros
+            logging.debug("{}\n".format(command_xml.replace('\x00',"")) )    # remove trailling zeros
      
 # check if MAC is defined in DB_GW
             climax_xml= etree.fromstring(command_xml.encode('iso-8859-1'))
@@ -273,7 +275,7 @@ def make_request_handler_class(opts):
             
             if MAC_xml != "" :
             
-                db_cur= DB_mngt("config.ini") 
+                db_cur= DB_mngt(HcDB.config()) 
             
                 if db_cur.echec:
                     sys.exit()
@@ -320,7 +322,7 @@ def make_request_handler_class(opts):
                         gw.upd_account_gw(MAC_xml, rptipid_xml,last_acct2_created)
 
 
-                        logging.debug("POST: Register sent to GW= {0}".format(server_resp) )
+                        logging.info("POST: Register sent to GW= {0}".format(server_resp) )
                     
                         
                     else:       # GW is registered, analyse GW answer                        

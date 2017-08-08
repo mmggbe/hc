@@ -14,6 +14,7 @@ from random import randrange
 
 from lxml import etree
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
+from HCsettings import HcDB
 
 CLIMAX_CMD_HDR  = """
 <?xml version="1.0" encoding="ISO-8859-1"?>"""
@@ -278,7 +279,7 @@ def main(argv):
     logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=logging.DEBUG)
 
     # DB object creation
-    db = DB_mngt("config.ini")
+    db = DB_mngt(HcDB.config())
     if db.echec:
         sys.exit()
     

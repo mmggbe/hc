@@ -9,6 +9,7 @@ import logging
 from lxml import etree
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 from GW_CMD.GW_cmd import cmd_queue
+from HCsettings import HcDB
 
 
 CLIMAX_CMD_HDR  = r'<?xml version="1.0" encoding="ISO-8859-1"?>'
@@ -527,7 +528,7 @@ class answerFrom_climax():
             cmd_name = cmd.get ("action", "0")
             cmd_ID = cmd.get ("id", "0")
             
-            logging.debug("{} -{} -{}".format(cmd.tag, cmd_ID, cmd_name))
+            logging.info("{} -{} -{}".format(cmd.tag, cmd_ID, cmd_name))
             
             # each time a answer is received, up the cmd_id in the GW DB
             db = DB_gw(self.db_cur)        
@@ -555,7 +556,7 @@ def main(argv):
     
     logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=logging.DEBUG)
     
-    db_cur= DB_mngt("config.ini")
+    db_cur= DB_mngt( HcDB.config() ) 
             
     if db_cur.echec:
         sys.exit()

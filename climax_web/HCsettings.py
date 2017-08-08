@@ -3,14 +3,38 @@
 
 class Notifier:
     __conf = {
-        "CLIENT_ID" : "",
-        "CLIENT_SECRET" : ""
+        "CLIENT_ID" : "tECLyAst04Lkfv5K_VgftPkc7Swa",
+        "CLIENT_SECRET" : "Y4oy9qhXJs3BEDbcgVLyzoJ4DMwa"
     }
     @staticmethod
     def config(name):
         return Notifier.__conf[name]
 
 
+class HcDB:
+    __conf = {
+        "host" :"localhost",
+        "database" : "climax_gw",
+        "user" : "gw",
+        "password": "test"
+    }
+
+    @staticmethod
+    def config():
+        return HcDB.__conf  
+    
+    
+class Rpt_svr:
+    __conf = {
+        "port" : "27017",
+        "ip" : "192.168.157.4",
+    }
+    @staticmethod
+    def config(name):
+        return Rpt_svr.__conf[name]
+
+
+"""
 class HcDB:
     __conf = {
         "username": "",
@@ -33,6 +57,8 @@ class HcDB:
         else:
             raise NameError("Name not accepted in set() method")
 
+
+"""
 
 """
   And then usage is:
