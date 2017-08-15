@@ -1,46 +1,9 @@
-import time
-from .models import gateways, users, sensors, events
-from .Dj_GW_cmd import Glob
+from models import gateways, users, sensors, events
+from Dj_GW_cmd import Glob
 
+from HCsettings import EventCode
 
-# [0730#74 181751000032CA2]
-
-EventCode={  '100':"Medical",
-             '101':"Personal Emergency",
-             '110':"Fire",
-             '111':"Smoke",
-             '120':"Panic",
-             '121':"Duress",
-             '130':"Buglar",
-             '131':"Perimeter",
-             '132':"Interior",
-             '137':"Tamper Burglar",
-             '139':"Verification/alarm confirmation",
-             '147':"Sensor supervision failure",
-             '154':"Water leakage",
-             '162':"CO detector",
-             '301':"AC failure",
-             '302':"Low Battery",
-             '344':"Interference",
-             '354':"Net device miss",
-             '400':"by remote controller",
-             '401':"by WEB panel",
-             '406':"Cancel",
-             '407':"by remote keypad",
-             '602':"Periodic test report",
-             '611':"Technical alarm",
-             '641':"Mobility",
-             '655':"Test reporting",
-             '704':"Entry zone",
-             '750':"Mobility DC",
-             '751':"Mobility IR",
-             '752':"Siren sound On/Off",}
-
-ArmingRequest={  '00':"General",
-                 '01':"Home arm",
-                 '02':"Force arm",
-                 '03':"Force home arm",}
-                
+# [0730#74 181751000032CA2]             
                 
 def translate(contactID):
     
@@ -50,10 +13,10 @@ def translate(contactID):
 
 #[0730#74 18_1_751_00_003_2CA2]
 #         MT Q XYZ GG CCC
-    Q = contactID[-14:-13]
+    Q = contactID[-14:-13] # 1: new event & disarm 3: restore & arm
     evt= contactID[-13:-10]
-    GG = contactID[-10:-8] 
-    sensor_id= contactID[-7:-5].lstrip("0")
+    GG = contactID[-10:-8] # 
+    sensor_id= contactID[-7:-5].lstrip("0") # representing zone number C 1 = 0 (fixed) , C 2 C 3 = Zone number
 
     #sensor = sensors.objects.filter(gwID = Glob.current_GW.id, no = sensor_id)
     sensor = sensors.objects.filter(gwID__id = Glob.current_GW.id, no=sensor_id)
@@ -67,7 +30,7 @@ def translate(contactID):
 #        alarmMsg += ArmingRequest[GG]
 #        alarmMsg += ": "
         
-        if Q==  '1':
+        if Q ==  '1':
             if sensor_id ==  '14' or sensor_id ==  '15' :
                 alarmMsg += "Disarm: "
             else:
@@ -84,23 +47,23 @@ def translate(contactID):
         
         # arm vie RC
         if evt ==  '400':
-            alarmMsg += EventCode[evt]
+            alarmMsg += EventCode.value(evt)[0]
             alarmMsg += "User "
             alarmMsg += sensor_name
             
         # arm via WEB
         elif evt == '401' and (sensor ==  '14' or sensor ==  '15'):
-            alarmMsg += EventCode[evt]
+            alarmMsg += EventCode.value(evt)[0]
 
         # arm via Keypad
         elif evt ==  '407':
-            alarmMsg += EventCode[evt]
+            alarmMsg += EventCode.value(evt)[0]
             alarmMsg += "User "
             alarmMsg += sensor_name
 
         
         else:
-            alarmMsg += EventCode[evt]
+            alarmMsg += EventCode.value(evt)[0]
             alarmMsg += " Sensor "
             alarmMsg += sensor_name
             

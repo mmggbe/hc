@@ -3,6 +3,7 @@
 	<name>climax_rpt</name>
 	<comment></comment>
 	<projects>
+		<project>climax_notif</project>
 		<project>climax_svr</project>
 		<project>climax_web</project>
 	</projects>
