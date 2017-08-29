@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 
 #from django.contrib.auth.migrations import 
@@ -81,7 +83,7 @@ class sensors( models.Model):
 # <status-time value="2017/04/22 11:37:30"/>
 
     
-    
+# users of the Climax GW    
 class users( models.Model):   
     
     USER_LATCH = (
@@ -107,6 +109,39 @@ class events( models.Model):
     def __str__(self):
         return self.event
     
+ 
+class userProfile( models.Model):  
     
+    MYLANGUAGE = (
+        ('0', 'EN'),
+        ('1', 'FR'),
+        ('2', 'NL')       
+    )  
     
-    
+    TEMP_DEACTIVATED = (
+        ('0', 'NO'),
+        ('1', 'YES')      
+    )
+        
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    propertyaddr = models.TextField(max_length=100, blank=True)
+    SN_SMS = models.CharField(max_length=13, blank=True)
+    SN_Voice = models.CharField(max_length=13, blank=True)
+    email = models.CharField(max_length=40, blank=True)
+    language = models.CharField(max_length=1, blank=True, \
+        choices=MYLANGUAGE, default='0')
+
+    credit = models.CharField(max_length=10, blank=True)
+    tmp_deact= models.CharField(max_length=1, blank=True, \
+        choices=TEMP_DEACTIVATED, default='0')
+   
+  
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        userProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
