@@ -64,6 +64,7 @@
 </div>
 
 <div class="col-md-6">
+    
     <table class="table table-striped" id="table">
     <thead>
       <tr>
@@ -78,17 +79,23 @@
         {% for line in history %}
         <tr>
             <td>{{line.timestamp}}</td>
-            <td>{{line.camera}}</td>
+            <td>{{line.sensor}}</td>
             <td> 
-                <button class="btn btn-default" type="button" onclick="openPlayer('/media/{{line.filename}}.mp4')" data-toggle="tooltip" data-html="true" title="<img src='/media/{{line.filename}}.jpg' alt='Camera preview' style='width:104px;height:75px;'>">
-                   <em class="glyphicon glyphicon-film"></em>
-                </button> 
+                {% if line.sensor_type == "3" %}
+                    <button class="btn btn-default" type="button" onclick="openPlayer('/media/{{line.description}}.mp4')" data-toggle="tooltip" data-html="true" title="<img src='/media/{{line.description}}.jpg' alt='Camera preview' style='width:104px;height:75px;'>">
+                    <em class="glyphicon glyphicon-film"></em>
+                    </button> 
+                {% else %}
+                    {{line.description}}
+                {% endif %}
             </td>
         </tr>
         {% empty %}
-        <p>No history</p>
+        <tr><td>
+            <p>No history</p>
+        </td></tr>
         {% endfor %}
-    </ul>
+
 </div>  
     
 {% endblock %}

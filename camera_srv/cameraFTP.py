@@ -97,7 +97,7 @@ def do_write_path_DB(camera_id, filepath):
 # MySql DATETIME values in 'YYYY-MM-DD HH:MM:SS'
 	now = time.strftime("%Y-%m-%d %H:%M:%S")
 	
-	cursor.execute("INSERT INTO camera_file_list (timestamp,filename,camera_id) VALUES (%s,%s,%s)", (now, tail[0:-4],camera_id))
+	cursor.execute("INSERT INTO camera_history (timestamp,description,sensor_type,sensor_id) VALUES (%s,%s,%s,%s)", (now, tail[0:-4],"3",camera_id))
 
 	mariadb_connection.commit()
 	mariadb_connection.close()
