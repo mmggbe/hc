@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="col-md-6">
+    <ul class="list-unstyled">
+        {% for camera in cameras %}
+        <li>
+          <p>Name: {{ camera.description }} 
+          <a class="btn btn-default" href="{% url 'cameraDelete' pk=camera.pk %}"><span class="glyphicon glyphicon-trash"></span></a> 
+          </p>                
+        </li>
+        {% empty %}
+        <p>No camera configured.</p>
+        {% endfor %}
+    </ul>
+    
+    <a class="btn btn-default" href="/camera/cameraAdd/"><span class="glyphicon glyphicon-plus-sign"></span></a> 
+</div>  
+    
+{% endblock %}

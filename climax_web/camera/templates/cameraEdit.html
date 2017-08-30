@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<form action="/camera/saveAction/" method="POST"> {% csrf_token %}
+    <input  name="camera" id="camera" value="{{cam_id}}" />
+    <div data-role="fieldcontain">
+        <label for="Action">Action: </label><input type="text" name="action" id="action" value="" size="100"/>
+    </div>
+    
+    <button type="submit" name="submit" value="submit-value">Add</button>
+</form>
+
+<h2>Actions examples:</h2>
+<h3>FTP file</h3>
+<p>GET /adm/retrieve_start.cgi?pre_second=1&post_second=0 HTTP/1.1\r\n</p>
+<h3>Event and peer detection</h3>
+<p>GET /adm/set_group.cgi?group=EVENT&event_trigger=1&event_interval=0&event_pir=ftpu:1&event_attach=avi,1,10,20 HTTP/1.1\r\n</p>
+<p>GET /adm/set_group.cgi?group=SYSTEM&pir_mot_mode=1&pir_mode=1 HTTP/1.1\r\n</p>
+<p>GET /adm/set_group.cgi?group=MOTION&md_mode=1 HTTP/1.1\r\n</p>
+<h3>start/stop streaming</h3>
+<p>GET /adm/rtsp_push.cgi?format=0&addr=192.168.5.21&vport=20180&aport=20182&action=0 HTTP/1.1\r\n</p>
+<p>GET /adm/rtsp_push.cgi?format=1&addr=192.168.1.2&vport=20180&aport=20182&action=0 HTTP/1.1\r\n</p>
+    
+{% endblock %}

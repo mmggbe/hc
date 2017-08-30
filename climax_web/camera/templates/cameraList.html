@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block myscript %}
+<script type="text/javascript">
+
+    $('.btn-toggle').click(function() {
+        
+
+        $(this).find('.btn').toggleClass('btn-primary');
+        $(this).find('.btn').toggleClass('btn-default');
+        
+        var cam_arm = ($(this).find('.btn-primary').attr('id')).split("_");
+        
+        
+        $.ajax({
+            url: 'cameraArming',
+            type: 'get',
+            data: {'cameraId': cam_arm[0], 'status': cam_arm[1]
+            },
+            dataType: 'json',
+
+            success: function(data){
+               // alert(data.attribute);
+            },
+            
+            failure: function(data){
+                alert('Got an error');
+            },
+            
+            complete : function(data){
+                //console.log("Ajax: no data from backend");
+
+       }
+        });
+        
+
+    });
+    
+</script>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="col-md-6">
+     <table class="table table-striped" id="table">
+    <thead>
+      <tr>
+        <th>Camera description</th>
+        <th>Arming</th>
+        <th>Status</th>
+
+      </tr>
+    </thead>
+    
+     <tbody>
+        {% for camera in cameras %}
+        
+        <tr>
+            <td><a href={% url 'cameraEdit' pk=camera.pk  %}>{{ camera.description }} </a></td>
+            <td>    
+                <div class="btn-group-sm btn-toggle">                        
+                    {% if camera.securityStatus == "1" %}   
+                        <button class="btn btn-default" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
+                        <button class="btn btn-primary  " type="button" id="{{camera.pk}}_1"><em class="glyphicon glyphicon-lock"></em> Armed</button> 
+                    {% else %}
+                        <button class="btn btn-primary   " type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
+                        <button class="btn btn-default" type="button" id="{{camera.pk}}_1"><em class="glyphicon glyphicon-lock"></em> Armed</button> 
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+               
+                {% if camera.status %}
+                    <img src="{% static "images/Green1.png" %}" alt="Nok" style="width:40px;height:40px;">
+                {% else %}
+                    <img src="/static/images/Red1.png" alt="Ok" style="width:40px;height:40px;">
+                {% endif %}
+          </tr>  
+            
+      
+        {% empty %}
+        <tr>
+            <td>No camera configured.</td>
+        </tr>
+        {% endfor %}
+        
+    </tbody>
+    
+</div>  
+    
+{% endblock %}

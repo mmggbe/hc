@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block myscript %}
+<script type="text/javascript">
+
+   /* Enable picture in tooltip */ 
+   $(document).ready(function(){
+        $('#table [data-toggle="tooltip"]').tooltip({
+            animated: 'fade',
+            placement: 'bottom',
+            html: true
+        }); 
+    });
+    
+    
+    /* Open when someone clicks on the span element */
+     var source = document.createElement('source');
+    function openPlayer(filename) {
+        /* configure the requested video file in the player */
+        var video = document.getElementById('Player');
+        source.setAttribute('src', filename);
+        source.setAttribute('type', 'video/mp4');
+
+        video.appendChild(source);
+        video.load();
+        video.play();
+        
+        /* Show the player */
+        document.getElementById("videoPlayer").style.width = "100%";
+        
+        /* remove teh tooltip */
+        $('.tooltip').not(this).hide();
+    }
+
+    /* Close when someone clicks on the "x" symbol inside the overlay */
+    function closePlayer() {
+
+        document.getElementById("videoPlayer").style.width = "0%";
+        var video = document.getElementById('Player');
+        video.pause();
+        video.removeChild(source);
+        
+} 
+</script>
+{% endblock %}
+
+{% block content %}
+
+<!-- The overlay -->
+<div id="videoPlayer" class="overlay">
+
+  <!-- Button to close the overlay navigation -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closePlayer()">&times;</a>
+
+  <!-- Overlay content -->
+  <div class="overlay-content">
+    <video id="Player" controls autoplay>
+      
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+</div>
+
+<div class="col-md-6">
+    
+    <table class="table table-striped" id="table">
+    <thead>
+      <tr>
+        <th>Time Stamp</th>
+        <th>Sensor</th>
+        <th>Description</th>
+
+      </tr>
+    </thead>
+    
+    <tbody>
+        {% for line in history %}
+        <tr>
+            <td>{{line.timestamp}}</td>
+            <td>{{line.sensor}}</td>
+            <td> 
+                {% if line.sensor_type == "3" %}
+                    <button class="btn btn-default" type="button" onclick="openPlayer('/media/{{line.description}}.mp4')" data-toggle="tooltip" data-html="true" title="<img src='/media/{{line.description}}.jpg' alt='Camera preview' style='width:104px;height:75px;'>">
+                    <em class="glyphicon glyphicon-film"></em>
+                    </button> 
+                {% else %}
+                    {{line.description}}
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td>
+            <p>No history</p>
+        </td></tr>
+        {% endfor %}
+
+</div>  
+    
+{% endblock %}

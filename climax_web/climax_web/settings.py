@@ -25,7 +25,7 @@ SECRET_KEY = '1595ywhbu6^n(8=80+gw954j1-4p8+*1i-i65a%g*cydeh7o#('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.157.4']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','cam.horus.ovh']
 
 
 # Application definition
@@ -33,6 +33,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1','192.168.157.4']
 INSTALLED_APPS = (
     'alarm',
     'mylogin',
+    'camera',
+    'history',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,13 +85,20 @@ WSGI_APPLICATION = 'climax_web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'climax_gw',
-        'USER': 'gw',
-        'PASSWORD' : 'test',
+        'NAME': 'hcdb_branch_cam',
+        'USER': 'hc',
+        'PASSWORD' : 'HCMGGDB9',
         'HOST' : 'localhost',
         'PORT' : '',       
     }
 }
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
 
 
 # Internationalization
@@ -99,7 +108,7 @@ SESSION_COOKIE_AGE = 3000
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Brussels'
 
 USE_I18N = True
 
@@ -112,12 +121,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 LOGIN_REDIRECT_URL = '/'
 
-STATICFILES_DIRS = (
-   os.path.join(BASE_DIR, 'static'),
-)
+#STATICFILES_DIRS = (
+#   os.path.join(BASE_DIR, 'static'),
+#)
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_ROOT = '/home/hc/cam/hc/climax_web/media/'
+MEDIA_URL = 'media/'
 
 
 
