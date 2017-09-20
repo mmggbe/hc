@@ -1,3 +1,15 @@
-climax_web/media/*
-*.kate-swp
+*.pyc
+__pycache__
+climax_svr/GW_Crypto/cryptoAES.py
+climax_svr/Documentation/*
+climax_web/alarm/migrations/*
+climax_web/camera/migrations/*
+climax_web/mylogin/migrations/*
+climax_web/HCsettings.py
+*.odt
+*.doc
+*.pcapng
+*.gz
+*.pdf
+*.zip
 
