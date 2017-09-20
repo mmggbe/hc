@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'climax_web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hcdb_branch_cam',
+        'NAME': 'hcdb1',
         'USER': 'hc',
-        'PASSWORD' : 'HCMGGDB9',
+        'PASSWORD' : 'hcdb1',
         'HOST' : 'localhost',
         'PORT' : '',       
     }

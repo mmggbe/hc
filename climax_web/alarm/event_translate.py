@@ -1,5 +1,5 @@
-from models import gateways, users, sensors, events
-from Dj_GW_cmd import Glob
+from .models import sensors
+from .Dj_GW_cmd import Glob
 
 from HCsettings import EventCode
 
