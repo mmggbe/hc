@@ -3,6 +3,8 @@
 	<name>camera_srv</name>
 	<comment></comment>
 	<projects>
+		<project>climax_svr</project>
+		<project>climax_web</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

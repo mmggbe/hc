@@ -2,7 +2,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns= [
-        url(r'^$', views.index, name='index'),
+        url(r'^$', views.cameraList, name='cameraList'),
         url(r'^cameraAdd/', views.cameraAdd),
         url(r'^cameraSettings/', views.cameraSettings),
         url(r'^saveCamera/', views.saveCamera),

@@ -7,53 +7,55 @@ import time
 
 from camera.models import camera, action_list, history
 
-@login_required(login_url="login/")
-def index(request):
+
+@login_required(login_url="/")
+def cameraList(request):
     username = request.user.get_username()
     cameras = camera.objects.filter(user__username=username)
     
     return render(request,'cameraList.html', locals())
 
-@login_required(login_url="login/")    
+
+@login_required(login_url="/")    
 def cameraAdd (request):
     c = {}
     c.update(csrf(request))
     return render(request,"cameraAdd.html", c)
 
-@login_required(login_url="login/")
+@login_required(login_url="/")
 def cameraSettings(request):
     username = request.user.get_username()
     cameras = camera.objects.filter(user__username=username)
     
     return render(request,'cameraSettings.html', locals())
 
-@login_required(login_url="login/")    
+@login_required(login_url="/")    
 def saveCamera (request):
     current_user = request.user
     n=camera.objects.create(CameraMac=request.POST['mac'], description=request.POST['description'],user_id=current_user.id,securityStatus='1')
     n.save()
     return redirect('/camera/cameraSettings/')
     
-@login_required(login_url='login/')
+@login_required(login_url='/')
 def cameraDelete(request, pk):
     username = request.user.get_username()
     camera.objects.filter(pk=pk).filter(user__username=username).delete()
     return redirect('/camera/cameraSettings/')
     
-@login_required(login_url='login/')    
+@login_required(login_url='/')    
 def cameraEdit(request, pk): 
     c = {}
     c.update(csrf(request))
     c['cam_id'] = pk
     return render(request,'cameraEdit.html', c)
 
-@login_required(login_url='login/')   
+@login_required(login_url='/')   
 def saveAction(request):
     n=action_list.objects.create(action=request.POST['action'], camera_id=request.POST['camera'])
     n.save()
     return redirect('/camera/')
     
-@login_required(login_url="login/")
+@login_required(login_url="/")
 def cameraArming(request):
     cameraId=request.GET.get('cameraId', '')
     securityStatus=request.GET.get('status', '')

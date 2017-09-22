@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from alarm.views import index
+from alarm import views as al_views
 
 from django.contrib.auth import views
 from mylogin.forms import LoginForm
@@ -23,6 +23,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    url(r'^$', al_views.index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('mylogin.urls')),
     url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),

@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+#ici c'est : /home/marc/workspace2/hc/climax_web
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -25,7 +25,7 @@ SECRET_KEY = '1595ywhbu6^n(8=80+gw954j1-4p8+*1i-i65a%g*cydeh7o#('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','cam.horus.ovh']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','www.horus.ovh']
 
 
 # Application definition
@@ -93,12 +93,6 @@ DATABASES = {
     }
 }
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
 
 
 # Internationalization
@@ -121,12 +115,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 LOGIN_REDIRECT_URL = '/'
 
-#STATICFILES_DIRS = (
-#   os.path.join(BASE_DIR, 'static'),
-#)
+STATICFILES_DIRS = (
+   os.path.join(BASE_DIR, 'static'),
+)
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_ROOT = '/home/hc/cam/hc/climax_web/media/'
 MEDIA_URL = 'media/'
 

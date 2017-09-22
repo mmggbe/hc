@@ -41,7 +41,7 @@ then
             stopProcess
             echo "restart the process"
         fi
-        source /home/hc/Env/cam/bin/activate
+        source /home/hc/Env/hc/bin/activate
         nohup python -u cameraServer.py > /dev/null 2>&1 & echo $! > run.pid
     elif [ $1 = "stop" ]
     then

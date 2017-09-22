@@ -100,7 +100,7 @@ def users_list( request):
     usr = users.objects.filter(gwID = Glob.current_GW.id )
     return render( request, 'alarm/userslist.html', {'users':usr})
 
-@login_required(login_url="/login/")
+@login_required(login_url="/")
 def user_edit( request, pk ):
     post = get_object_or_404(users, pk=pk)
     if request.method == 'POST':

@@ -40,6 +40,8 @@ from socketserver import ThreadingMixIn
 
 import mysql.connector
 
+from HCsettings import HcDB
+from GW_DB.Dj_Server_DB import DB_mngt
 
 
 Debug = False
@@ -440,7 +442,11 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         mac = mac.upper()
         self.log_error("code %s, message %s", "gdv:", mac)
         
-        db = mysql.connector.connect(host="localhost", user="hc", password="HCMGGDB9", database="hcdb_branch_cam")
+#        db = mysql.connector.connect(host="localhost", user="hc", password="HCMGGDB9", database="hcdb_branch_cam")
+        db= DB_mngt(HcDB.config()) 
+        if db_cur.echec:
+            sys.exit()
+        
         cursor = db.cursor()
         cursor.execute("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
         idCam = cursor.fetchone()
