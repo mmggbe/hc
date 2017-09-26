@@ -44,7 +44,8 @@ from HCsettings import HcDB
 from GW_DB.Dj_Server_DB import DB_mngt
 
 
-Debug = False
+#Debug = False
+Debug = True
 
 # Default error message template
 DEFAULT_ERROR_MESSAGE = """\
@@ -443,21 +444,28 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.log_error("code %s, message %s", "gdv:", mac)
         
 #        db = mysql.connector.connect(host="localhost", user="hc", password="HCMGGDB9", database="hcdb_branch_cam")
-        db= DB_mngt(HcDB.config()) 
-        if db_cur.echec:
+        cursor= DB_mngt(HcDB.config()) 
+        if cursor.echec:
             sys.exit()
-        
-        cursor = db.cursor()
-        cursor.execute("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
-        idCam = cursor.fetchone()
+
+#       cursor = db.cursor()
+#       cursor.execute("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
+        cursor.executerReq("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
+#       idCam = cursor.fetchone()
+        idCam = cursor.resultatReqOneRec()
         
         if idCam:
             ts = time.time()
             timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-            cursor.execute("""UPDATE camera_camera SET status = 1, lastSeenTimestamp = %s WHERE CameraMac=%s""", (timestamp, mac,))
-            db.commit()
-            cursor.execute("""SELECT id, action FROM camera_action_list WHERE camera_id=%s LIMIT 0, 1""", idCam)
-            resp = cursor.fetchone()
+#           cursor.execute("""UPDATE camera_camera SET status = 1, lastSeenTimestamp = %s WHERE CameraMac=%s""", (timestamp, mac,))
+            cursor.executerReq("""UPDATE camera_camera SET status = 1, lastSeenTimestamp = %s WHERE CameraMac=%s""", (timestamp, mac,))
+#           db.commit()
+            cursor.commit()
+#           cursor.execute("""SELECT id, action FROM camera_action_list WHERE camera_id=%s LIMIT 0, 1""", idCam)
+#           resp = cursor.fetchone()
+            cursor.executerReq("""SELECT id, action FROM camera_action_list WHERE camera_id=%s LIMIT 0, 1""", idCam)
+            resp = cursor.resultatReqOneRec()
+            
             if resp:
                 answer = resp[1].replace("\\r\\n", "\r\n")
                 self.wfile.write(answer.encode())
@@ -467,8 +475,10 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write("?commandid=934723039".encode())
                 
-                cursor.execute("""DELETE FROM camera_action_list WHERE id=%s""", (resp[0],))
-                db.commit()
+#                cursor.execute("""DELETE FROM camera_action_list WHERE id=%s""", (resp[0],))
+#                db.commit()
+                cursor.executerReq("""DELETE FROM camera_action_list WHERE id=%s""", (resp[0],))
+                cursor.commit()
                 self.log_error("code %s, message %s", "gdv:", "Action for the camera")
             else:
                 self.close_connection = False
@@ -478,7 +488,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         else:
             self.log_error("code %s, message %s", "gdv:", "Camera not registred")
             
-        db.close
+#        db.close
+        cursor.close
         
         
 		#=====================================================
