@@ -446,7 +446,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 #        db = mysql.connector.connect(host="localhost", user="hc", password="HCMGGDB9", database="hcdb_branch_cam")
         cursor= DB_mngt(HcDB.config()) 
         if cursor.echec:
-            sys.exit()
+            sys.exit(1)
 
 #       cursor = db.cursor()
 #       cursor.execute("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
@@ -489,7 +489,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.log_error("code %s, message %s", "gdv:", "Camera not registred")
             
 #        db.close
-        cursor.close
+        cursor.close()
         
         
 		#=====================================================
