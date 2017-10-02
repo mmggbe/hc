@@ -25,7 +25,7 @@ SECRET_KEY = '1595ywhbu6^n(8=80+gw954j1-4p8+*1i-i65a%g*cydeh7o#('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','www.horus.ovh']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','www.horus.ovh','uat.horus.ovh']
 
 
 # Application definition
@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'climax_web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hcdb1',
-        'USER': 'hc',
+        'NAME': 'hcdbuat',
+        'USER': 'hcuat',
         'PASSWORD' : 'hcdb1',
         'HOST' : 'localhost',
-        'PORT' : '',       
+        'PORT' : '',
     }
 }
 

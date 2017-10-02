@@ -1,7 +1,9 @@
 #!/bin/bash
 
-export PYTHONPATH=$PYTHONPATH:/home/marc/workspace/climax_web
-RUN= python3 polling_svr.py --host 192.168.157.4 --port 8080 --level debug
+export PYTHONPATH=$PYTHONPATH:/home/hc/uat/hc/climax_svr/GW_Crypto:/home/hc/uat/hc/climax_web
+source /home/hc/Env/uat/bin/activate
+
+RUN= python3 -u polling_svr.py --host horus.ovh --port 8088 --level info &
 
 echo $RUN
 $RUN

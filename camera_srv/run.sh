@@ -14,14 +14,14 @@ function stopProcess {
 function processStatus {
     if [ -e run.pid ]
     then
-        if netstat -antp 2>&1 | grep 0.0.0.0:8000 | grep $(<run.pid)/python > /dev/null
+        if netstat -antp 2>&1 | grep 0.0.0.0:8080 | grep $(<run.pid)/python > /dev/null
         then
             echo "status: up"
         else
             echo "error: pid file but port not open"
         fi
     else
-        if netstat -antp 2>&1 | grep 0.0.0.0:8000
+        if netstat -antp 2>&1 | grep 0.0.0.0:8080
         then
             echo "error no pid file but port open"
         else
@@ -41,8 +41,10 @@ then
             stopProcess
             echo "restart the process"
         fi
-        source /home/hc/Env/hc/bin/activate
-        nohup python -u cameraServer.py > /dev/null 2>&1 & echo $! > run.pid
+        source /home/hc/Env/uat/bin/activate
+	export PYTHONPATH=$PYTHONPATH:/home/hc/uat/hc/climax_web:/home/hc/uat/hc/climax_svr
+
+        nohup python3 -u cameraServer.py > /dev/null 2>&1 & echo $! > run.pid
     elif [ $1 = "stop" ]
     then
         if [ -e run.pid ]
