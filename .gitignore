@@ -6,6 +6,9 @@ climax_web/alarm/migrations/*
 climax_web/camera/migrations/*
 climax_web/mylogin/migrations/*
 climax_web/HCsettings.py
+climax_web/climax_web/settings.py
+climax_web/media/*
+*.kate-swp
 *.odt
 *.doc
 *.pcapng
