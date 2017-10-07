@@ -1,5 +1,11 @@
 #!/bin/bash
 
+PPATH=/home/hc/uat/hc/climax_web:/home/hc/uat/hc/climax_svr
+VIRTENV=/home/hc/Env/uat/bin/activate
+IP=192.168.0.2
+PORT=8008
+
+
 function help {
     echo -e "\nrun: invalid argument\n"
     echo -e "\tUsage: run.sh start | stop | status \n"
@@ -14,14 +20,14 @@ function stopProcess {
 function processStatus {
     if [ -e run.pid ]
     then
-        if netstat -antp 2>&1 | grep 0.0.0.0:8080 | grep $(<run.pid)/python > /dev/null
+        if netstat -antp 2>&1 | grep 0.0.0.0:$PORT | grep $(<run.pid)/python > /dev/null
         then
             echo "status: up"
         else
             echo "error: pid file but port not open"
         fi
     else
-        if netstat -antp 2>&1 | grep 0.0.0.0:8080
+        if netstat -antp 2>&1 | grep 0.0.0.0:$PORT
         then
             echo "error no pid file but port open"
         else
@@ -41,10 +47,10 @@ then
             stopProcess
             echo "restart the process"
         fi
-        source /home/hc/Env/uat/bin/activate
-	export PYTHONPATH=$PYTHONPATH:/home/hc/uat/hc/climax_web:/home/hc/uat/hc/climax_svr
+        source $VIRTENV
+	    export PYTHONPATH=$PYTHONPATH:$PPATH
 
-        nohup python3 -u cameraServer.py > /dev/null 2>&1 & echo $! > run.pid
+        nohup python3 -u cameraServer.py --bind $IP $PORT > /dev/null 2>&1 & echo $! > run.pid
     elif [ $1 = "stop" ]
     then
         if [ -e run.pid ]

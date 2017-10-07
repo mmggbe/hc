@@ -3,7 +3,7 @@ from django.db import models
 from django.forms.fields import ChoiceField
 from django.forms.widgets import RadioSelect
 
-from .models import gateways, users, sensors
+from .models import gateways, users, sensors, userProfile
 
 
 class gatewaysForm(forms.ModelForm):
@@ -16,7 +16,11 @@ class userForm(forms.ModelForm):
         model = users
         fields = ('code', 'name', 'latch')
  
-        
+class contactForm(forms.ModelForm):
+    class Meta:
+        model = userProfile
+        fields = ('language', 'propertyaddr', 'email', 'SN_SMS', 'SN_Voice')
+
 # Keyfo        
 class sensorModifyForm_0(forms.ModelForm):
     SENSOR_ATTRIBUTE = (

@@ -227,11 +227,13 @@ def Main():
                                         value= (data, now, gw_id[0][0],)
                                         db_cur.executerReq(req, value)
                                         db_cur.commit() 
-                                   
-                                    db_cur.close()
-                                    usr="abc"
+                                        usr=gw_id.userWEB
+                                        
+                                    db_cur.close()                               
                                     send_notification(usr, event)
 
+
+                                         
                             else:
                                 logging.info("Error: bad contact id format")
 

@@ -96,6 +96,23 @@ def index( request):
 
 
 @login_required(login_url="/")
+def HC_contact_edit( request):
+#    post = get_object_or_404(userProfile, pk=Glob.current_GW.userWEB_id)
+    post = get_object_or_404(userProfile, pk=request.user.id)
+
+
+    if request.method == 'POST':
+        ctct_form = contactForm(request.POST, instance=post)
+        if ctct_form.is_valid():
+            post = ctct_form.save(commit=False)
+
+            post.save()
+            return redirect('/')
+    else:
+        ctct_form = contactForm( instance = post )
+    return render( request, 'alarm/contactedit.html', {'form': ctct_form})
+
+@login_required(login_url="/")
 def users_list( request):
     usr = users.objects.filter(gwID = Glob.current_GW.id )
     return render( request, 'alarm/userslist.html', {'users':usr})
