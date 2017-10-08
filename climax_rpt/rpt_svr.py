@@ -227,10 +227,9 @@ def Main():
                                         value= (data, now, gw_id[0][0],)
                                         db_cur.executerReq(req, value)
                                         db_cur.commit() 
-                                        usr=gw_id.userWEB
-                                        
+                                        usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] )
                                     db_cur.close()                               
-                                    send_notification(usr, event)
+                                    send_notification(usr_profile, event)
 
 
                                          
@@ -238,6 +237,7 @@ def Main():
                                 logging.info("Error: bad contact id format")
 
                         except:
+                            db_cur.close()   
                             logging.info("Error: bad Contact ID translation or user not found in DB or during writing DB")
                                  
                     else:

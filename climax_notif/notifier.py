@@ -57,18 +57,18 @@ def send_notification(usr, event):
         print(r.text)
     
     #https://stackoverflow.com/questions/24077314/how-to-send-an-email-with-style-in-python3
-    logging.info(" Sending email to user ID {}".format(usr) )
+    logging.info(" Sending email to user ID {}".format(usr[0][0]) )
     
     
     title = 'Horus monitoring service notification'
-    msg_content = '<h2>{title} > <font color="green">OK</font></h2>\n'.format(title=title)
+    msg_content = '<h2>{title} > <font color="green">OK</font></h2>\n'.format(title=event)
     message = MIMEText(msg_content, 'html')
     
     message['From'] = Email_svr.config("from")
-    message['To'] = '<mage.gerin@gmail.com>'
+    message['To'] = usr[0][4]
     #message['To'] = 'Receiver Name <receiver@server>'
     #message['Cc'] = 'Receiver2 Name <receiver2@server>'
-    message['Subject'] = 'Any subject2'
+    message['Subject'] = 'Horus monitoring service : Property {}'.format(usr[0][1])
     
     msg_full = message.as_string()
     
@@ -76,6 +76,6 @@ def send_notification(usr, event):
     server.starttls()
     server.ehlo()
     server.login(Email_svr.config("login"), Email_svr.config("password"))
-    server.sendmail(Email_svr.config("from"),'mage.gerin@gmail.com', msg_full)
+    server.sendmail(Email_svr.config("from"),usr[0][4], msg_full)
     
     server.quit()
