@@ -20,4 +20,4 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
-* * * * * /home/hc/cam/hc/camera_srv/cameraStatus.sh
+* * * * * /home/hc/uat/hc/camera_srv/cameraStatus.sh
