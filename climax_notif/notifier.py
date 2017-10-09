@@ -15,8 +15,60 @@ from HCsettings import Notifier, HcDB, Email_svr
 
 
 def send_notification(usr, event):
+# list usr [User,Property, email, SN_SMS, SN_Voice]
+# list event eg: '100', "Medical", [ "1", "0", "0"] # code : "description, email to be sent, sms to be sent, voice call to be issued
 
 
+    if event[2][0] :
+         
+    #https://stackoverflow.com/questions/24077314/how-to-send-an-email-with-style-in-python3
+        logging.info(" Sending email to user ID {}".format(usr[0]) )
+                
+ #       title = 'Horus supervisor:'
+ #       msg_content = '<h2>{title} > <font color="green">OK</font></h2>\n'.format(title=event)
+ 
+        EMAIL_CONTENT = """
+Hi,
+
+The following event has been detected:\n\n
+
+[property]\n
+ <font color="green">
+{0}
+</font>
+\n\n
+[event]
+ <font color="green">
+{1}
+</font>
+\n\n
+
+Please take the appropriate actions
+\n\n
+
+Best regards\n
+Your Horus Monitoring System
+
+"""
+        
+        message = MIMEText(EMAIL_CONTENT.format(usr[1],event[1]), 'html')
+        
+        message['From'] = Email_svr.config("from")
+        message['To'] = usr[4]
+        #message['To'] = 'Receiver Name <receiver@server>'
+        #message['Cc'] = 'Receiver2 Name <receiver2@server>'
+        message['Subject'] = 'Horus supervisor : you property: {}'.format(usr[1])
+        
+        msg_full = message.as_string()
+        
+        server = smtplib.SMTP(Email_svr.config("server"),587)
+        server.starttls()
+        server.ehlo()
+        server.login(Email_svr.config("login"), Email_svr.config("password"))
+        server.sendmail(Email_svr.config("from"),usr[4], msg_full)
+        
+        server.quit()        
+        
     logging.info("Acquiring token\n")
 
     
@@ -56,26 +108,4 @@ def send_notification(usr, event):
         r = requests.post("https://api.enco.io/sms/1.0.0/sms/outboundmessages?forceCharacterLimit=false", data=payload, headers=auth_header)
         print(r.text)
     
-    #https://stackoverflow.com/questions/24077314/how-to-send-an-email-with-style-in-python3
-    logging.info(" Sending email to user ID {}".format(usr[0][0]) )
-    
-    
-    title = 'Horus monitoring service notification'
-    msg_content = '<h2>{title} > <font color="green">OK</font></h2>\n'.format(title=event)
-    message = MIMEText(msg_content, 'html')
-    
-    message['From'] = Email_svr.config("from")
-    message['To'] = usr[0][4]
-    #message['To'] = 'Receiver Name <receiver@server>'
-    #message['Cc'] = 'Receiver2 Name <receiver2@server>'
-    message['Subject'] = 'Horus monitoring service : Property {}'.format(usr[0][1])
-    
-    msg_full = message.as_string()
-    
-    server = smtplib.SMTP(Email_svr.config("server"),587)
-    server.starttls()
-    server.ehlo()
-    server.login(Email_svr.config("login"), Email_svr.config("password"))
-    server.sendmail(Email_svr.config("from"),usr[0][4], msg_full)
-    
-    server.quit()
+  

@@ -27,7 +27,7 @@ from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest
 
 # examle of contact Id received : [0730#74 181751000032CA2]
                 
-def translate(contactID):
+def translate(contactID, snsr_list):
     
     alarmMsg=""
 #[0730#74 18_1_751_00_003_2CA2]
@@ -35,7 +35,14 @@ def translate(contactID):
     Q = contactID[-14:-13]
     evt= contactID[-13:-10]
     GG = contactID[-10:-8] 
-    sensor= contactID[-7:-5]
+    sensor_id= contactID[-7:-5]
+    
+    sensor=""
+    sensor_id = sensor_id.lstrip('0') or '0' # remove leading zeros in text string
+    for s in snsr_list:                     # search for sensor name based on sensor ID
+        if sensor_id == s[0]:
+            sensor=s[1]
+            break            
     
 #    print("Event={}".format(evt))
     try:
@@ -88,7 +95,7 @@ def translate(contactID):
     else:
 #        print("Event= {}".format(alarmMsg), end='')
         logging.info("Event: {}".format(alarmMsg))
-        return( evt, alarmMsg ) 
+        return( evt, alarmMsg, EventCode.value(evt)[1] ) 
 
    
 def getopts():
@@ -202,9 +209,7 @@ def Main():
                                 connection.sendall( b'\x06' )       # respond only if Contact ID is correct
                                 
                                 logging.debug("Contact ID OK, acknowledge sent")
-                                
-                                event = translate(data)
-        #                        [0730#74 181751000032CA2]   
+                                 
                                 rptipid = data[1:5]
                                 tmp = data[6:].split(' ')
                                 acct2 = tmp[0]
@@ -227,9 +232,12 @@ def Main():
                                         value= (data, now, gw_id[0][0],)
                                         db_cur.executerReq(req, value)
                                         db_cur.commit() 
+                                        snsr_list = gw.search_sensors_name_from_gwID( gw_id[0][0] )
+                                        event=[]
+                                        event = translate(data, snsr_list)  # data          [0730#74 181751000032CA2]  
                                         usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] )
                                     db_cur.close()                               
-                                    send_notification(usr_profile, event)
+                                    send_notification(usr_profile[0], event)
 
 
                                          
