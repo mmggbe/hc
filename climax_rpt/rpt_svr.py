@@ -246,7 +246,7 @@ def Main():
 
                         except:
                             db_cur.close()   
-                            logging.info("Error: bad Contact ID translation or user not found in DB or during writing DB")
+                            logging.info("Error: bad Contact ID translation or user error in DB or issue sending notification")
                                  
                     else:
 #                        print ('no more data from {}'.format(client_address))
