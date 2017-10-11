@@ -5,6 +5,9 @@
 # Remark: in order to create the thumbnail and to convert the video the "avconv" need to be installed on the server
 # the software is present in the following library: "libav-tools" --> sudo apt-get install libav-tools
 
+#to start the pure-ftp with the script:
+#/usr/sbin/pure-uploadscript -r /<script path>/cameraFTP.py -B -u 1003 -g 1003
+ 
 import sys, os
 sys.path.append ('/home/ftp/Env/userftp/lib/python3.5/site-packages')
 
@@ -13,16 +16,14 @@ import logging
 import time
 import subprocess
 
-import mysql.connector as mariadb
+from HCsettings import HcDB
+from HCsettings import HcFTP
 
+from GW_DB.Dj_Server_DB import DB_mngt
 
-LOG_FILE= "/home/ftp/cameraFTP.log"
-VIDEO_STORAGE= "/home/hc/cam/hc/climax_web/media/"
-
-DBUSER= "hc"
-DBPASSWD= "HCMGGDB9"
-DB="hcdb_branch_cam"
-
+LOG_FILE2 = HcFTP.config()[LOG_FILE]
+LOG_FILE = "/home/ftp/cameraFTP.log"
+VIDEO_STORAGE = HcFTP.config()[VIDEO_STORAGE]
 
 def do_movevideo(src, dest):
 	logger.info('>>>do_movevideo %s', src)
@@ -54,21 +55,26 @@ def do_search_DB(mac):
 	
 	logger.info('>>>do_search_DB, MAC= %s', mac)
 	
-	mariadb_connection = mariadb.connect(user=DBUSER, password=DBPASSWD, database=DB)
-	cursor = mariadb_connection.cursor()
-
+	#mariadb_connection = mariadb.connect(user=DBUSER, password=DBPASSWD, database=DB)
+	#cursor = mariadb_connection.cursor()
+	db_cursor= DB_mngt(HcDB.config())
+	if db_cursor.echec:
+		sys.exit(1)
+                
 	#retrieving information
 #	MAC = '00:0E:8F:96:82:D6'
-	cursor.execute("SELECT id, CameraMac, description FROM camera_camera WHERE CameraMac=%s", (mac,))
-
+	#cursor.execute("SELECT id, CameraMac, description FROM camera_camera WHERE CameraMac=%s", (mac,))
+	db_cursor.executerReq("""SELECT id, CameraMac, description FROM camera_camera WHERE CameraMac=%s""", (mac,))
+        
 	record_nbr=0
-	for id, CameraMAC, description in cursor:
+	for id, CameraMAC, description in db_cursor:
 		logger.info(("Camera found: camera_id= {}, MAC= {} Description= {}").format(id,CameraMAC, description))
 		record_nbr +=1
 
 	if record_nbr >1:
 		logger.error('Multiple entries for MAC= %s', mac)
-		mariadb_connection.close()
+		#mariadb_connection.close()
+		db_cursor.close()
 
 		exit()
 		
@@ -81,7 +87,8 @@ def do_search_DB(mac):
 	else:
 		rtn_val=id
 			
-	mariadb_connection.close()
+	#mariadb_connection.close()
+	db_cursor.close()
 	logger.info('<<<do_search_DB, return camera_id= %s', rtn_val)
 	return rtn_val
 
@@ -91,16 +98,21 @@ def do_write_path_DB(camera_id, filepath):
 	
 	logger.info('>>>do_write_path_DB: CAM= %s File= %s', camera_id, tail)
 	
-	mariadb_connection = mariadb.connect(user=DBUSER, password=DBPASSWD, database=DB)
-	cursor = mariadb_connection.cursor()
+	#mariadb_connection = mariadb.connect(user=DBUSER, password=DBPASSWD, database=DB)
+	#cursor = mariadb_connection.cursor()
+	db_cursor= DB_mngt(HcDB.config()) 
+	if db_cursor.echec:
+		sys.exit(1)
 
 # MySql DATETIME values in 'YYYY-MM-DD HH:MM:SS'
 	now = time.strftime("%Y-%m-%d %H:%M:%S")
 	
-	cursor.execute("INSERT INTO camera_history (timestamp,description,sensor_type,sensor_id) VALUES (%s,%s,%s,%s)", (now, tail[0:-4],"3",camera_id))
-
-	mariadb_connection.commit()
-	mariadb_connection.close()
+	#cursor.execute("INSERT INTO camera_history (timestamp,description,sensor_type,sensor_id) VALUES (%s,%s,%s,%s)", (now, tail[0:-4],"3",camera_id))
+	#mariadb_connection.commit()
+	#mariadb_connection.close()
+	db_cursor.executerReq("""INSERT INTO camera_history (timestamp,description,sensor_type,sensor_id) VALUES (%s,%s,%s,%s)""", (now, tail[0:-4],"3",camera_id))
+	db_cursor.commit()
+	db_cursor.close()
 	
 	logger.info('<<<do_write_path_DB' )
 
@@ -169,6 +181,7 @@ def main(argv):
 		print( arg )
 
 	logger.info("++++ {0} started with UID {1}, GID {2} ++++".format(argv[0],os.getuid(),os.getgid()))
+	logger.info("path: {0}".format(LOG_FILE2))
 	logger.info( ("Argument List: {}").format(str(sys.argv)))
 
 #000E8F88C2F1 201209031438030001.avi
