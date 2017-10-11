@@ -147,7 +147,33 @@ class DB_gw:
         gw_id = self.db.resultatReq() # returns a tuple
         return gw_id
         
-  
+        
+   
+    def search_usrprofile_from_gwID(self, gw_id ):
+
+        req="SELECT username, propertyaddr, SN_SMS, SN_Voice, prof.email, language " \
+            "FROM {} AS gw, auth_user AS auth, alarm_userprofile AS prof  " \
+            "WHERE  auth.id=prof.user_id and gw.userWEB_id=prof.user_id and gw.id=%s;".format(self.table)
+                
+        value= (gw_id,)
+        self.db.executerReq(req, value)
+        usr_profile = self.db.resultatReq() # returns a tuple
+        return usr_profile
+
+        
+    
+    
+    def search_sensors_name_from_gwID(self, gw_id ):
+
+        req="SELECT no, name " \
+            "FROM alarm_sensors AS snsr " \
+            "WHERE snsr.gwID_id=%s;"
+                      
+        value= (gw_id,)
+        self.db.executerReq(req, value)
+        snsr_list = self.db.resultatReq() # returns a tuple
+        return snsr_list
+    
     def search_gw(self, MAC):
 #SELECT mac, acct2 FROM gateways WHERE mac = '01:02:02:03:03:06';
 

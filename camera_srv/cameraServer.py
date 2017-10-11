@@ -504,7 +504,7 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
         No further content needed, don't touch this. """
 
 def run(HandlerClass=BaseHTTPRequestHandler,
-         ServerClass=HTTPServer, protocol="HTTP/1.0", port=8008, bind=""):
+         ServerClass=HTTPServer, protocol="HTTP/1.0", port=8000, bind=""):
     """Test the HTTP request handler class.
 
     This runs an HTTP server on port 8000 (or the port argument).
@@ -531,9 +531,9 @@ if __name__ == '__main__':
                         help='Specify alternate bind address '
                              '[default: all interfaces]')
     parser.add_argument('port', action='store',
-                        default=8008, type=int,
+                        default=8000, type=int,
                         nargs='?',
-                        help='Specify alternate port [default: 8008]')
+                        help='Specify alternate port [default: 8000]')
     args = parser.parse_args()
     handler_class = SimpleHTTPRequestHandler
     run(HandlerClass=handler_class, port=args.port, bind=args.bind)

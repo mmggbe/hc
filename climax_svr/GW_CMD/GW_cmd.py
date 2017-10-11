@@ -14,7 +14,7 @@ from random import randrange
 
 from lxml import etree
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
-from HCsettings import HcDB
+from HCsettings import HcDB,GW_Pol_svr, Rpt_svr
 
 CLIMAX_CMD_HDR  = """
 <?xml version="1.0" encoding="ISO-8859-1"?>"""
@@ -64,26 +64,31 @@ class cmdTo_climax():
     
     # rptipid has to remains empty for the GW registration
     # it seems command id doesn't matter
+
+
     
     def autoRegister(self, rptipid, acct2):
+
         CLIMAX_CMD_BODY= """
 <polling>
     <mac value="{0}"/>
     <rptipid value=""/>
     <commands>
         <command id="105" action="setPolling">
-            <url1 value="polln://192.168.157.4:8080" />
+            <url1 value="polln://{1}:{2}" />
             <interval value="20" />
             <errnotify value="20" />
         </command>
         <command id="106" action="setRpt">
-            <url1 value="rptn://{1}@192.168.157.4:27017" />
-            <acct2 value="{2}" />
+            <url1 value="rptn://{3}@{4}:{5}" />
+            <acct2 value="{6}" />
         </command>
     </commands>
 </polling>"""
-
-        response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid, acct2 )
+        response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, \
+            GW_Pol_svr.config("ip"), GW_Pol_svr.config("port") , \
+            rptipid, Rpt_svr.config("ip"), Rpt_svr.config("port"), \
+            acct2 )
 #        logging.debug("XML command to be send = {0}".format(response) )
         
         return response
