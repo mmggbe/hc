@@ -5,6 +5,9 @@ import requests
 import json 
 import logging
 
+import shutil
+import subprocess
+
 import smtplib
 from email.mime.text import MIMEText
 
@@ -113,7 +116,7 @@ def send_notification(usr, event):
             -d '{"message":"Hello World Test Message","destinations":["+32000000000"]}'
             """
             
-            if True:            # to avoid to waste SMS credit during testing
+            if False:            # to avoid to waste SMS credit during testing
                 
 #                payload = json.dumps( {'message':'Hello Marc 2','destinations':['+32475618115']} )
                 msg=("Horus: "+usr[0]+": "+event[1])        # still to limit to 140 char.
@@ -133,5 +136,44 @@ def send_notification(usr, event):
             
             
     if event[2][2] and usr[3] and usr[3].strip :                # check if Voice to call and MSISDN field
-        logging.info(" Calling MSISDN{} from user ID {}".format(usr[3], usr[0]) )
+        logging.info(" Calling MSISDN {} from user ID {}".format(usr[3], usr[0]) )
+        
+        VOICE_MSG_CONTENT = """
+Hello\n
+This is you Horus monitoring system calling you.\n
+An event happened to your propoerty : {}\n
+Please take the appropriate actions\n
+Bye
+
+"""
+        msg= VOICE_MSG_CONTENT.format(event[1])
+        
+        ESPEAK_BIN= ['/usr/bin/espeak', '-a', '100', '-p', '50', '-s', '170', '-g', '10', '-v', 'en', msg, '--stdout']
+        SOX_BIN= ['/usr/bin/sox', '-', '-b', '16','-r','8000', '/tmp/text.wav' ]
+      
+                #ficher .wav doivent être codé 8 bits Khz      
+        ps = subprocess.Popen(ESPEAK_BIN, stdout=subprocess.PIPE)
+        output = subprocess.check_output(SOX_BIN, stdin=ps.stdout)
+        ps.wait()
+ 
+        fichier = open("evt.call", "w")       
+                # don't put the ".wav" extension in teh enveloppe
+        fichier.write(
+"Channel: SIP/6001\n\
+Application: Playback\n\
+Data: {}\n\
+SetVar: CHANNEL(language)=en\n".format("/tmp/text") )
+        
+        fichier.close()
+
+        try:
+            shutil.move("evt.call", "/var/spool/asterisk/outgoing")
+            
+        except IOError as e:
+            logging.info("I/O error({0}): {1}, cannot move ".format(e.errno, e.strerror))
+
+        finally:
+            logging.info('Test Call')
+
+
 
