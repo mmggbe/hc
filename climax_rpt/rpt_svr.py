@@ -94,7 +94,7 @@ def translate(contactID, snsr_list):
         
     else:
 #        print("Event= {}".format(alarmMsg), end='')
-        logging.info("Event: {}".format(alarmMsg))
+        logging.debug("Event: {}".format(alarmMsg))
         return( evt, alarmMsg, EventCode.value(evt)[1] ) 
 
    
@@ -208,7 +208,7 @@ def Main():
                             if Contact_ID_filter.match(data):
                                 connection.sendall( b'\x06' )       # respond only if Contact ID is correct
                                 
-                                logging.debug("Contact ID OK, acknowledge sent")
+                                logging.debug("Contact ID format OK, acknowledge sent")
                                  
                                 rptipid = data[1:5]
                                 tmp = data[6:].split(' ')
@@ -226,7 +226,7 @@ def Main():
                                     if gw_id == []:    
                                         logging.info( " No Gw found with acct2= {}".format(acct2))
                                     else:
-                                        logging.info( " on Gw_id {}".format(gw_id[0][0]))
+                                        logging.debug( " on Gw_id {}".format(gw_id[0][0]))
                
                                         req="INSERT INTO {} (event, eventtime, gwID_id) VALUES ( %s, %s, %s )".format("alarm_events")
                                         value= (data, now, gw_id[0][0],)

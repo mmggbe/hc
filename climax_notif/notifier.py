@@ -5,8 +5,11 @@ import requests
 import json 
 import logging
 
+import os, sys, stat
 import shutil
 import subprocess
+import tempfile
+
 
 import smtplib
 from email.mime.text import MIMEText
@@ -21,14 +24,15 @@ def send_notification(usr, event):
 # list usr [username, propertyaddr, SN_SMS, SN_Voice, email, language]
 # list event eg: '100', "Medical", [ "1", "0", "0"] # code : "description, email to be sent, sms to be sent, voice call to be issued
 
+    logging.info("Notification to user :{}, content : {}".format(usr[0],event[1]))
 
-    if event[2][0] and usr[4] and usr[4].strip:            # check if email to send and email field
+    if event[2][0] == '1' and usr[4].strip() != "":            # check if email to send and email field
 
     #https://stackoverflow.com/questions/24077314/how-to-send-an-email-with-style-in-python3
-        logging.info(" Sending email to email {} of user ID {}".format(usr[4], usr[0]) )
+        logging.info(" Sending email to email {}".format(usr[4]) )
                 
- #       title = 'Horus supervisor:'
- #       msg_content = '<h2>{title} > <font color="green">OK</font></h2>\n'.format(title=event)
+#       title = 'Horus supervisor:'
+#       msg_content = '<h2>{title} > <font color="green">OK</font></h2>\n'.format(title=event)
  
         EMAIL_CONTENT = """
 <html>
@@ -86,8 +90,8 @@ def send_notification(usr, event):
             server.quit()  
         
         
-    if event[2][1] and usr[2] and usr[2].strip :                # check if SMS to send and MSISDN field
-        logging.info(" Sending SMS to MSISDN {} from user ID {}".format(usr[2], usr[0]) )
+    if event[2][1] =='1' and usr[2].strip() != "" :                # check if SMS to send and MSISDN field
+        logging.info(" Sending SMS to MSISDN {}".format(usr[2]) )
         
         try:
             logging.debug("EnCo SMS API: Acquiring token\n")
@@ -116,17 +120,17 @@ def send_notification(usr, event):
             -d '{"message":"Hello World Test Message","destinations":["+32000000000"]}'
             """
             
-            if False:            # to avoid to waste SMS credit during testing
+#            if False:            # to avoid to waste SMS credit during testing
                 
 #                payload = json.dumps( {'message':'Hello Marc 2','destinations':['+32475618115']} )
-                msg=("Horus: "+usr[0]+": "+event[1])        # still to limit to 140 char.
-                dest=[(usr[2]),]
-                 
-                payload = json.dumps( {'message':msg,'destinations':dest} )
+            msg=("Horus: "+usr[0]+": "+event[1])        # still to limit to 140 char.
+            dest=[(usr[2]),]
+             
+            payload = json.dumps( {'message':msg,'destinations':dest} )
 
-                auth_header = {'Authorization':'Bearer {}'.format(tokenBearer), 'Content-Type':'application/json', 'Accept':'application/json'}
-                r = requests.post("https://api.enco.io/sms/1.0.0/sms/outboundmessages?forceCharacterLimit=false", data=payload, headers=auth_header)
-                
+            auth_header = {'Authorization':'Bearer {}'.format(tokenBearer), 'Content-Type':'application/json', 'Accept':'application/json'}
+            r = requests.post("https://api.enco.io/sms/1.0.0/sms/outboundmessages?forceCharacterLimit=false", data=payload, headers=auth_header)
+            
         except (requests.exceptions.ConnectionError, requests.exceptions.RequestException) as error:
             logging.info("SMS to user ID {} failed, error:{}".format(usr[0],str(error)) )
 
@@ -135,45 +139,66 @@ def send_notification(usr, event):
 
             
             
-    if event[2][2] and usr[3] and usr[3].strip :                # check if Voice to call and MSISDN field
-        logging.info(" Calling MSISDN {} from user ID {}".format(usr[3], usr[0]) )
+    if event[2][2] =='1' and usr[3].strip() != "" :                # check if Voice to call and MSISDN field
+        logging.info(" Calling MSISDN {}".format(usr[3]) )
         
         VOICE_MSG_CONTENT = """
 Hello\n
 This is you Horus monitoring system calling you.\n
-An event happened to your propoerty : {}\n
+An event happened to your property : {}\n
 Please take the appropriate actions\n
 Bye
 
 """
         msg= VOICE_MSG_CONTENT.format(event[1])
         
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        wavFile = tf.name + ".wav"
+        
         ESPEAK_BIN= ['/usr/bin/espeak', '-a', '100', '-p', '50', '-s', '170', '-g', '10', '-v', 'en', msg, '--stdout']
-        SOX_BIN= ['/usr/bin/sox', '-', '-b', '16','-r','8000', '/tmp/text.wav' ]
+#        SOX_BIN= ['/usr/bin/sox', '-', '-b', '16','-r','8000', '/tmp/text.wav' ]
+        SOX_BIN= ['/usr/bin/sox', '-', '-b', '16','-r','8000', wavFile ]
       
                 #ficher .wav doivent être codé 8 bits Khz      
         ps = subprocess.Popen(ESPEAK_BIN, stdout=subprocess.PIPE)
         output = subprocess.check_output(SOX_BIN, stdin=ps.stdout)
         ps.wait()
- 
-        fichier = open("evt.call", "w")       
-                # don't put the ".wav" extension in teh enveloppe
-        fichier.write(
-"Channel: SIP/6001\n\
+
+        VOICE_ENV = """
+Channel: SIP/6001\n\
 Application: Playback\n\
 Data: {}\n\
-SetVar: CHANNEL(language)=en\n".format("/tmp/text") )
-        
-        fichier.close()
-
+SetVar: CHANNEL(language)=en\n
+"""
+        env=VOICE_ENV.format(tf.name)     
+  
         try:
-            shutil.move("evt.call", "/var/spool/asterisk/outgoing")
+             
+            eventFile = tempfile.NamedTemporaryFile(delete=False,suffix=".call")
+            fd = os.open(eventFile.name,  os.O_RDWR|os.O_CREAT)    
+            
+            # Horus needs to be in teh same group as Asterisk
+            os.fchmod(fd, stat.S_IRGRP | stat.S_IWGRP | stat.S_IWUSR | stat.S_IRUSR | stat.S_IROTH)       
+               
+            # don't put the ".wav" extension in the enveloppe
+            os.write(fd, str.encode(env))
+        
+#SetVar: CHANNEL(language)=en\n".format("/tmp/text") )
+            os.close(fd)
+
+            shutil.move(eventFile.name, "/var/spool/asterisk/outgoing")
             
         except IOError as e:
             logging.info("I/O error({0}): {1}, cannot move ".format(e.errno, e.strerror))
+            
+        except OSError as err:
+            logging.info("OS error: {0}".format(err))
+            
+        except:
+            logging.info("Unexpected error:{}".format(sys.exc_info()[0]))
 
         finally:
-            logging.info('Test Call')
+            logging.debug('Asterisk envelop file {}'.format(eventFile.name))
 
 
 
