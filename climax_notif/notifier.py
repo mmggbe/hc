@@ -151,26 +151,31 @@ Bye
 
 """
         msg= VOICE_MSG_CONTENT.format(event[1])
-        
+#create e temporary file name        
         tf = tempfile.NamedTemporaryFile(delete=False)
         wavFile = tf.name + ".wav"
         
-        ESPEAK_BIN= ['/usr/bin/espeak', '-a', '100', '-p', '50', '-s', '170', '-g', '10', '-v', 'en', msg, '--stdout']
-#        SOX_BIN= ['/usr/bin/sox', '-', '-b', '16','-r','8000', '/tmp/text.wav' ]
-        SOX_BIN= ['/usr/bin/sox', '-', '-b', '16','-r','8000', wavFile ]
-      
-                #ficher .wav doivent être codé 8 bits Khz      
-        ps = subprocess.Popen(ESPEAK_BIN, stdout=subprocess.PIPE)
-        output = subprocess.check_output(SOX_BIN, stdin=ps.stdout)
-        ps.wait()
+        try:
+#        ESPEAK_BIN= ['/usr/bin/espeak', '-a', '100', '-p', '50', '-s', '170', '-g', '10', '-v', 'en', msg, '--stdout']
+            ESPEAK_BIN= ['/usr/bin/espeak', '-a', '100', '-p', '50', '-s', '140', '-g', '6', '-v', 'en+12', msg, '--stdout']           
+            SOX_BIN= ['/usr/bin/sox', '-', '-b', '16','-r','8000', wavFile ]
+          
+                    #ficher .wav doivent être codé 8 bits Khz      
+            ps = subprocess.Popen(ESPEAK_BIN, stdout=subprocess.PIPE)
+            output = subprocess.check_output(SOX_BIN, stdin=ps.stdout)
+            ps.wait()
+
+        except Exception as e:
+            errno, strerror = e.args
+            logging.info("Error voice synthese, error({0}): {1}".format(errno,strerror))
 
         VOICE_ENV = """
-Channel: SIP/6001\n\
+Channel: SIP/{}\n\
 Application: Playback\n\
 Data: {}\n\
 SetVar: CHANNEL(language)=en\n
 """
-        env=VOICE_ENV.format(tf.name)     
+        env=VOICE_ENV.format( usr[3].strip(),tf.name )     
   
         try:
              
