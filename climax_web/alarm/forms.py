@@ -49,8 +49,7 @@ class sensorModifyForm_1(forms.ModelForm):
         ('12', 'Water'), 
     )
     
-    attr = forms.ChoiceField(widget=RadioSelect,\
-    choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
+    attr = forms.ChoiceField(widget=RadioSelect, choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
 
     class Meta:
         model = sensors

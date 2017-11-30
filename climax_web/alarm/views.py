@@ -110,12 +110,12 @@ def HC_contact_edit( request):
             return redirect('/')
     else:
         ctct_form = contactForm( instance = post )
-    return render( request, 'alarm/contactedit.html', {'form': ctct_form})
+    return render( request, 'contactedit.html', {'form': ctct_form})
 
 @login_required(login_url="/")
 def users_list( request):
     usr = users.objects.filter(gwID = Glob.current_GW.id )
-    return render( request, 'alarm/userslist.html', {'users':usr})
+    return render( request, 'userslist.html', {'users':usr})
 
 @login_required(login_url="/")
 def user_edit( request, pk ):
@@ -131,7 +131,7 @@ def user_edit( request, pk ):
             return redirect('users_list')
     else:
         usr_form = userForm( instance = post )
-    return render( request, 'alarm/useredit.html', {'form': usr_form})
+    return render( request, 'useredit.html', {'form': usr_form})
 
 @login_required(login_url="/")
 def gateways_list( request ):       
@@ -140,7 +140,7 @@ def gateways_list( request ):
     if gws_list == []:
         gateway_new( request)
     else:
-        return render( request, 'alarm/gatewayslist.html', {'gateways':gws_list})
+        return render( request, 'gatewayslist.html', {'gateways':gws_list})
 
 @login_required(login_url="/")
 def gateways_delete( request, pk):
@@ -183,7 +183,7 @@ def gateway_new( request):
     else:
         gw_form = gatewaysForm()
         
-    return render(request, 'alarm/gatewayedit.html', {'form': gw_form})
+    return render(request, 'gatewayedit.html', {'form': gw_form})
 
 @login_required(login_url="/")
 def gateway_status( request):
@@ -220,7 +220,7 @@ def sensors_list( request):
         sensor.ico = SensorIcon.icon_list[int(sensor.type)]
 #        print("sensor type={}".format (int(sensor.type)) )
     
-    return render( request, 'alarm/sensorslist.html', {'sensors':snrs_list})
+    return render( request, 'sensorslist.html', {'sensors':snrs_list})
 
 @login_required(login_url="/")
 def sensor_delete( request, pk):
@@ -268,7 +268,7 @@ def sensor_modify( request, pk ):
         else:
             usr_form = sensorModifyForm_other( instance = post )
             
-    return render( request, 'alarm/sensormodify.html', {'form': usr_form})
+    return render( request, 'sensormodify.html', {'form': usr_form})
     
 
 @login_required(login_url="/")
@@ -280,7 +280,7 @@ def smartplug_list( request):
     # for splug in smartplug_list:        
     #   print("sensor type={}, power={}".format (int(splug.type),splug.status_switch) )
     
-    return render( request, 'alarm/smartpluglist.html', {'status': 1 , 'smartplug_list':smartplug_list})
+    return render( request, 'smartpluglist.html', {'status': 1 , 'smartplug_list':smartplug_list})
 
 
 @login_required(login_url="/")

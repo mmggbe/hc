@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block myscript %}
 <script type="text/javascript">
 
@@ -55,6 +54,8 @@
 {% block content %}
 
 
+
+
             <div class="row">
 
                 <div class="col-md-5">
@@ -62,13 +63,13 @@
                     <div class="btn-group" href="{% url 'gateway_status' %}">
 
                         <button class="btn btn-lg btn-responsive"  type="button">
-                            <em class="glyphicon glyphicon-lock"></em> Armed
+                            <em class="fa fa-lock"></em> Armed
                         </button> 
                         <button class="btn btn-lg btn-responsive" type="button">
-                            <em class="glyphicon glyphicon-lamp"></em> Home
+                            <em class="fa fa-bed"></em> Home
                         </button> 
                         <button class="btn btn-lg btn-responsive" type="button">
-                            <em class="glyphicon glyphicon-home"></em> Unarm
+                            <em class="fa fa-home"></em> Unarm
                         </button> 
 
                     </div>

@@ -23,6 +23,7 @@ h1 a {
 
 body { 
     padding-left : 15px ;
+    background-image: url(../images/circles-light.png);
 }
 
 .page-header {
