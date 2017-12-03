@@ -61,6 +61,7 @@ def send_notification(usr, event):
 """
         
         message = MIMEText(EMAIL_CONTENT.format(usr[1],event[1]), 'html')
+        logging.info("MIME text : usr {} event {}".format(usr[1],event[1]))
         
         message['From'] = Email_svr.config("from")
         message['To'] = usr[4]
@@ -68,13 +69,14 @@ def send_notification(usr, event):
         message['Subject'] = 'Horus supervisor : your property: {}'.format(usr[1])
         
         msg_full = message.as_string()
-        
+        logging.info(" 2")
         try:
             server = smtplib.SMTP(Email_svr.config("server"),587)
             server.starttls()
             server.ehlo()
             server.login(Email_svr.config("login"), Email_svr.config("password"))
             server.sendmail(Email_svr.config("from"),usr[4], msg_full)
+            logging.info(" 3")
 
         except smtplib.SMTPException as error :
             logging.info("Email to user ID {} failed, error:{}".format(usr[0],str(error)) )

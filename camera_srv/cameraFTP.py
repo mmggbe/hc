@@ -5,11 +5,14 @@
 # Remark: in order to create the thumbnail and to convert the video the "avconv" need to be installed on the server
 # the software is present in the following library: "libav-tools" --> sudo apt-get install libav-tools
 
-#to start the pure-ftp with the script:
-#/usr/sbin/pure-uploadscript -r /<script path>/cameraFTP.py -B -u 1003 -g 1003
+#pure-ftp configuration:
+# In the file /etc/default/pure-ftpd-common modify the following line:
+#       UPLOADSCRIPT=/<script path>/cameraFTP.py
  
 import sys, os
 sys.path.append ('/home/ftp/Env/userftp/lib/python3.5/site-packages')
+sys.path.append ('/home/hc/uat/hc/climax_web')
+sys.path.append ('/home/hc/uat/hc/climax_svr')
 
 import shutil
 import logging
@@ -21,9 +24,9 @@ from HCsettings import HcFTP
 
 from GW_DB.Dj_Server_DB import DB_mngt
 
-LOG_FILE2 = HcFTP.config()[LOG_FILE]
+LOG_FILE2 = HcFTP.config("LOG_FILE")
 LOG_FILE = "/home/ftp/cameraFTP.log"
-VIDEO_STORAGE = HcFTP.config()[VIDEO_STORAGE]
+VIDEO_STORAGE = HcFTP.config("VIDEO_STORAGE")
 
 def do_movevideo(src, dest):
 	logger.info('>>>do_movevideo %s', src)
@@ -66,11 +69,13 @@ def do_search_DB(mac):
 	#cursor.execute("SELECT id, CameraMac, description FROM camera_camera WHERE CameraMac=%s", (mac,))
 	db_cursor.executerReq("""SELECT id, CameraMac, description FROM camera_camera WHERE CameraMac=%s""", (mac,))
         
-	record_nbr=0
+	"""record_nbr=0
 	for id, CameraMAC, description in db_cursor:
 		logger.info(("Camera found: camera_id= {}, MAC= {} Description= {}").format(id,CameraMAC, description))
-		record_nbr +=1
-
+		record_nbr +=1"""
+	answer = db_cursor.resultatReq()
+	record_nbr = len(answer)
+        
 	if record_nbr >1:
 		logger.error('Multiple entries for MAC= %s', mac)
 		#mariadb_connection.close()
@@ -85,7 +90,8 @@ def do_search_DB(mac):
 		rtn_val=None
 		
 	else:
-		rtn_val=id
+               	rtn_val=answer[0][0]
+		
 			
 	#mariadb_connection.close()
 	db_cursor.close()

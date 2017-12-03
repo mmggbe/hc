@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
 from django.http import JsonResponse
 import time
+import subprocess
+import random, string
 
 from camera.models import camera, action_list, history
 
@@ -91,3 +93,32 @@ def video (request, filename):
     c['username'] = request.user.get_username()
     c['filename'] = filename
     return render(request,"videoPlayer.html", c)
+
+@login_required(login_url='/')    
+def cameraRT(request, pk):          #Real Time view
+    c = {}
+    c.update(csrf(request))
+    c['cam_id'] = pk
+    letters = string.ascii_lowercase
+    randURL= ''.join(random.choice(letters) for i in range(10))
+    #randURL= 'test'
+
+    r=subprocess.run("nohup /usr/local/bin/ffmpeg -i rtp://192.168.0.2:9418 -c:v libx264 -f flv rtmp://horus:aiT7aiYu@intake.live.streamcloud.be/horus/"+ randURL +" & 1>$HOME/out 2>$HOME/error", shell=True)
+    
+    cmd1='GET /adm/rtsp_push.cgi?format=1&addr=horus.ovh&vport=9418&aport=20182&action=0 HTTP/1.1\r\n'
+    n=action_list.objects.create(action=cmd1, camera_id=pk)
+    n.save()
+    c['RT_URL']= 'http://live.streamcloud.be/horus/'+ randURL +'/playlist.m3u8'   
+    
+    return render(request,'videoPlayerRT.html', c)
+
+@login_required(login_url='/')
+def cameraRTStop(request, pk):
+    cmd1='GET /adm/rtsp_push.cgi?format=1&addr=horus.ovh&vport=9418&aport=20182&action=1 HTTP/1.1\r\n'
+    n=action_list.objects.create(action=cmd1, camera_id=pk)
+    n.save()
+    
+    username = request.user.get_username()
+    cameras = camera.objects.filter(user__username=username)
+    
+    return render(request,'cameraList.html', locals())
