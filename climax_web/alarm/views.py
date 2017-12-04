@@ -56,19 +56,18 @@ class SensorIcon:
 @login_required(login_url="/login/")
 def index( request):
 
-#   usr = User.objects.get(username="marc")
     
     if request.user.is_authenticated():
         usr = request.user
-    
+        
     try:
         gw=gateways.objects.get(userWEB=usr.id)
         Glob.current_GW=gw
         
     except: 
-        return redirect('gateway_new')     
-    
-    else: 
+#        return redirect('gateway_new')     
+        return render( request, 'home.html',{'status': "9",'events':"" })  
+    else: # from "try:"
         # refresh DB content if required
         #should be 10 users, otherwise --> refresh
         
@@ -137,8 +136,8 @@ def user_edit( request, pk ):
 def gateways_list( request ):       
     
     gws_list = gateways.objects.filter(userWEB = request.user.id )
-    if gws_list == []:
-        gateway_new( request)
+    if not gws_list:
+        return redirect('gateway_new')
     else:
         return render( request, 'gatewayslist.html', {'gateways':gws_list})
 
@@ -148,7 +147,7 @@ def gateways_delete( request, pk):
 
     # delete gateway in DB
     gw.delete()
-    return redirect('gateways_list')
+    return redirect('home')
 
 @login_required(login_url="/")
 def gateway_new( request):
@@ -161,10 +160,6 @@ def gateway_new( request):
                 usr = request.user
                 gateways.userWEB = usr
                 gateways.userID = usr.id
-                
-#            usr = User.objects.get(username="marc")
-#            gateways.userWEB = usr
-#            gateways.userID = "Marc"
 
             gateways.ver = "123"
             gateways.sensor_mod = "A"
@@ -178,8 +173,8 @@ def gateway_new( request):
             gateways.lastSeenTimestamp = timezone.now()
             
             gateways.save()
-            return redirect('index')
-#            return redirect('index', pk=gateways.pk)
+            return redirect('home')
+
     else:
         gw_form = gatewaysForm()
         
