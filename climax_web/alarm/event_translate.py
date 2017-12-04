@@ -48,7 +48,7 @@ def translate(contactID):
         # arm vie RC
         if evt ==  '400':
             alarmMsg += EventCode.value(evt)[0]
-            alarmMsg += "User "
+            alarmMsg += " User "
             alarmMsg += sensor_name
             
         # arm via WEB
@@ -58,7 +58,7 @@ def translate(contactID):
         # arm via Keypad
         elif evt ==  '407':
             alarmMsg += EventCode.value(evt)[0]
-            alarmMsg += "User "
+            alarmMsg += " User "
             alarmMsg += sensor_name
 
         

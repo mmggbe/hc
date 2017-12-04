@@ -165,7 +165,7 @@ class DB_gw:
     
     def search_sensors_name_from_gwID(self, gw_id ):
 
-        req="SELECT no, name " \
+        req="SELECT no, name, type " \
             "FROM alarm_sensors AS snsr " \
             "WHERE snsr.gwID_id=%s;"
                       

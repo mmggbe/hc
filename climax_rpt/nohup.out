@@ -1,0 +1,1542 @@
+2017-10-11 18:11:02,399 [INFO] starting up on horus.ovh port 28017
+2017-10-11 18:15:09,396 [INFO] Contact ID: 2017-10-11 18:15:09 b'[0730#115 18175100001AFCC]' 
+2017-10-11 18:15:09,403 [INFO]  on Gw_id 2
+2017-10-11 18:15:09,408 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-11 18:15:09,410 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-11 18:15:09,499 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-11 18:16:03,468 [INFO] Contact ID: 2017-10-11 18:16:03 b'[0730#115 18375100001C1CE]' 
+2017-10-11 18:16:03,472 [INFO]  on Gw_id 2
+2017-10-11 18:16:03,477 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-11 18:16:03,480 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-11 18:16:03,555 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-11 19:55:07,464 [INFO] Contact ID: 2017-10-11 19:55:07 b'[0730#115 1816020000089C6]' 
+2017-10-11 19:55:07,469 [INFO]  on Gw_id 2
+2017-10-11 19:55:07,475 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-11 19:55:07,478 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-11 19:55:07,573 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-12 01:55:04,076 [INFO] Contact ID: 2017-10-12 01:55:04 b'[0730#115 1816020000089C6]' 
+2017-10-12 01:55:04,081 [INFO]  on Gw_id 2
+2017-10-12 01:55:04,090 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-12 01:55:04,092 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-12 01:55:04,209 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-12 07:55:00,928 [INFO] Contact ID: 2017-10-12 07:55:00 b'[0730#115 1816020000089C6]' 
+2017-10-12 07:55:00,931 [INFO]  on Gw_id 2
+2017-10-12 07:55:00,934 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-12 07:55:00,935 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-12 07:55:01,018 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-12 13:15:59,130 [INFO] Socket errorI/O error(104): Connection reset by peer
+Traceback (most recent call last):
+  File "rpt_svr.py", line 15, in <module>
+    from notifier import send_notification
+  File "/home/hc/uat/hc/climax_notif/notifier.py", line 64
+    logging.info("MIME text : usr {} event {}".format(usr[1], event[1]) )
+                                                                        ^
+TabError: inconsistent use of tabs and spaces in indentation
+Traceback (most recent call last):
+  File "rpt_svr.py", line 15, in <module>
+    from notifier import send_notification
+  File "/home/hc/uat/hc/climax_notif/notifier.py", line 64
+    logging.info("MIME text : usr {} event {}".format(usr[1], event[1]) )
+                                                                        ^
+TabError: inconsistent use of tabs and spaces in indentation
+Traceback (most recent call last):
+  File "rpt_svr.py", line 15, in <module>
+    from notifier import send_notification
+  File "/home/hc/uat/hc/climax_notif/notifier.py", line 64
+    logging.info("MIME text : usr {} event {}".format(usr[1],event[1]))
+                                                                      ^
+TabError: inconsistent use of tabs and spaces in indentation
+2017-10-12 13:33:08,296 [INFO] starting up on horus.ovh port 28017
+2017-10-12 13:55:03,424 [INFO] Contact ID: 2017-10-12 13:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-12 13:55:03,427 [INFO]  on Gw_id 2
+2017-10-12 13:55:03,432 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-12 13:55:03,433 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-12 13:55:03,434 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-12 13:55:03,435 [INFO]  2
+2017-10-12 13:55:03,519 [INFO]  3
+2017-10-12 13:55:03,524 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-12 19:55:07,540 [INFO] Contact ID: 2017-10-12 19:55:07 b'[0730#115 1816020000089C6]' 
+2017-10-12 19:55:07,546 [INFO]  on Gw_id 2
+2017-10-12 19:55:07,551 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-12 19:55:07,553 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-12 19:55:07,554 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-12 19:55:07,555 [INFO]  2
+2017-10-12 19:55:07,647 [INFO]  3
+2017-10-12 19:55:07,651 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 01:55:06,907 [INFO] Contact ID: 2017-10-13 01:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-13 01:55:06,914 [INFO]  on Gw_id 2
+2017-10-13 01:55:06,920 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-13 01:55:06,922 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 01:55:06,923 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-13 01:55:06,924 [INFO]  2
+2017-10-13 01:55:07,008 [INFO]  3
+2017-10-13 01:55:07,012 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 07:48:09,639 [INFO] Contact ID: 2017-10-13 07:48:09 b'[0730#115 18175100001AFCC]' 
+2017-10-13 07:48:09,643 [INFO]  on Gw_id 2
+2017-10-13 07:48:09,647 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-13 07:48:09,648 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 07:48:09,650 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-13 07:48:09,651 [INFO]  2
+2017-10-13 07:48:09,741 [INFO]  3
+2017-10-13 07:48:09,745 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 07:49:12,810 [INFO] Contact ID: 2017-10-13 07:49:12 b'[0730#115 18375100001C1CE]' 
+2017-10-13 07:49:12,814 [INFO]  on Gw_id 2
+2017-10-13 07:49:12,819 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-13 07:49:12,821 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 07:49:12,822 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-13 07:49:12,823 [INFO]  2
+2017-10-13 07:49:12,888 [INFO]  3
+2017-10-13 07:49:12,892 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 07:55:06,618 [INFO] Contact ID: 2017-10-13 07:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-13 07:55:06,621 [INFO]  on Gw_id 2
+2017-10-13 07:55:06,625 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-13 07:55:06,625 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 07:55:06,626 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-13 07:55:06,626 [INFO]  2
+2017-10-13 07:55:06,696 [INFO]  3
+2017-10-13 07:55:06,700 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 08:47:00,687 [INFO] Contact ID: 2017-10-13 08:47:00 b'[0730#115 18175100001AFCC]' 
+2017-10-13 08:47:00,690 [INFO]  on Gw_id 2
+2017-10-13 08:47:00,694 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-13 08:47:00,695 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 08:47:00,696 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-13 08:47:00,697 [INFO]  2
+2017-10-13 08:47:00,778 [INFO]  3
+2017-10-13 08:47:00,784 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 08:47:57,879 [INFO] Contact ID: 2017-10-13 08:47:57 b'[0730#115 18375100001C1CE]' 
+2017-10-13 08:47:57,883 [INFO]  on Gw_id 2
+2017-10-13 08:47:57,889 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-13 08:47:57,891 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 08:47:57,892 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-13 08:47:57,893 [INFO]  2
+2017-10-13 08:47:57,960 [INFO]  3
+2017-10-13 08:47:57,964 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 09:21:22,443 [INFO] Contact ID: 2017-10-13 09:21:22 b'[0730#115 18175100001AFCC]' 
+2017-10-13 09:21:22,446 [INFO]  on Gw_id 2
+2017-10-13 09:21:22,450 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-13 09:21:22,451 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 09:21:22,451 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-13 09:21:22,453 [INFO]  2
+2017-10-13 09:21:22,536 [INFO]  3
+2017-10-13 09:21:22,540 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 09:22:25,614 [INFO] Contact ID: 2017-10-13 09:22:25 b'[0730#115 18375100001C1CE]' 
+2017-10-13 09:22:25,619 [INFO]  on Gw_id 2
+2017-10-13 09:22:25,625 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-13 09:22:25,626 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 09:22:25,627 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-13 09:22:25,629 [INFO]  2
+2017-10-13 09:22:25,698 [INFO]  3
+2017-10-13 09:22:25,702 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 10:48:16,470 [INFO] Contact ID: 2017-10-13 10:48:16 b'[0730#115 18175100001AFCC]' 
+2017-10-13 10:48:16,476 [INFO]  on Gw_id 2
+2017-10-13 10:48:16,483 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-13 10:48:16,486 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 10:48:16,487 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-13 10:48:16,489 [INFO]  2
+2017-10-13 10:48:16,579 [INFO]  3
+2017-10-13 10:48:16,584 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 10:49:13,400 [INFO] Contact ID: 2017-10-13 10:49:13 b'[0730#115 18375100001C1CE]' 
+2017-10-13 10:49:13,403 [INFO]  on Gw_id 2
+2017-10-13 10:49:13,408 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-13 10:49:13,409 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 10:49:13,409 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-13 10:49:13,411 [INFO]  2
+2017-10-13 10:49:13,471 [INFO]  3
+2017-10-13 10:49:13,475 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 13:40:19,563 [INFO] Contact ID: 2017-10-13 13:40:19 b'GET / HTTP/1.1\r\nHost: 91.183.194' 
+2017-10-13 13:40:19,563 [INFO] Error: bad contact id format
+2017-10-13 13:40:19,563 [INFO] Contact ID: 2017-10-13 13:40:19 b'.2:28017\r\nAccept-Encoding: ident' 
+2017-10-13 13:40:19,563 [INFO] Error: bad contact id format
+2017-10-13 13:40:19,563 [INFO] Contact ID: 2017-10-13 13:40:19 b'ity\r\nAccept: text/html,applicati' 
+2017-10-13 13:40:19,563 [INFO] Error: bad contact id format
+2017-10-13 13:40:19,563 [INFO] Contact ID: 2017-10-13 13:40:19 b'on/xhtml+xml,application/xml;q=0' 
+2017-10-13 13:40:19,563 [INFO] Error: bad contact id format
+2017-10-13 13:40:19,564 [INFO] Contact ID: 2017-10-13 13:40:19 b'.9,*/*;q=0.8\r\nUser-Agent: Mozill' 
+2017-10-13 13:40:19,564 [INFO] Error: bad contact id format
+2017-10-13 13:40:19,564 [INFO] Contact ID: 2017-10-13 13:40:19 b'a/5.0 (Windows NT 6.1) AppleWebK' 
+2017-10-13 13:40:19,564 [INFO] Error: bad contact id format
+2017-10-13 13:40:19,564 [INFO] Contact ID: 2017-10-13 13:40:19 b'it/537.36 (KHTML, like Gecko) Ch' 
+2017-10-13 13:40:19,564 [INFO] Error: bad contact id format
+2017-10-13 13:40:19,564 [INFO] Contact ID: 2017-10-13 13:40:19 b'rome/41.0.2228.0 Safari/537.36\r\n' 
+2017-10-13 13:40:19,564 [INFO] Error: bad contact id format
+2017-10-13 13:40:19,564 [INFO] Contact ID: 2017-10-13 13:40:19 b'\r\n' 
+2017-10-13 13:40:19,564 [INFO] Error: bad contact id format
+2017-10-13 13:55:03,107 [INFO] Contact ID: 2017-10-13 13:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-13 13:55:03,111 [INFO]  on Gw_id 2
+2017-10-13 13:55:03,117 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-13 13:55:03,118 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 13:55:03,119 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-13 13:55:03,120 [INFO]  2
+2017-10-13 13:55:03,311 [INFO]  3
+2017-10-13 13:55:03,315 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-13 19:55:06,998 [INFO] Contact ID: 2017-10-13 19:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-13 19:55:07,004 [INFO]  on Gw_id 2
+2017-10-13 19:55:07,010 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-13 19:55:07,012 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-13 19:55:07,013 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-13 19:55:07,014 [INFO]  2
+2017-10-13 19:55:07,111 [INFO]  3
+2017-10-13 19:55:07,115 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 01:55:03,808 [INFO] Contact ID: 2017-10-14 01:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-14 01:55:03,811 [INFO]  on Gw_id 2
+2017-10-14 01:55:03,815 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-14 01:55:03,816 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 01:55:03,817 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-14 01:55:03,817 [INFO]  2
+2017-10-14 01:55:03,905 [INFO]  3
+2017-10-14 01:55:03,909 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 07:55:03,689 [INFO] Contact ID: 2017-10-14 07:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-14 07:55:03,692 [INFO]  on Gw_id 2
+2017-10-14 07:55:03,696 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-14 07:55:03,697 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 07:55:03,697 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-14 07:55:03,698 [INFO]  2
+2017-10-14 07:55:03,793 [INFO]  3
+2017-10-14 07:55:03,797 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:35:39,446 [INFO] Contact ID: 2017-10-14 09:35:39 b'[0730#115 18175100001AFCC]' 
+2017-10-14 09:35:39,451 [INFO]  on Gw_id 2
+2017-10-14 09:35:39,456 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 09:35:39,458 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:35:39,459 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 09:35:39,460 [INFO]  2
+2017-10-14 09:35:39,550 [INFO]  3
+2017-10-14 09:35:39,553 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:36:36,377 [INFO] Contact ID: 2017-10-14 09:36:36 b'[0730#115 18375100001C1CE]' 
+2017-10-14 09:36:36,382 [INFO]  on Gw_id 2
+2017-10-14 09:36:36,387 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 09:36:36,389 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:36:36,390 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 09:36:36,391 [INFO]  2
+2017-10-14 09:36:36,455 [INFO]  3
+2017-10-14 09:36:36,459 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:41:50,670 [INFO] Contact ID: 2017-10-14 09:41:50 b'[0730#115 18175100001AFCC]' 
+2017-10-14 09:41:50,676 [INFO]  on Gw_id 2
+2017-10-14 09:41:50,680 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 09:41:50,682 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:41:50,683 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 09:41:50,685 [INFO]  2
+2017-10-14 09:41:50,759 [INFO]  3
+2017-10-14 09:41:50,763 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:42:47,601 [INFO] Contact ID: 2017-10-14 09:42:47 b'[0730#115 18375100001C1CE]' 
+2017-10-14 09:42:47,605 [INFO]  on Gw_id 2
+2017-10-14 09:42:47,610 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 09:42:47,611 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:42:47,612 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 09:42:47,614 [INFO]  2
+2017-10-14 09:42:47,683 [INFO]  3
+2017-10-14 09:42:47,689 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:43:45,572 [INFO] Contact ID: 2017-10-14 09:43:45 b'[0730#115 18175100001AFCC]' 
+2017-10-14 09:43:45,577 [INFO]  on Gw_id 2
+2017-10-14 09:43:45,581 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 09:43:45,582 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:43:45,583 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 09:43:45,585 [INFO]  2
+2017-10-14 09:43:45,653 [INFO]  3
+2017-10-14 09:43:45,657 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:44:42,502 [INFO] Contact ID: 2017-10-14 09:44:42 b'[0730#115 18375100001C1CE]' 
+2017-10-14 09:44:42,505 [INFO]  on Gw_id 2
+2017-10-14 09:44:42,512 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 09:44:42,513 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:44:42,513 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 09:44:42,514 [INFO]  2
+2017-10-14 09:44:42,575 [INFO]  3
+2017-10-14 09:44:42,578 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:51:31,418 [INFO] Contact ID: 2017-10-14 09:51:31 b'[0730#115 18375000003BDCF]' 
+2017-10-14 09:51:31,423 [INFO]  on Gw_id 2
+2017-10-14 09:51:31,429 [INFO] Event: General: Restore: Mobility DC Sensor UAT DC bur
+2017-10-14 09:51:31,431 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:51:31,431 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility DC Sensor UAT DC bur
+2017-10-14 09:51:31,433 [INFO]  2
+2017-10-14 09:51:31,516 [INFO]  3
+2017-10-14 09:51:31,520 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:55:43,580 [INFO] Contact ID: 2017-10-14 09:55:43 b'[0730#115 18175100001AFCC]' 
+2017-10-14 09:55:43,585 [INFO]  on Gw_id 2
+2017-10-14 09:55:43,590 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 09:55:43,592 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:55:43,593 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 09:55:43,595 [INFO]  2
+2017-10-14 09:55:43,672 [INFO]  3
+2017-10-14 09:55:43,676 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 09:56:43,371 [INFO] Contact ID: 2017-10-14 09:56:43 b'[0730#115 18375100001C1CE]' 
+2017-10-14 09:56:43,375 [INFO]  on Gw_id 2
+2017-10-14 09:56:43,380 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 09:56:43,382 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 09:56:43,382 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 09:56:43,384 [INFO]  2
+2017-10-14 09:56:43,457 [INFO]  3
+2017-10-14 09:56:43,462 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:02:51,476 [INFO] Contact ID: 2017-10-14 10:02:51 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:02:51,481 [INFO]  on Gw_id 2
+2017-10-14 10:02:51,486 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:02:51,488 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:02:51,488 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:02:51,490 [INFO]  2
+2017-10-14 10:02:51,589 [INFO]  3
+2017-10-14 10:02:51,593 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:03:51,529 [INFO] Contact ID: 2017-10-14 10:03:51 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:03:51,533 [INFO]  on Gw_id 2
+2017-10-14 10:03:51,538 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:03:51,540 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:03:51,541 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:03:51,542 [INFO]  2
+2017-10-14 10:03:51,610 [INFO]  3
+2017-10-14 10:03:51,614 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:06:17,629 [INFO] Contact ID: 2017-10-14 10:06:17 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:06:17,633 [INFO]  on Gw_id 2
+2017-10-14 10:06:17,639 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:06:17,641 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:06:17,641 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:06:17,643 [INFO]  2
+2017-10-14 10:06:17,717 [INFO]  3
+2017-10-14 10:06:17,721 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:07:14,559 [INFO] Contact ID: 2017-10-14 10:07:14 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:07:14,564 [INFO]  on Gw_id 2
+2017-10-14 10:07:14,569 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:07:14,571 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:07:14,572 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:07:14,574 [INFO]  2
+2017-10-14 10:07:14,641 [INFO]  3
+2017-10-14 10:07:14,645 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:14:31,557 [INFO] Contact ID: 2017-10-14 10:14:31 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:14:31,562 [INFO]  on Gw_id 2
+2017-10-14 10:14:31,567 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:14:31,569 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:14:31,570 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:14:31,572 [INFO]  2
+2017-10-14 10:14:31,675 [INFO]  3
+2017-10-14 10:14:31,678 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:15:28,489 [INFO] Contact ID: 2017-10-14 10:15:28 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:15:28,493 [INFO]  on Gw_id 2
+2017-10-14 10:15:28,498 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:15:28,500 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:15:28,501 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:15:28,502 [INFO]  2
+2017-10-14 10:15:28,574 [INFO]  3
+2017-10-14 10:15:28,578 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:16:41,540 [INFO] Contact ID: 2017-10-14 10:16:41 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:16:41,545 [INFO]  on Gw_id 2
+2017-10-14 10:16:41,549 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:16:41,551 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:16:41,551 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:16:41,553 [INFO]  2
+2017-10-14 10:16:41,618 [INFO]  3
+2017-10-14 10:16:41,622 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:17:44,449 [INFO] Contact ID: 2017-10-14 10:17:44 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:17:44,454 [INFO]  on Gw_id 2
+2017-10-14 10:17:44,458 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:17:44,460 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:17:44,461 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:17:44,463 [INFO]  2
+2017-10-14 10:17:44,529 [INFO]  3
+2017-10-14 10:17:44,533 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:18:32,541 [INFO] Contact ID: 2017-10-14 10:18:32 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:18:32,546 [INFO]  on Gw_id 2
+2017-10-14 10:18:32,551 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:18:32,553 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:18:32,554 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:18:32,555 [INFO]  2
+2017-10-14 10:18:32,733 [INFO]  3
+2017-10-14 10:18:32,780 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:19:29,472 [INFO] Contact ID: 2017-10-14 10:19:29 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:19:29,477 [INFO]  on Gw_id 2
+2017-10-14 10:19:29,483 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:19:29,485 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:19:29,486 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:19:29,488 [INFO]  2
+2017-10-14 10:19:29,568 [INFO]  3
+2017-10-14 10:19:29,572 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:23:22,919 [INFO] Contact ID: 2017-10-14 10:23:22 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:23:22,925 [INFO]  on Gw_id 2
+2017-10-14 10:23:22,935 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:23:22,936 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:23:22,937 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:23:22,939 [INFO]  2
+2017-10-14 10:23:23,022 [INFO]  3
+2017-10-14 10:23:23,026 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:24:28,430 [INFO] Contact ID: 2017-10-14 10:24:28 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:24:28,433 [INFO]  on Gw_id 2
+2017-10-14 10:24:28,437 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:24:28,438 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:24:28,439 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:24:28,441 [INFO]  2
+2017-10-14 10:24:28,508 [INFO]  3
+2017-10-14 10:24:28,512 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:29:42,722 [INFO] Contact ID: 2017-10-14 10:29:42 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:29:42,727 [INFO]  on Gw_id 2
+2017-10-14 10:29:42,733 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:29:42,735 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:29:42,735 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:29:42,737 [INFO]  2
+2017-10-14 10:29:42,810 [INFO]  3
+2017-10-14 10:29:42,814 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:30:39,655 [INFO] Contact ID: 2017-10-14 10:30:39 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:30:39,660 [INFO]  on Gw_id 2
+2017-10-14 10:30:39,665 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:30:39,667 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:30:39,668 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:30:39,670 [INFO]  2
+2017-10-14 10:30:39,734 [INFO]  3
+2017-10-14 10:30:39,738 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:31:57,642 [INFO] Contact ID: 2017-10-14 10:31:57 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:31:57,647 [INFO]  on Gw_id 2
+2017-10-14 10:31:57,652 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:31:57,654 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:31:57,654 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:31:57,656 [INFO]  2
+2017-10-14 10:31:57,726 [INFO]  3
+2017-10-14 10:31:57,730 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:32:57,434 [INFO] Contact ID: 2017-10-14 10:32:57 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:32:57,439 [INFO]  on Gw_id 2
+2017-10-14 10:32:57,444 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:32:57,446 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:32:57,447 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:32:57,448 [INFO]  2
+2017-10-14 10:32:57,525 [INFO]  3
+2017-10-14 10:32:57,529 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:34:37,778 [INFO] Contact ID: 2017-10-14 10:34:37 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:34:37,783 [INFO]  on Gw_id 2
+2017-10-14 10:34:37,787 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:34:37,789 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:34:37,790 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:34:37,791 [INFO]  2
+2017-10-14 10:34:37,856 [INFO]  3
+2017-10-14 10:34:37,859 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:35:40,428 [INFO] Contact ID: 2017-10-14 10:35:40 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:35:40,433 [INFO]  on Gw_id 2
+2017-10-14 10:35:40,438 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:35:40,440 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:35:40,440 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:35:40,442 [INFO]  2
+2017-10-14 10:35:40,511 [INFO]  3
+2017-10-14 10:35:40,515 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:43:09,122 [INFO] Contact ID: 2017-10-14 10:43:09 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:43:09,126 [INFO]  on Gw_id 2
+2017-10-14 10:43:09,131 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:43:09,133 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:43:09,134 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:43:09,136 [INFO]  2
+2017-10-14 10:43:09,220 [INFO]  3
+2017-10-14 10:43:09,224 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:44:11,512 [INFO] Contact ID: 2017-10-14 10:44:11 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:44:11,517 [INFO]  on Gw_id 2
+2017-10-14 10:44:11,522 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:44:11,523 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:44:11,524 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:44:11,525 [INFO]  2
+2017-10-14 10:44:11,589 [INFO]  3
+2017-10-14 10:44:11,593 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:44:20,091 [INFO] Contact ID: 2017-10-14 10:44:20 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:44:20,095 [INFO]  on Gw_id 2
+2017-10-14 10:44:20,102 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:44:20,103 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:44:20,104 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:44:20,105 [INFO]  2
+2017-10-14 10:44:20,172 [INFO]  3
+2017-10-14 10:44:20,176 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:45:22,481 [INFO] Contact ID: 2017-10-14 10:45:22 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:45:22,486 [INFO]  on Gw_id 2
+2017-10-14 10:45:22,491 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:45:22,493 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:45:22,494 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:45:22,495 [INFO]  2
+2017-10-14 10:45:22,568 [INFO]  3
+2017-10-14 10:45:22,572 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:46:55,548 [INFO] Contact ID: 2017-10-14 10:46:55 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:46:55,553 [INFO]  on Gw_id 2
+2017-10-14 10:46:55,558 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:46:55,560 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:46:55,561 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:46:55,562 [INFO]  2
+2017-10-14 10:46:55,627 [INFO]  3
+2017-10-14 10:46:55,631 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:47:52,480 [INFO] Contact ID: 2017-10-14 10:47:52 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:47:52,484 [INFO]  on Gw_id 2
+2017-10-14 10:47:52,490 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:47:52,491 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:47:52,492 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:47:52,494 [INFO]  2
+2017-10-14 10:47:52,560 [INFO]  3
+2017-10-14 10:47:52,564 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:50:13,638 [INFO] Contact ID: 2017-10-14 10:50:13 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:50:13,644 [INFO]  on Gw_id 2
+2017-10-14 10:50:13,649 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:50:13,650 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:50:13,651 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:50:13,653 [INFO]  2
+2017-10-14 10:50:13,723 [INFO]  3
+2017-10-14 10:50:13,727 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:51:10,570 [INFO] Contact ID: 2017-10-14 10:51:10 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:51:10,575 [INFO]  on Gw_id 2
+2017-10-14 10:51:10,584 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:51:10,585 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:51:10,586 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:51:10,588 [INFO]  2
+2017-10-14 10:51:10,652 [INFO]  3
+2017-10-14 10:51:10,656 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:57:42,591 [INFO] Contact ID: 2017-10-14 10:57:42 b'[0730#115 18175100001AFCC]' 
+2017-10-14 10:57:42,596 [INFO]  on Gw_id 2
+2017-10-14 10:57:42,602 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 10:57:42,603 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:57:42,604 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 10:57:42,606 [INFO]  2
+2017-10-14 10:57:42,680 [INFO]  3
+2017-10-14 10:57:42,684 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 10:58:44,463 [INFO] Contact ID: 2017-10-14 10:58:44 b'[0730#115 18375100001C1CE]' 
+2017-10-14 10:58:44,468 [INFO]  on Gw_id 2
+2017-10-14 10:58:44,473 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 10:58:44,475 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 10:58:44,476 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 10:58:44,481 [INFO]  2
+2017-10-14 10:58:44,549 [INFO]  3
+2017-10-14 10:58:44,553 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:22:25,402 [INFO] Contact ID: 2017-10-14 11:22:25 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:22:25,407 [INFO]  on Gw_id 2
+2017-10-14 11:22:25,411 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:22:25,413 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:22:25,414 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:22:25,417 [INFO]  2
+2017-10-14 11:22:25,530 [INFO]  3
+2017-10-14 11:22:25,538 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:23:25,713 [INFO] Contact ID: 2017-10-14 11:23:25 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:23:25,717 [INFO]  on Gw_id 2
+2017-10-14 11:23:25,721 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:23:25,723 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:23:25,724 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:23:25,725 [INFO]  2
+2017-10-14 11:23:25,789 [INFO]  3
+2017-10-14 11:23:25,793 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:26:09,510 [INFO] Contact ID: 2017-10-14 11:26:09 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:26:09,515 [INFO]  on Gw_id 2
+2017-10-14 11:26:09,520 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:26:09,522 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:26:09,523 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:26:09,525 [INFO]  2
+2017-10-14 11:26:09,591 [INFO]  3
+2017-10-14 11:26:09,595 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:27:09,538 [INFO] Contact ID: 2017-10-14 11:27:09 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:27:09,542 [INFO]  on Gw_id 2
+2017-10-14 11:27:09,548 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:27:09,549 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:27:09,550 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:27:09,551 [INFO]  2
+2017-10-14 11:27:09,615 [INFO]  3
+2017-10-14 11:27:09,619 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:29:53,573 [INFO] Contact ID: 2017-10-14 11:29:53 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:29:53,575 [INFO]  on Gw_id 2
+2017-10-14 11:29:53,580 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:29:53,580 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:29:53,581 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:29:53,581 [INFO]  2
+2017-10-14 11:29:53,644 [INFO]  3
+2017-10-14 11:29:53,648 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:30:56,492 [INFO] Contact ID: 2017-10-14 11:30:56 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:30:56,497 [INFO]  on Gw_id 2
+2017-10-14 11:30:56,502 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:30:56,504 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:30:56,505 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:30:56,510 [INFO]  2
+2017-10-14 11:30:56,575 [INFO]  3
+2017-10-14 11:30:56,578 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:34:27,312 [INFO] Contact ID: 2017-10-14 11:34:27 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:34:27,317 [INFO]  on Gw_id 2
+2017-10-14 11:34:27,323 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:34:27,325 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:34:27,326 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:34:27,328 [INFO]  2
+2017-10-14 11:34:27,416 [INFO]  3
+2017-10-14 11:34:27,420 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:35:24,241 [INFO] Contact ID: 2017-10-14 11:35:24 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:35:24,244 [INFO]  on Gw_id 2
+2017-10-14 11:35:24,248 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:35:24,248 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:35:24,249 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:35:24,250 [INFO]  2
+2017-10-14 11:35:24,309 [INFO]  3
+2017-10-14 11:35:24,313 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:36:43,791 [INFO] Contact ID: 2017-10-14 11:36:43 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:36:43,795 [INFO]  on Gw_id 2
+2017-10-14 11:36:43,801 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:36:43,802 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:36:43,803 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:36:43,805 [INFO]  2
+2017-10-14 11:36:43,870 [INFO]  3
+2017-10-14 11:36:43,874 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:37:46,441 [INFO] Contact ID: 2017-10-14 11:37:46 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:37:46,446 [INFO]  on Gw_id 2
+2017-10-14 11:37:46,451 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:37:46,453 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:37:46,453 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:37:46,455 [INFO]  2
+2017-10-14 11:37:46,521 [INFO]  3
+2017-10-14 11:37:46,525 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:39:03,390 [INFO] Contact ID: 2017-10-14 11:39:03 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:39:03,393 [INFO]  on Gw_id 2
+2017-10-14 11:39:03,396 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:39:03,397 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:39:03,398 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:39:03,398 [INFO]  2
+2017-10-14 11:39:03,474 [INFO]  3
+2017-10-14 11:39:03,478 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:39:57,722 [INFO] Contact ID: 2017-10-14 11:39:57 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:39:57,724 [INFO]  on Gw_id 2
+2017-10-14 11:39:57,728 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:39:57,729 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:39:57,729 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:39:57,730 [INFO]  2
+2017-10-14 11:39:57,791 [INFO]  3
+2017-10-14 11:39:57,795 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:44:14,561 [INFO] Contact ID: 2017-10-14 11:44:14 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:44:14,564 [INFO]  on Gw_id 2
+2017-10-14 11:44:14,567 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:44:14,568 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:44:14,568 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:44:14,569 [INFO]  2
+2017-10-14 11:44:15,355 [INFO]  3
+2017-10-14 11:44:15,359 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:45:11,493 [INFO] Contact ID: 2017-10-14 11:45:11 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:45:11,498 [INFO]  on Gw_id 2
+2017-10-14 11:45:11,502 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:45:11,504 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:45:11,505 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:45:11,506 [INFO]  2
+2017-10-14 11:45:11,571 [INFO]  3
+2017-10-14 11:45:11,575 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:48:47,518 [INFO] Contact ID: 2017-10-14 11:48:47 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:48:47,523 [INFO]  on Gw_id 2
+2017-10-14 11:48:47,532 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:48:47,534 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:48:47,534 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:48:47,536 [INFO]  2
+2017-10-14 11:48:47,610 [INFO]  3
+2017-10-14 11:48:47,615 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:49:47,309 [INFO] Contact ID: 2017-10-14 11:49:47 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:49:47,313 [INFO]  on Gw_id 2
+2017-10-14 11:49:47,318 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:49:47,320 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:49:47,321 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:49:47,322 [INFO]  2
+2017-10-14 11:49:47,385 [INFO]  3
+2017-10-14 11:49:47,389 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:51:43,510 [INFO] Contact ID: 2017-10-14 11:51:43 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:51:43,513 [INFO]  on Gw_id 2
+2017-10-14 11:51:43,516 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:51:43,517 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:51:43,517 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:51:43,518 [INFO]  2
+2017-10-14 11:51:43,582 [INFO]  3
+2017-10-14 11:51:43,585 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:52:43,301 [INFO] Contact ID: 2017-10-14 11:52:43 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:52:43,306 [INFO]  on Gw_id 2
+2017-10-14 11:52:43,311 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:52:43,313 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:52:43,314 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:52:43,316 [INFO]  2
+2017-10-14 11:52:43,383 [INFO]  3
+2017-10-14 11:52:43,386 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:57:15,219 [INFO] Contact ID: 2017-10-14 11:57:15 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:57:15,224 [INFO]  on Gw_id 2
+2017-10-14 11:57:15,231 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:57:15,232 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:57:15,233 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:57:15,235 [INFO]  2
+2017-10-14 11:57:15,314 [INFO]  3
+2017-10-14 11:57:15,318 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:58:12,411 [INFO] Contact ID: 2017-10-14 11:58:12 b'[0730#115 18375100001C1CE]' 
+2017-10-14 11:58:12,415 [INFO]  on Gw_id 2
+2017-10-14 11:58:12,420 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 11:58:12,422 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:58:12,423 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 11:58:12,424 [INFO]  2
+2017-10-14 11:58:12,488 [INFO]  3
+2017-10-14 11:58:12,492 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 11:59:26,499 [INFO] Contact ID: 2017-10-14 11:59:26 b'[0730#115 18175100001AFCC]' 
+2017-10-14 11:59:26,502 [INFO]  on Gw_id 2
+2017-10-14 11:59:26,505 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 11:59:26,506 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 11:59:26,507 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 11:59:26,507 [INFO]  2
+2017-10-14 11:59:26,570 [INFO]  3
+2017-10-14 11:59:26,573 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:00:26,290 [INFO] Contact ID: 2017-10-14 12:00:26 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:00:26,294 [INFO]  on Gw_id 2
+2017-10-14 12:00:26,300 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:00:26,301 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:00:26,302 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:00:26,305 [INFO]  2
+2017-10-14 12:00:26,375 [INFO]  3
+2017-10-14 12:00:26,379 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:01:09,443 [INFO] Contact ID: 2017-10-14 12:01:09 b'[0730#115 18175100001AFCC]' 
+2017-10-14 12:01:09,448 [INFO]  on Gw_id 2
+2017-10-14 12:01:09,458 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 12:01:09,461 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:01:09,461 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 12:01:09,463 [INFO]  2
+2017-10-14 12:01:09,527 [INFO]  3
+2017-10-14 12:01:09,531 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:02:03,255 [INFO] Contact ID: 2017-10-14 12:02:03 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:02:03,260 [INFO]  on Gw_id 2
+2017-10-14 12:02:03,266 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:02:03,267 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:02:03,268 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:02:03,274 [INFO]  2
+2017-10-14 12:02:03,339 [INFO]  3
+2017-10-14 12:02:03,343 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:07:15,208 [INFO] Contact ID: 2017-10-14 12:07:15 b'[0730#115 18175100001AFCC]' 
+2017-10-14 12:07:15,211 [INFO]  on Gw_id 2
+2017-10-14 12:07:15,214 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 12:07:15,215 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:07:15,215 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 12:07:15,216 [INFO]  2
+2017-10-14 12:07:15,344 [INFO]  3
+2017-10-14 12:07:15,353 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:08:12,658 [INFO] Contact ID: 2017-10-14 12:08:12 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:08:12,663 [INFO]  on Gw_id 2
+2017-10-14 12:08:12,670 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:08:12,672 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:08:12,673 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:08:12,674 [INFO]  2
+2017-10-14 12:08:12,746 [INFO]  3
+2017-10-14 12:08:12,753 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:27:05,049 [INFO] Contact ID: 2017-10-14 12:27:05 b'[0730#115 18175100001AFCC]' 
+2017-10-14 12:27:05,054 [INFO]  on Gw_id 2
+2017-10-14 12:27:05,059 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 12:27:05,061 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:27:05,062 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 12:27:05,063 [INFO]  2
+2017-10-14 12:27:05,150 [INFO]  3
+2017-10-14 12:27:05,154 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:28:08,479 [INFO] Contact ID: 2017-10-14 12:28:08 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:28:08,485 [INFO]  on Gw_id 2
+2017-10-14 12:28:08,492 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:28:08,495 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:28:08,496 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:28:08,499 [INFO]  2
+2017-10-14 12:28:08,641 [INFO]  3
+2017-10-14 12:28:08,645 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:30:21,579 [INFO] Contact ID: 2017-10-14 12:30:21 b'[0730#115 18175100001AFCC]' 
+2017-10-14 12:30:21,581 [INFO]  on Gw_id 2
+2017-10-14 12:30:21,586 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 12:30:21,586 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:30:21,587 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 12:30:21,587 [INFO]  2
+2017-10-14 12:30:21,731 [INFO]  3
+2017-10-14 12:30:21,734 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:31:18,510 [INFO] Contact ID: 2017-10-14 12:31:18 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:31:18,515 [INFO]  on Gw_id 2
+2017-10-14 12:31:18,521 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:31:18,522 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:31:18,523 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:31:18,525 [INFO]  2
+2017-10-14 12:31:18,613 [INFO]  3
+2017-10-14 12:31:18,617 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:35:09,616 [INFO] Contact ID: 2017-10-14 12:35:09 b'[0730#115 18175100001AFCC]' 
+2017-10-14 12:35:09,620 [INFO]  on Gw_id 2
+2017-10-14 12:35:09,625 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 12:35:09,627 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:35:09,628 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 12:35:09,629 [INFO]  2
+2017-10-14 12:35:09,746 [INFO]  3
+2017-10-14 12:35:09,750 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:36:06,547 [INFO] Contact ID: 2017-10-14 12:36:06 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:36:06,552 [INFO]  on Gw_id 2
+2017-10-14 12:36:06,557 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:36:06,558 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:36:06,559 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:36:06,561 [INFO]  2
+2017-10-14 12:36:06,625 [INFO]  3
+2017-10-14 12:36:06,629 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:39:03,320 [INFO] Contact ID: 2017-10-14 12:39:03 b'[0730#115 18175100001AFCC]' 
+2017-10-14 12:39:03,325 [INFO]  on Gw_id 2
+2017-10-14 12:39:03,330 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 12:39:03,332 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:39:03,333 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 12:39:03,334 [INFO]  2
+2017-10-14 12:39:03,404 [INFO]  3
+2017-10-14 12:39:03,408 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:40:05,451 [INFO] Contact ID: 2017-10-14 12:40:05 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:40:05,453 [INFO]  on Gw_id 2
+2017-10-14 12:40:05,483 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:40:05,484 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:40:05,485 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:40:05,485 [INFO]  2
+2017-10-14 12:40:05,583 [INFO]  3
+2017-10-14 12:40:05,586 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:42:01,654 [INFO] Contact ID: 2017-10-14 12:42:01 b'[0730#115 18175100001AFCC]' 
+2017-10-14 12:42:01,656 [INFO]  on Gw_id 2
+2017-10-14 12:42:01,660 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 12:42:01,661 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:42:01,661 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 12:42:01,662 [INFO]  2
+2017-10-14 12:42:01,722 [INFO]  3
+2017-10-14 12:42:01,726 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:43:04,304 [INFO] Contact ID: 2017-10-14 12:43:04 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:43:04,309 [INFO]  on Gw_id 2
+2017-10-14 12:43:04,315 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:43:04,316 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:43:04,317 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:43:04,318 [INFO]  2
+2017-10-14 12:43:04,390 [INFO]  3
+2017-10-14 12:43:04,394 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:49:03,830 [INFO] Contact ID: 2017-10-14 12:49:03 b'[0730#115 18175100001AFCC]' 
+2017-10-14 12:49:03,838 [INFO]  on Gw_id 2
+2017-10-14 12:49:03,845 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 12:49:03,846 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:49:03,847 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 12:49:03,849 [INFO]  2
+2017-10-14 12:49:03,927 [INFO]  3
+2017-10-14 12:49:03,931 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 12:50:06,480 [INFO] Contact ID: 2017-10-14 12:50:06 b'[0730#115 18375100001C1CE]' 
+2017-10-14 12:50:06,482 [INFO]  on Gw_id 2
+2017-10-14 12:50:06,485 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 12:50:06,486 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 12:50:06,486 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 12:50:06,487 [INFO]  2
+2017-10-14 12:50:06,551 [INFO]  3
+2017-10-14 12:50:06,554 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 13:08:52,640 [INFO] Contact ID: 2017-10-14 13:08:52 b'[0730#115 18175100001AFCC]' 
+2017-10-14 13:08:52,645 [INFO]  on Gw_id 2
+2017-10-14 13:08:52,650 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 13:08:52,651 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 13:08:52,652 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 13:08:52,654 [INFO]  2
+2017-10-14 13:08:52,733 [INFO]  3
+2017-10-14 13:08:52,737 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 13:09:49,568 [INFO] Contact ID: 2017-10-14 13:09:49 b'[0730#115 18375100001C1CE]' 
+2017-10-14 13:09:49,573 [INFO]  on Gw_id 2
+2017-10-14 13:09:49,578 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 13:09:49,580 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 13:09:49,581 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 13:09:49,582 [INFO]  2
+2017-10-14 13:09:49,650 [INFO]  3
+2017-10-14 13:09:49,654 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 13:55:06,160 [INFO] Contact ID: 2017-10-14 13:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-14 13:55:06,166 [INFO]  on Gw_id 2
+2017-10-14 13:55:06,172 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-14 13:55:06,174 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 13:55:06,175 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-14 13:55:06,177 [INFO]  2
+2017-10-14 13:55:06,264 [INFO]  3
+2017-10-14 13:55:06,268 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 15:36:18,055 [INFO] Contact ID: 2017-10-14 15:36:18 b'[0730#115 18175100001AFCC]' 
+2017-10-14 15:36:18,060 [INFO]  on Gw_id 2
+2017-10-14 15:36:18,067 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 15:36:18,068 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 15:36:18,069 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 15:36:18,071 [INFO]  2
+2017-10-14 15:36:18,152 [INFO]  3
+2017-10-14 15:36:18,156 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 15:37:12,127 [INFO] Contact ID: 2017-10-14 15:37:12 b'[0730#115 18375100001C1CE]' 
+2017-10-14 15:37:12,131 [INFO]  on Gw_id 2
+2017-10-14 15:37:12,136 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 15:37:12,138 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 15:37:12,139 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 15:37:12,140 [INFO]  2
+2017-10-14 15:37:12,204 [INFO]  3
+2017-10-14 15:37:12,207 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 15:41:15,190 [INFO] Contact ID: 2017-10-14 15:41:15 b'[0730#115 18175100001AFCC]' 
+2017-10-14 15:41:15,198 [INFO]  on Gw_id 2
+2017-10-14 15:41:15,202 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 15:41:15,204 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 15:41:15,205 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 15:41:15,207 [INFO]  2
+2017-10-14 15:41:15,319 [INFO]  3
+2017-10-14 15:41:15,323 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 15:42:18,100 [INFO] Contact ID: 2017-10-14 15:42:18 b'[0730#115 18375100001C1CE]' 
+2017-10-14 15:42:18,105 [INFO]  on Gw_id 2
+2017-10-14 15:42:18,110 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 15:42:18,111 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 15:42:18,112 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 15:42:18,114 [INFO]  2
+2017-10-14 15:42:18,178 [INFO]  3
+2017-10-14 15:42:18,183 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 19:04:23,717 [INFO] Contact ID: 2017-10-14 19:04:23 b'[0730#115 18175100001AFCC]' 
+2017-10-14 19:04:23,719 [INFO]  on Gw_id 2
+2017-10-14 19:04:23,723 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-14 19:04:23,724 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 19:04:23,724 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-14 19:04:23,725 [INFO]  2
+2017-10-14 19:04:23,836 [INFO]  3
+2017-10-14 19:04:23,839 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 19:05:28,968 [INFO] Contact ID: 2017-10-14 19:05:28 b'[0730#115 18375100001C1CE]' 
+2017-10-14 19:05:28,973 [INFO]  on Gw_id 2
+2017-10-14 19:05:28,979 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-14 19:05:28,981 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 19:05:28,981 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-14 19:05:28,983 [INFO]  2
+2017-10-14 19:05:29,047 [INFO]  3
+2017-10-14 19:05:29,051 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-14 19:55:07,082 [INFO] Contact ID: 2017-10-14 19:55:07 b'[0730#115 1816020000089C6]' 
+2017-10-14 19:55:07,087 [INFO]  on Gw_id 2
+2017-10-14 19:55:07,093 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-14 19:55:07,094 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-14 19:55:07,095 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-14 19:55:07,096 [INFO]  2
+2017-10-14 19:55:07,193 [INFO]  3
+2017-10-14 19:55:07,197 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-15 01:55:03,851 [INFO] Contact ID: 2017-10-15 01:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-15 01:55:03,854 [INFO]  on Gw_id 2
+2017-10-15 01:55:03,858 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-15 01:55:03,858 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-15 01:55:03,859 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-15 01:55:03,860 [INFO]  2
+2017-10-15 01:55:03,944 [INFO]  3
+2017-10-15 01:55:03,950 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-15 07:55:03,469 [INFO] Contact ID: 2017-10-15 07:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-15 07:55:03,472 [INFO]  on Gw_id 2
+2017-10-15 07:55:03,477 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-15 07:55:03,477 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-15 07:55:03,478 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-15 07:55:03,479 [INFO]  2
+2017-10-15 07:55:03,569 [INFO]  3
+2017-10-15 07:55:03,572 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-15 11:04:10,483 [INFO] Contact ID: 2017-10-15 11:04:10 b'[0730#115 18175100001AFCC]' 
+2017-10-15 11:04:10,486 [INFO]  on Gw_id 2
+2017-10-15 11:04:10,490 [INFO] Event: General: New event: Mobility IR Sensor 
+2017-10-15 11:04:10,491 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-15 11:04:10,491 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility IR Sensor 
+2017-10-15 11:04:10,492 [INFO]  2
+2017-10-15 11:04:10,569 [INFO]  3
+2017-10-15 11:04:10,573 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-15 11:05:07,154 [INFO] Contact ID: 2017-10-15 11:05:07 b'[0730#115 18375100001C1CE]' 
+2017-10-15 11:05:07,159 [INFO]  on Gw_id 2
+2017-10-15 11:05:07,165 [INFO] Event: General: Restore: Mobility IR Sensor 
+2017-10-15 11:05:07,166 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-15 11:05:07,167 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility IR Sensor 
+2017-10-15 11:05:07,169 [INFO]  2
+2017-10-15 11:05:07,233 [INFO]  3
+2017-10-15 11:05:07,237 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-15 13:55:03,442 [INFO] Contact ID: 2017-10-15 13:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-15 13:55:03,446 [INFO]  on Gw_id 2
+2017-10-15 13:55:03,450 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-15 13:55:03,451 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-15 13:55:03,451 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-15 13:55:03,452 [INFO]  2
+2017-10-15 13:55:03,534 [INFO]  3
+2017-10-15 13:55:03,538 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-15 14:59:06,194 [INFO] Contact ID: 2017-10-15 14:59:06 b'[0730#115 181147000019CCB]' 
+2017-10-15 14:59:06,196 [INFO]  on Gw_id 2
+2017-10-15 14:59:06,199 [INFO] Event: General: New event: Sensor supervision failure Sensor 
+2017-10-15 14:59:06,200 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-15 14:59:06,201 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Sensor supervision failure Sensor 
+2017-10-15 14:59:06,202 [INFO]  2
+2017-10-15 14:59:06,274 [INFO]  3
+2017-10-15 14:59:06,277 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-15 19:55:01,006 [INFO] Contact ID: 2017-10-15 19:55:01 b'[0730#115 1816020000089C6]' 
+2017-10-15 19:55:01,009 [INFO]  on Gw_id 2
+2017-10-15 19:55:01,014 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-15 19:55:01,015 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-15 19:55:01,016 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-15 19:55:01,016 [INFO]  2
+2017-10-15 19:55:01,094 [INFO]  3
+2017-10-15 19:55:01,100 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-15 23:58:50,760 [INFO] Contact ID: 2017-10-15 23:58:50 b'GET / HTTP/1.1\r\nHost: 91.183.194' 
+2017-10-15 23:58:50,761 [INFO] Error: bad contact id format
+2017-10-15 23:58:50,761 [INFO] Contact ID: 2017-10-15 23:58:50 b'.2:28017\r\nAccept-Encoding: ident' 
+2017-10-15 23:58:50,761 [INFO] Error: bad contact id format
+2017-10-15 23:58:50,761 [INFO] Contact ID: 2017-10-15 23:58:50 b'ity\r\nAccept: text/html,applicati' 
+2017-10-15 23:58:50,761 [INFO] Error: bad contact id format
+2017-10-15 23:58:50,761 [INFO] Contact ID: 2017-10-15 23:58:50 b'on/xhtml+xml,application/xml;q=0' 
+2017-10-15 23:58:50,761 [INFO] Error: bad contact id format
+2017-10-15 23:58:50,761 [INFO] Contact ID: 2017-10-15 23:58:50 b'.9,*/*;q=0.8\r\nUser-Agent: Mozill' 
+2017-10-15 23:58:50,762 [INFO] Error: bad contact id format
+2017-10-15 23:58:50,762 [INFO] Contact ID: 2017-10-15 23:58:50 b'a/5.0 (Windows NT 6.1) AppleWebK' 
+2017-10-15 23:58:50,762 [INFO] Error: bad contact id format
+2017-10-15 23:58:50,762 [INFO] Contact ID: 2017-10-15 23:58:50 b'it/537.36 (KHTML, like Gecko) Ch' 
+2017-10-15 23:58:50,762 [INFO] Error: bad contact id format
+2017-10-15 23:58:50,762 [INFO] Contact ID: 2017-10-15 23:58:50 b'rome/41.0.2228.0 Safari/537.36\r\n' 
+2017-10-15 23:58:50,762 [INFO] Error: bad contact id format
+2017-10-15 23:58:50,762 [INFO] Contact ID: 2017-10-15 23:58:50 b'\r\n' 
+2017-10-15 23:58:50,762 [INFO] Error: bad contact id format
+2017-10-16 01:55:03,601 [INFO] Contact ID: 2017-10-16 01:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-16 01:55:03,605 [INFO]  on Gw_id 2
+2017-10-16 01:55:03,610 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-16 01:55:03,611 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-16 01:55:03,611 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-16 01:55:03,612 [INFO]  2
+2017-10-16 01:55:03,697 [INFO]  3
+2017-10-16 01:55:03,700 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 07:55:00,358 [INFO] Contact ID: 2017-10-16 07:55:00 b'[0730#115 1816020000089C6]' 
+2017-10-16 07:55:00,361 [INFO]  on Gw_id 2
+2017-10-16 07:55:00,365 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-16 07:55:00,366 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-16 07:55:00,367 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-16 07:55:00,367 [INFO]  2
+2017-10-16 07:55:00,440 [INFO]  3
+2017-10-16 07:55:00,444 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 13:55:06,074 [INFO] Contact ID: 2017-10-16 13:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-16 13:55:06,077 [INFO]  on Gw_id 2
+2017-10-16 13:55:06,081 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-16 13:55:06,082 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-16 13:55:06,083 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-16 13:55:06,083 [INFO]  2
+2017-10-16 13:55:06,167 [INFO]  3
+2017-10-16 13:55:06,171 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 16:22:29,099 [INFO] Contact ID: 2017-10-16 16:22:29 b'\r\n\r\n' 
+2017-10-16 16:22:29,099 [INFO] Error: bad contact id format
+2017-10-16 16:22:34,379 [INFO] Contact ID: 2017-10-16 16:22:34 b'GET / HTTP/1.0\r\n\r\n' 
+2017-10-16 16:22:34,380 [INFO] Error: bad contact id format
+2017-10-16 16:22:39,666 [INFO] Contact ID: 2017-10-16 16:22:39 b'\x16\x03\x00\x00S\x01\x00\x00O\x03\x00?G\xd7\xf7\xba,\xee\xea\xb2`~\xf3\x00\xfd\x82{\xb9\xd5\x96\xc8w' 
+2017-10-16 16:22:39,667 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 16:22:39,667 [INFO] Contact ID: 2017-10-16 16:22:39 b'\x9b\xe6\xc4\xdb<=\xdbo\xef\x10n\x00\x00(\x00\x16\x00\x13\x00\n\x00f\x00\x05\x00\x04\x00e\x00d\x00c' 
+2017-10-16 16:22:39,667 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 16:22:39,667 [INFO] Contact ID: 2017-10-16 16:22:39 b'\x00b\x00a\x00`\x00\x15\x00\x12\x00\t\x00\x14\x00\x11\x00\x08\x00\x06\x00\x03\x01\x00' 
+2017-10-16 16:22:39,667 [INFO] Error: bad contact id format
+2017-10-16 16:22:44,948 [INFO] Contact ID: 2017-10-16 16:22:44 b'\x16\x03\x00\x00i\x01\x00\x00e\x03\x03U\x1c\xa7\xe4random1random2ran' 
+2017-10-16 16:22:44,948 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 16:22:44,949 [INFO] Contact ID: 2017-10-16 16:22:44 b'dom3random4\x00\x00\x0c\x00/\x00\n\x00\x13\x009\x00\x04\x00\xff\x01\x00\x000\x00\r' 
+2017-10-16 16:22:44,949 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 16:22:44,949 [INFO] Contact ID: 2017-10-16 16:22:44 b'\x00,\x00*\x00\x01\x00\x03\x00\x02\x06\x01\x06\x03\x06\x02\x02\x01\x02\x03\x02\x02\x03\x01\x03\x03\x03\x02\x04\x01\x04\x03' 
+2017-10-16 16:22:44,949 [INFO] Error: bad contact id format
+2017-10-16 16:22:44,949 [INFO] Contact ID: 2017-10-16 16:22:44 b'\x04\x02\x01\x01\x01\x03\x01\x02\x05\x01\x05\x03\x05\x02' 
+2017-10-16 16:22:44,949 [INFO] Error: bad contact id format
+2017-10-16 19:14:10,116 [INFO] Contact ID: 2017-10-16 19:14:10 b'[0730#115 18314700001AECD]' 
+2017-10-16 19:14:10,120 [INFO]  on Gw_id 2
+2017-10-16 19:14:10,126 [INFO] Event: General: Restore: Sensor supervision failure Sensor 
+2017-10-16 19:14:10,127 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-16 19:14:10,128 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Sensor supervision failure Sensor 
+2017-10-16 19:14:10,129 [INFO]  2
+2017-10-16 19:14:10,232 [INFO]  3
+2017-10-16 19:14:10,236 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 19:55:00,768 [INFO] Contact ID: 2017-10-16 19:55:00 b'[0730#115 1816020000089C6]' 
+2017-10-16 19:55:00,771 [INFO]  on Gw_id 2
+2017-10-16 19:55:00,814 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-16 19:55:00,815 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-16 19:55:00,816 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-16 19:55:00,817 [INFO]  2
+2017-10-16 19:55:00,897 [INFO]  3
+2017-10-16 19:55:00,902 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-16 23:11:06,626 [INFO] Contact ID: 2017-10-16 23:11:06 b'[0730#115 181147000019CCB]' 
+2017-10-16 23:11:06,629 [INFO]  on Gw_id 2
+2017-10-16 23:11:06,635 [INFO] Event: General: New event: Sensor supervision failure Sensor 
+2017-10-16 23:11:06,636 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-16 23:11:06,637 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Sensor supervision failure Sensor 
+2017-10-16 23:11:06,637 [INFO]  2
+2017-10-16 23:11:06,714 [INFO]  3
+2017-10-16 23:11:06,717 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-17 01:55:03,555 [INFO] Contact ID: 2017-10-17 01:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-17 01:55:03,558 [INFO]  on Gw_id 2
+2017-10-17 01:55:03,563 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-17 01:55:03,564 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-17 01:55:03,564 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-17 01:55:03,565 [INFO]  2
+2017-10-17 01:55:03,650 [INFO]  3
+2017-10-17 01:55:03,653 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-17 07:55:06,170 [INFO] Contact ID: 2017-10-17 07:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-17 07:55:06,175 [INFO]  on Gw_id 2
+2017-10-17 07:55:06,180 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-17 07:55:06,182 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-17 07:55:06,183 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-17 07:55:06,185 [INFO]  2
+2017-10-17 07:55:06,265 [INFO]  3
+2017-10-17 07:55:06,269 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-17 13:55:06,067 [INFO] Contact ID: 2017-10-17 13:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-17 13:55:06,071 [INFO]  on Gw_id 2
+2017-10-17 13:55:06,075 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-17 13:55:06,076 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-17 13:55:06,077 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-17 13:55:06,077 [INFO]  2
+2017-10-17 13:55:06,160 [INFO]  3
+2017-10-17 13:55:06,164 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-17 19:55:06,979 [INFO] Contact ID: 2017-10-17 19:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-17 19:55:06,983 [INFO]  on Gw_id 2
+2017-10-17 19:55:06,987 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-17 19:55:06,988 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-17 19:55:06,988 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-17 19:55:06,989 [INFO]  2
+2017-10-17 19:55:07,073 [INFO]  3
+2017-10-17 19:55:07,076 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-18 01:55:03,765 [INFO] Contact ID: 2017-10-18 01:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-18 01:55:03,769 [INFO]  on Gw_id 2
+2017-10-18 01:55:03,773 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-18 01:55:03,774 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-18 01:55:03,775 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-18 01:55:03,775 [INFO]  2
+2017-10-18 01:55:03,856 [INFO]  3
+2017-10-18 01:55:03,860 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-18 07:55:03,373 [INFO] Contact ID: 2017-10-18 07:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-18 07:55:03,376 [INFO]  on Gw_id 2
+2017-10-18 07:55:03,379 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-18 07:55:03,380 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-18 07:55:03,381 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-18 07:55:03,381 [INFO]  2
+2017-10-18 07:55:03,473 [INFO]  3
+2017-10-18 07:55:03,477 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-18 11:43:35,687 [INFO] Contact ID: 2017-10-18 11:43:35 b'GET / HTTP/1.1\r\nHost: 91.183.194' 
+2017-10-18 11:43:35,693 [INFO] Error: bad contact id format
+2017-10-18 11:43:35,693 [INFO] Contact ID: 2017-10-18 11:43:35 b'.2:28017\r\nAccept-Encoding: ident' 
+2017-10-18 11:43:35,693 [INFO] Error: bad contact id format
+2017-10-18 11:43:35,693 [INFO] Contact ID: 2017-10-18 11:43:35 b'ity\r\nAccept: text/html,applicati' 
+2017-10-18 11:43:35,693 [INFO] Error: bad contact id format
+2017-10-18 11:43:35,693 [INFO] Contact ID: 2017-10-18 11:43:35 b'on/xhtml+xml,application/xml;q=0' 
+2017-10-18 11:43:35,694 [INFO] Error: bad contact id format
+2017-10-18 11:43:35,694 [INFO] Contact ID: 2017-10-18 11:43:35 b'.9,*/*;q=0.8\r\nUser-Agent: Mozill' 
+2017-10-18 11:43:35,694 [INFO] Error: bad contact id format
+2017-10-18 11:43:35,694 [INFO] Contact ID: 2017-10-18 11:43:35 b'a/5.0 (Windows NT 6.1) AppleWebK' 
+2017-10-18 11:43:35,694 [INFO] Error: bad contact id format
+2017-10-18 11:43:35,694 [INFO] Contact ID: 2017-10-18 11:43:35 b'it/537.36 (KHTML, like Gecko) Ch' 
+2017-10-18 11:43:35,694 [INFO] Error: bad contact id format
+2017-10-18 11:43:35,694 [INFO] Contact ID: 2017-10-18 11:43:35 b'rome/41.0.2228.0 Safari/537.36\r\n' 
+2017-10-18 11:43:35,694 [INFO] Error: bad contact id format
+2017-10-18 11:43:35,694 [INFO] Contact ID: 2017-10-18 11:43:35 b'\r\n' 
+2017-10-18 11:43:35,694 [INFO] Error: bad contact id format
+2017-10-18 13:55:03,009 [INFO] Contact ID: 2017-10-18 13:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-18 13:55:03,022 [INFO]  on Gw_id 2
+2017-10-18 13:55:03,029 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-18 13:55:03,033 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-18 13:55:03,038 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-18 13:55:03,044 [INFO]  2
+2017-10-18 13:55:03,633 [INFO]  3
+2017-10-18 13:55:03,643 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-18 19:55:00,901 [INFO] Contact ID: 2017-10-18 19:55:00 b'[0730#115 1816020000089C6]' 
+2017-10-18 19:55:00,904 [INFO]  on Gw_id 2
+2017-10-18 19:55:00,908 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-18 19:55:00,909 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-18 19:55:00,909 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-18 19:55:00,910 [INFO]  2
+2017-10-18 19:55:03,431 [INFO]  3
+2017-10-18 19:55:03,434 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-19 01:55:03,380 [INFO] Contact ID: 2017-10-19 01:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-19 01:55:03,385 [INFO]  on Gw_id 2
+2017-10-19 01:55:03,393 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-19 01:55:03,393 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-19 01:55:03,394 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-19 01:55:03,395 [INFO]  2
+2017-10-19 01:55:03,482 [INFO]  3
+2017-10-19 01:55:03,486 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-19 07:55:06,228 [INFO] Contact ID: 2017-10-19 07:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-19 07:55:06,231 [INFO]  on Gw_id 2
+2017-10-19 07:55:06,235 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-19 07:55:06,236 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-19 07:55:06,236 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-19 07:55:06,237 [INFO]  2
+2017-10-19 07:55:06,328 [INFO]  3
+2017-10-19 07:55:06,332 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-19 13:55:02,990 [INFO] Contact ID: 2017-10-19 13:55:02 b'[0730#115 1816020000089C6]' 
+2017-10-19 13:55:02,993 [INFO]  on Gw_id 2
+2017-10-19 13:55:02,997 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-19 13:55:02,998 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-19 13:55:02,999 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-19 13:55:02,999 [INFO]  2
+2017-10-19 13:55:03,112 [INFO]  3
+2017-10-19 13:55:03,115 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-19 18:20:02,460 [INFO] Socket errorI/O error(104): Connection reset by peer
+2017-10-19 19:54:59,851 [INFO] Contact ID: 2017-10-19 19:54:59 b'[0730#115 1816020000089C6]' 
+2017-10-19 19:54:59,858 [INFO]  on Gw_id 2
+2017-10-19 19:54:59,884 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-19 19:54:59,886 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-19 19:54:59,887 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-19 19:54:59,889 [INFO]  2
+2017-10-19 19:54:59,970 [INFO]  3
+2017-10-19 19:54:59,974 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-20 01:55:00,524 [INFO] Contact ID: 2017-10-20 01:55:00 b'[0730#115 1816020000089C6]' 
+2017-10-20 01:55:00,529 [INFO]  on Gw_id 2
+2017-10-20 01:55:00,537 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-20 01:55:00,538 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-20 01:55:00,539 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-20 01:55:00,540 [INFO]  2
+2017-10-20 01:55:00,625 [INFO]  3
+2017-10-20 01:55:00,630 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-20 07:55:06,384 [INFO] Contact ID: 2017-10-20 07:55:06 b'[0730#115 1816020000089C6]' 
+2017-10-20 07:55:06,390 [INFO]  on Gw_id 2
+2017-10-20 07:55:06,396 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-20 07:55:06,401 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-20 07:55:06,402 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-20 07:55:06,403 [INFO]  2
+2017-10-20 07:55:06,495 [INFO]  3
+2017-10-20 07:55:06,499 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-20 13:55:05,951 [INFO] Contact ID: 2017-10-20 13:55:05 b'[0730#115 1816020000089C6]' 
+2017-10-20 13:55:05,956 [INFO]  on Gw_id 2
+2017-10-20 13:55:05,962 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-20 13:55:05,964 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-20 13:55:05,965 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-20 13:55:05,967 [INFO]  2
+2017-10-20 13:55:06,067 [INFO]  3
+2017-10-20 13:55:06,072 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-20 19:55:05,571 [INFO] Contact ID: 2017-10-20 19:55:05 b'[0730#115 1816020000089C6]' 
+2017-10-20 19:55:05,575 [INFO]  on Gw_id 2
+2017-10-20 19:55:05,582 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-20 19:55:05,583 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-20 19:55:05,584 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-20 19:55:05,585 [INFO]  2
+2017-10-20 19:55:05,665 [INFO]  3
+2017-10-20 19:55:05,669 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-21 01:55:03,475 [INFO] Contact ID: 2017-10-21 01:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-21 01:55:03,479 [INFO]  on Gw_id 2
+2017-10-21 01:55:03,485 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-21 01:55:03,486 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-21 01:55:03,487 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-21 01:55:03,488 [INFO]  2
+2017-10-21 01:55:03,566 [INFO]  3
+2017-10-21 01:55:03,570 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-21 07:55:03,071 [INFO] Contact ID: 2017-10-21 07:55:03 b'[0730#115 1816020000089C6]' 
+2017-10-21 07:55:03,074 [INFO]  on Gw_id 2
+2017-10-21 07:55:03,078 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-21 07:55:03,078 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-21 07:55:03,079 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-21 07:55:03,080 [INFO]  2
+2017-10-21 07:55:03,155 [INFO]  3
+2017-10-21 07:55:03,162 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-21 13:55:02,817 [INFO] Contact ID: 2017-10-21 13:55:02 b'[0730#115 1816020000089C6]' 
+2017-10-21 13:55:02,853 [INFO]  on Gw_id 2
+2017-10-21 13:55:02,857 [INFO] Event: General: New event: Periodic test report Sensor 
+2017-10-21 13:55:02,861 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-21 13:55:02,867 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Periodic test report Sensor 
+2017-10-21 13:55:02,871 [INFO]  2
+2017-10-21 13:55:03,005 [INFO]  3
+2017-10-21 13:55:03,013 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-21 15:10:00,908 [INFO] Contact ID: 2017-10-21 15:10:00 b'[0730#115 18175000003ABCD]' 
+2017-10-21 15:10:00,911 [INFO]  on Gw_id 2
+2017-10-21 15:10:00,923 [INFO] Event: General: New event: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:00,924 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-21 15:10:00,925 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:00,926 [INFO]  2
+2017-10-21 15:10:01,028 [INFO]  3
+2017-10-21 15:10:01,031 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-21 15:10:05,327 [INFO] Contact ID: 2017-10-21 15:10:05 b'[0730#115 18375000003BDCF]' 
+2017-10-21 15:10:05,330 [INFO]  on Gw_id 2
+2017-10-21 15:10:05,332 [INFO] Event: General: Restore: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:05,333 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-21 15:10:05,333 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:05,335 [INFO]  2
+2017-10-21 15:10:05,404 [INFO]  3
+2017-10-21 15:10:05,408 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-21 15:10:09,745 [INFO] Contact ID: 2017-10-21 15:10:09 b'[0730#115 18175000003ABCD]' 
+2017-10-21 15:10:09,750 [INFO]  on Gw_id 2
+2017-10-21 15:10:09,756 [INFO] Event: General: New event: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:09,757 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-21 15:10:09,758 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:09,760 [INFO]  2
+2017-10-21 15:10:09,832 [INFO]  3
+2017-10-21 15:10:09,837 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-21 15:10:13,906 [INFO] Contact ID: 2017-10-21 15:10:13 b'[0730#115 18375000003BDCF]' 
+2017-10-21 15:10:13,910 [INFO]  on Gw_id 2
+2017-10-21 15:10:13,917 [INFO] Event: General: Restore: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:13,919 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-21 15:10:13,919 [INFO] MIME text : usr UAT, av du Houx,5 event General: Restore: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:13,920 [INFO]  2
+2017-10-21 15:10:13,987 [INFO]  3
+2017-10-21 15:10:13,992 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-21 15:10:18,064 [INFO] Contact ID: 2017-10-21 15:10:18 b'[0730#115 18175000003ABCD]' 
+2017-10-21 15:10:18,068 [INFO]  on Gw_id 2
+2017-10-21 15:10:18,073 [INFO] Event: General: New event: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:18,075 [INFO]  Sending email to email mage.gerin@gmail.com of user ID marc
+2017-10-21 15:10:18,075 [INFO] MIME text : usr UAT, av du Houx,5 event General: New event: Mobility DC Sensor UAT DC bur
+2017-10-21 15:10:18,077 [INFO]  2
+2017-10-21 15:10:18,140 [INFO]  3
+2017-10-21 15:10:18,144 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-24 03:22:11,711 [INFO] Contact ID: 2017-10-24 03:22:11 b'GET / HTTP/1.1\r\nHost: 91.183.194' 
+2017-10-24 03:22:11,713 [INFO] Error: bad contact id format
+2017-10-24 03:22:11,714 [INFO] Contact ID: 2017-10-24 03:22:11 b'.2:28017\r\nAccept-Encoding: ident' 
+2017-10-24 03:22:11,714 [INFO] Error: bad contact id format
+2017-10-24 03:22:11,714 [INFO] Contact ID: 2017-10-24 03:22:11 b'ity\r\nAccept: text/html,applicati' 
+2017-10-24 03:22:11,714 [INFO] Error: bad contact id format
+2017-10-24 03:22:11,714 [INFO] Contact ID: 2017-10-24 03:22:11 b'on/xhtml+xml,application/xml;q=0' 
+2017-10-24 03:22:11,714 [INFO] Error: bad contact id format
+2017-10-24 03:22:11,714 [INFO] Contact ID: 2017-10-24 03:22:11 b'.9,*/*;q=0.8\r\nUser-Agent: Mozill' 
+2017-10-24 03:22:11,714 [INFO] Error: bad contact id format
+2017-10-24 03:22:11,714 [INFO] Contact ID: 2017-10-24 03:22:11 b'a/5.0 (Windows NT 6.1) AppleWebK' 
+2017-10-24 03:22:11,714 [INFO] Error: bad contact id format
+2017-10-24 03:22:11,715 [INFO] Contact ID: 2017-10-24 03:22:11 b'it/537.36 (KHTML, like Gecko) Ch' 
+2017-10-24 03:22:11,715 [INFO] Error: bad contact id format
+2017-10-24 03:22:11,715 [INFO] Contact ID: 2017-10-24 03:22:11 b'rome/41.0.2228.0 Safari/537.36\r\n' 
+2017-10-24 03:22:11,715 [INFO] Error: bad contact id format
+2017-10-24 03:22:11,715 [INFO] Contact ID: 2017-10-24 03:22:11 b'\r\n' 
+2017-10-24 03:22:11,715 [INFO] Error: bad contact id format
+2017-10-24 15:26:00,276 [INFO] Socket errorI/O error(104): Connection reset by peer
+2017-10-30 12:05:32,533 [INFO] Contact ID: 2017-10-30 12:05:32 b'\\#ST\n' 
+2017-10-30 12:05:32,533 [INFO] Error: bad contact id format
+2017-10-30 12:05:34,111 [INFO] Contact ID: 2017-10-30 12:05:34 b'\x00\x0bn\x00\x00\x00\x00\x01\x04be\x00\x00' 
+2017-10-30 12:05:34,112 [INFO] Error: bad contact id format
+2017-10-30 12:05:35,691 [INFO] Contact ID: 2017-10-30 12:05:35 b'\x00\x00\x07\x00\x08\x00\x03\x00\x04\x00\x05\x00\x06' 
+2017-10-30 12:05:35,692 [INFO] Error: bad contact id format
+2017-10-30 12:05:37,286 [INFO] Contact ID: 2017-10-30 12:05:37 b'\r\n\r\n' 
+2017-10-30 12:05:37,286 [INFO] Error: bad contact id format
+2017-10-30 12:05:38,881 [INFO] Contact ID: 2017-10-30 12:05:38 b'GET / HTTP/1.0\r\n\r\n' 
+2017-10-30 12:05:38,882 [INFO] Error: bad contact id format
+2017-10-30 12:05:40,462 [INFO] Contact ID: 2017-10-30 12:05:40 b'OPTIONS / HTTP/1.0\r\n\r\n' 
+2017-10-30 12:05:40,462 [INFO] Error: bad contact id format
+2017-10-30 12:05:42,057 [INFO] Contact ID: 2017-10-30 12:05:42 b'OPTIONS / RTSP/1.0\r\n\r\n' 
+2017-10-30 12:05:42,057 [INFO] Error: bad contact id format
+2017-10-30 12:05:43,652 [INFO] Contact ID: 2017-10-30 12:05:43 b'\x80\x00\x00(r\xfe\x1d\x13\x00\x00\x00\x00\x00\x00\x00\x02\x00\x01\x86\xa0\x00\x01\x97|\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-10-30 12:05:43,660 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:43,661 [INFO] Contact ID: 2017-10-30 12:05:43 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-10-30 12:05:43,661 [INFO] Error: bad contact id format
+2017-10-30 12:05:45,248 [INFO] Contact ID: 2017-10-30 12:05:45 b'\x00\x1e\x00\x06\x01\x00\x00\x01\x00\x00\x00\x00\x00\x00\x07version\x04bind\x00\x00\x10\x00\x03' 
+2017-10-30 12:05:45,248 [INFO] Error: bad contact id format
+2017-10-30 12:05:46,835 [INFO] Contact ID: 2017-10-30 12:05:46 b'\x00\x0c\x00\x00\x10\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-10-30 12:05:46,835 [INFO] Error: bad contact id format
+2017-10-30 12:05:48,418 [INFO] Contact ID: 2017-10-30 12:05:48 b'HELP\r\n' 
+2017-10-30 12:05:48,418 [INFO] Error: bad contact id format
+2017-10-30 12:05:50,014 [INFO] Contact ID: 2017-10-30 12:05:50 b'\x16\x03\x00\x00S\x01\x00\x00O\x03\x00?G\xd7\xf7\xba,\xee\xea\xb2`~\xf3\x00\xfd\x82{\xb9\xd5\x96\xc8w' 
+2017-10-30 12:05:50,014 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:50,015 [INFO] Contact ID: 2017-10-30 12:05:50 b'\x9b\xe6\xc4\xdb<=\xdbo\xef\x10n\x00\x00(\x00\x16\x00\x13\x00\n\x00f\x00\x05\x00\x04\x00e\x00d\x00c' 
+2017-10-30 12:05:50,015 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:50,015 [INFO] Contact ID: 2017-10-30 12:05:50 b'\x00b\x00a\x00`\x00\x15\x00\x12\x00\t\x00\x14\x00\x11\x00\x08\x00\x06\x00\x03\x01\x00' 
+2017-10-30 12:05:50,015 [INFO] Error: bad contact id format
+2017-10-30 12:05:51,609 [INFO] Contact ID: 2017-10-30 12:05:51 b'\x16\x03\x00\x00i\x01\x00\x00e\x03\x03U\x1c\xa7\xe4random1random2ran' 
+2017-10-30 12:05:51,610 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:51,610 [INFO] Contact ID: 2017-10-30 12:05:51 b'dom3random4\x00\x00\x0c\x00/\x00\n\x00\x13\x009\x00\x04\x00\xff\x01\x00\x000\x00\r' 
+2017-10-30 12:05:51,611 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:51,611 [INFO] Contact ID: 2017-10-30 12:05:51 b'\x00,\x00*\x00\x01\x00\x03\x00\x02\x06\x01\x06\x03\x06\x02\x02\x01\x02\x03\x02\x02\x03\x01\x03\x03\x03\x02\x04\x01\x04\x03' 
+2017-10-30 12:05:51,611 [INFO] Error: bad contact id format
+2017-10-30 12:05:51,611 [INFO] Contact ID: 2017-10-30 12:05:51 b'\x04\x02\x01\x01\x01\x03\x01\x02\x05\x01\x05\x03\x05\x02' 
+2017-10-30 12:05:51,612 [INFO] Error: bad contact id format
+2017-10-30 12:05:53,203 [INFO] Contact ID: 2017-10-30 12:05:53 b'\x00\x00\x00qj\x81n0\x81k\xa1\x03\x02\x01\x05\xa2\x03\x02\x01\n\xa4\x81^0\\\xa0\x07\x03\x05\x00P\x80' 
+2017-10-30 12:05:53,204 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:53,204 [INFO] Contact ID: 2017-10-30 12:05:53 b'\x00\x10\xa2\x04\x1b\x02NM\xa3\x170\x15\xa0\x03\x02\x01\x00\xa1\x0e0\x0c\x1b\x06krbtgt\x1b\x02N' 
+2017-10-30 12:05:53,204 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:53,205 [INFO] Contact ID: 2017-10-30 12:05:53 b'M\xa5\x11\x18\x0f19700101000000Z\xa7\x06\x02\x04\x1f\x1e\xb9\xd9\xa8\x170\x15' 
+2017-10-30 12:05:53,205 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:53,205 [INFO] Contact ID: 2017-10-30 12:05:53 b'\x02\x01\x12\x02\x01\x11\x02\x01\x10\x02\x01\x17\x02\x01\x01\x02\x01\x03\x02\x01\x02' 
+2017-10-30 12:05:53,205 [INFO] Error: bad contact id format
+2017-10-30 12:05:54,798 [INFO] Contact ID: 2017-10-30 12:05:54 b'\x00\x00\x00\xa4\xffSMBr\x00\x00\x00\x00\x08\x01@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x06' 
+2017-10-30 12:05:54,799 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:54,799 [INFO] Contact ID: 2017-10-30 12:05:54 b'\x00\x00\x01\x00\x00\x81\x00\x02PC NETWORK PROGRAM 1.0\x00\x02' 
+2017-10-30 12:05:54,799 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:05:54,799 [INFO] Contact ID: 2017-10-30 12:05:54 b'MICROSOFT NETWORKS 1.03\x00\x02MICROSO' 
+2017-10-30 12:05:54,799 [INFO] Error: bad contact id format
+2017-10-30 12:05:54,799 [INFO] Contact ID: 2017-10-30 12:05:54 b'FT NETWORKS 3.0\x00\x02LANMAN1.0\x00\x02LM1.' 
+2017-10-30 12:05:54,799 [INFO] Error: bad contact id format
+2017-10-30 12:05:54,799 [INFO] Contact ID: 2017-10-30 12:05:54 b'2X002\x00\x02Samba\x00\x02NT LANMAN 1.0\x00\x02NT ' 
+2017-10-30 12:05:54,800 [INFO] Error: bad contact id format
+2017-10-30 12:05:54,800 [INFO] Contact ID: 2017-10-30 12:05:54 b'LM 0.12\x00' 
+2017-10-30 12:05:54,800 [INFO] Error: bad contact id format
+2017-10-30 12:05:56,381 [INFO] Contact ID: 2017-10-30 12:05:56 b'l\x00\x0b\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-10-30 12:05:56,381 [INFO] Error: bad contact id format
+2017-10-30 12:05:57,975 [INFO] Contact ID: 2017-10-30 12:05:57 b'GET /nice%20ports%2C/Tri%6Eity.t' 
+2017-10-30 12:05:57,976 [INFO] Error: bad contact id format
+2017-10-30 12:05:57,976 [INFO] Contact ID: 2017-10-30 12:05:57 b'xt%2ebak HTTP/1.0\r\n\r\n' 
+2017-10-30 12:05:57,976 [INFO] Error: bad contact id format
+2017-10-30 12:05:59,573 [INFO] Contact ID: 2017-10-30 12:05:59 b'\x01default\n' 
+2017-10-30 12:05:59,573 [INFO] Error: bad contact id format
+2017-10-30 12:06:01,155 [INFO] Contact ID: 2017-10-30 12:06:01 b'0\x84\x00\x00\x00-\x02\x01\x07c\x84\x00\x00\x00$\x04\x00\n\x01\x00\n\x01\x00\x02\x01\x00\x02\x01d\x01\x01\x00' 
+2017-10-30 12:06:01,155 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:01,155 [INFO] Contact ID: 2017-10-30 12:06:01 b'\x87\x0bobjectClass0\x84\x00\x00\x00\x00' 
+2017-10-30 12:06:01,156 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:02,738 [INFO] Contact ID: 2017-10-30 12:06:02 b'0\x0c\x02\x01\x01`\x07\x02\x01\x02\x04\x00\x80\x00' 
+2017-10-30 12:06:02,739 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:04,319 [INFO] Contact ID: 2017-10-30 12:06:04 b'OPTIONS sip:nm SIP/2.0\r\nVia: SIP' 
+2017-10-30 12:06:04,319 [INFO] Error: bad contact id format
+2017-10-30 12:06:04,319 [INFO] Contact ID: 2017-10-30 12:06:04 b'/2.0/TCP nm;branch=foo\r\nFrom: <s' 
+2017-10-30 12:06:04,320 [INFO] Error: bad contact id format
+2017-10-30 12:06:04,320 [INFO] Contact ID: 2017-10-30 12:06:04 b'ip:nm@nm>;tag=root\r\nTo: <sip:nm2' 
+2017-10-30 12:06:04,320 [INFO] Error: bad contact id format
+2017-10-30 12:06:04,321 [INFO] Contact ID: 2017-10-30 12:06:04 b'@nm2>\r\nCall-ID: 50000\r\nCSeq: 42 ' 
+2017-10-30 12:06:04,321 [INFO] Error: bad contact id format
+2017-10-30 12:06:04,321 [INFO] Contact ID: 2017-10-30 12:06:04 b'OPTIONS\r\nMax-Forwards: 70\r\nConte' 
+2017-10-30 12:06:04,321 [INFO] Error: bad contact id format
+2017-10-30 12:06:04,321 [INFO] Contact ID: 2017-10-30 12:06:04 b'nt-Length: 0\r\nContact: <sip:nm@n' 
+2017-10-30 12:06:04,322 [INFO] Error: bad contact id format
+2017-10-30 12:06:04,322 [INFO] Contact ID: 2017-10-30 12:06:04 b'm>\r\nAccept: application/sdp\r\n\r\n' 
+2017-10-30 12:06:04,322 [INFO] Error: bad contact id format
+2017-10-30 12:06:05,914 [INFO] Contact ID: 2017-10-30 12:06:05 b'TNMP\x04\x00\x00\x00TNME\x00\x00\x04\x00' 
+2017-10-30 12:06:05,914 [INFO] Error: bad contact id format
+2017-10-30 12:06:07,508 [INFO] Contact ID: 2017-10-30 12:06:07 b'\x03\x00\x00\x0b\x06\xe0\x00\x00\x00\x00\x00' 
+2017-10-30 12:06:07,509 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:09,090 [INFO] Contact ID: 2017-10-30 12:06:09 b'DmdT\x00\x00\x00\x17\x00\x00\x00\x01\x00\x00\x00\x00\x11\x11\x00\xff\x01\xff\x13' 
+2017-10-30 12:06:09,091 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:10,685 [INFO] Contact ID: 2017-10-30 12:06:10 b':\x00\x00\x00/\x00\x00\x00\x02\x00\x00@\x02\x0f\x00\x01\x00=\x05\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00/' 
+2017-10-30 12:06:10,685 [INFO] Error: bad contact id format
+2017-10-30 12:06:10,685 [INFO] Contact ID: 2017-10-30 12:06:10 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x1f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-10-30 12:06:10,685 [INFO] Error: bad contact id format
+2017-10-30 12:06:12,280 [INFO] Contact ID: 2017-10-30 12:06:12 b'JRMI\x00\x02K' 
+2017-10-30 12:06:12,280 [INFO] Error: bad contact id format
+2017-10-30 12:06:13,875 [INFO] Contact ID: 2017-10-30 12:06:13 b'\x01\x00\x00\xfd\xce\xfa\x0b\xb0\xa0\x00\x00\x00MMS\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x12' 
+2017-10-30 12:06:13,875 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:13,875 [INFO] Contact ID: 2017-10-30 12:06:13 b'\x00\x00\x00\x01\x00\x03\x00\xf0\xf0\xf0\xf0\x0b\x00\x04\x00\x1c\x00\x03\x00N\x00S\x00P\x00l\x00a\x00y\x00e' 
+2017-10-30 12:06:13,875 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:13,875 [INFO] Contact ID: 2017-10-30 12:06:13 b'\x00r\x00/\x009\x00.\x00\x00.\x00\x00.\x02\x009\x008\x00\x00;\x00 \x00{\x00\x00\x00\x00\x00A' 
+2017-10-30 12:06:13,876 [INFO] Error: bad contact id format
+2017-10-30 12:06:13,876 [INFO] Contact ID: 2017-10-30 12:06:13 b'\x00A\x00\x00\x00-\x00\x00A\x00\x00\x00-\x00\x00\x00a\x00\x00-\x00A\x00A\x00\x00A\x00-\x00\x00\x00' 
+2017-10-30 12:06:13,876 [INFO] Error: bad contact id format
+2017-10-30 12:06:13,876 [INFO] Contact ID: 2017-10-30 12:06:13 b'\x00\x00A\x00\x00A\x00A\x00\x00A\x00A\x00\x00}\x00\x00\x00\xe0m\xdf_' 
+2017-10-30 12:06:13,876 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:15,455 [INFO] Contact ID: 2017-10-30 12:06:15 b'\x00Z\x00\x00\x01\x00\x00\x00\x016\x01,\x00\x00\x08\x00\x7f\xff\x7f\x08\x00\x00\x00\x01\x00 \x00:\x00\x00\x00\x00' 
+2017-10-30 12:06:15,455 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:15,455 [INFO] Contact ID: 2017-10-30 12:06:15 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x04\xe6\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00(CONNEC' 
+2017-10-30 12:06:15,456 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:15,456 [INFO] Contact ID: 2017-10-30 12:06:15 b'T_DATA=(COMMAND=version))' 
+2017-10-30 12:06:15,456 [INFO] Error: bad contact id format
+2017-10-30 12:06:17,050 [INFO] Contact ID: 2017-10-30 12:06:17 b'\x12\x01\x004\x00\x00\x00\x00\x00\x00\x15\x00\x06\x01\x00\x1b\x00\x01\x02\x00\x1c\x00\x0c\x03\x00(\x00\x04\xff\x08\x00\x01' 
+2017-10-30 12:06:17,050 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:17,050 [INFO] Contact ID: 2017-10-30 12:06:17 b'U\x00\x00\x00MSSQLServer\x00H\x0f\x00\x00' 
+2017-10-30 12:06:17,050 [INFO] Error: bad contact id format
+2017-10-30 12:06:18,633 [INFO] Contact ID: 2017-10-30 12:06:18 b'\x00\x03\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x0f\x00' 
+2017-10-30 12:06:18,633 [INFO] Error: bad contact id format
+2017-10-30 12:06:20,227 [INFO] Contact ID: 2017-10-30 12:06:20 b'GIOP\x01\x00\x01\x00$\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x06\x00\x00\x00abcd' 
+2017-10-30 12:06:20,228 [INFO] Error: bad contact id format
+2017-10-30 12:06:20,228 [INFO] Contact ID: 2017-10-30 12:06:20 b'ef\x00\x00\x04\x00\x00\x00get\x00\x00\x00\x00\x00' 
+2017-10-30 12:06:20,228 [INFO] Error: bad contact id format
+2017-10-30 12:06:21,821 [INFO] Contact ID: 2017-10-30 12:06:21 b'\x00\x9c\x00\x01\x1a+<M\x00\x01\x00\x00\x01\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x01\xff\xff\x00\x01none' 
+2017-10-30 12:06:21,822 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-10-30 12:06:21,823 [INFO] Contact ID: 2017-10-30 12:06:21 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-10-30 12:06:21,823 [INFO] Error: bad contact id format
+2017-10-30 12:06:21,823 [INFO] Contact ID: 2017-10-30 12:06:21 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00be\x00\x00' 
+2017-10-30 12:06:21,823 [INFO] Error: bad contact id format
+2017-10-30 12:06:21,823 [INFO] Contact ID: 2017-10-30 12:06:21 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-10-30 12:06:21,824 [INFO] Error: bad contact id format
+2017-10-30 12:06:21,824 [INFO] Contact ID: 2017-10-30 12:06:21 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-10-30 12:06:21,824 [INFO] Error: bad contact id format
+2017-11-03 06:21:16,712 [INFO] Contact ID: 2017-11-03 06:21:16 b'GET / HTTP/1.1\r\nHost: 91.183.194' 
+2017-11-03 06:21:16,713 [INFO] Error: bad contact id format
+2017-11-03 06:21:16,716 [INFO] Contact ID: 2017-11-03 06:21:16 b'.2:28017\r\nUser-Agent: Mozilla/5.' 
+2017-11-03 06:21:16,716 [INFO] Error: bad contact id format
+2017-11-03 06:21:16,717 [INFO] Contact ID: 2017-11-03 06:21:16 b'0 zgrab/0.x\r\nAccept-Encoding: gz' 
+2017-11-03 06:21:16,717 [INFO] Error: bad contact id format
+2017-11-03 06:21:16,717 [INFO] Contact ID: 2017-11-03 06:21:16 b'ip\r\n\r\n' 
+2017-11-03 06:21:16,717 [INFO] Error: bad contact id format
+2017-11-04 02:34:17,408 [INFO] Contact ID: 2017-11-04 02:34:17 b'GET / HTTP/1.1\r\nAccept-Encoding:' 
+2017-11-04 02:34:17,409 [INFO] Error: bad contact id format
+2017-11-04 02:34:17,411 [INFO] Contact ID: 2017-11-04 02:34:17 b' identity\r\nHost: 91.183.194.2:28' 
+2017-11-04 02:34:17,412 [INFO] Error: bad contact id format
+2017-11-04 02:34:17,412 [INFO] Contact ID: 2017-11-04 02:34:17 b'017\r\nConnection: close\r\nUser-Age' 
+2017-11-04 02:34:17,412 [INFO] Error: bad contact id format
+2017-11-04 02:34:17,412 [INFO] Contact ID: 2017-11-04 02:34:17 b'nt: Mozilla/4.0 (compatible; MSI' 
+2017-11-04 02:34:17,412 [INFO] Error: bad contact id format
+2017-11-04 02:34:17,412 [INFO] Contact ID: 2017-11-04 02:34:17 b'E 5.5; Windows NT)\r\n\r\n' 
+2017-11-04 02:34:17,413 [INFO] Error: bad contact id format
+2017-11-05 19:30:37,073 [INFO] Contact ID: 2017-11-05 19:30:37 b'\\#ST\n' 
+2017-11-05 19:30:37,083 [INFO] Error: bad contact id format
+2017-11-05 19:30:38,582 [INFO] Contact ID: 2017-11-05 19:30:38 b'\x00\x0bn\x00\x00\x00\x00\x01\x04be\x00\x00' 
+2017-11-05 19:30:38,582 [INFO] Error: bad contact id format
+2017-11-05 19:30:40,103 [INFO] Contact ID: 2017-11-05 19:30:40 b'\x00\x00\x07\x00\x08\x00\x03\x00\x04\x00\x05\x00\x06' 
+2017-11-05 19:30:40,104 [INFO] Error: bad contact id format
+2017-11-05 19:30:41,614 [INFO] Contact ID: 2017-11-05 19:30:41 b'\r\n\r\n' 
+2017-11-05 19:30:41,615 [INFO] Error: bad contact id format
+2017-11-05 19:30:43,135 [INFO] Contact ID: 2017-11-05 19:30:43 b'GET / HTTP/1.0\r\n\r\n' 
+2017-11-05 19:30:43,136 [INFO] Error: bad contact id format
+2017-11-05 19:30:44,653 [INFO] Contact ID: 2017-11-05 19:30:44 b'OPTIONS / HTTP/1.0\r\n\r\n' 
+2017-11-05 19:30:44,653 [INFO] Error: bad contact id format
+2017-11-05 19:30:46,170 [INFO] Contact ID: 2017-11-05 19:30:46 b'OPTIONS / RTSP/1.0\r\n\r\n' 
+2017-11-05 19:30:46,170 [INFO] Error: bad contact id format
+2017-11-05 19:30:47,686 [INFO] Contact ID: 2017-11-05 19:30:47 b'\x80\x00\x00(r\xfe\x1d\x13\x00\x00\x00\x00\x00\x00\x00\x02\x00\x01\x86\xa0\x00\x01\x97|\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-11-05 19:30:47,701 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:47,701 [INFO] Contact ID: 2017-11-05 19:30:47 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-11-05 19:30:47,702 [INFO] Error: bad contact id format
+2017-11-05 19:30:49,208 [INFO] Contact ID: 2017-11-05 19:30:49 b'\x00\x1e\x00\x06\x01\x00\x00\x01\x00\x00\x00\x00\x00\x00\x07version\x04bind\x00\x00\x10\x00\x03' 
+2017-11-05 19:30:49,209 [INFO] Error: bad contact id format
+2017-11-05 19:30:50,726 [INFO] Contact ID: 2017-11-05 19:30:50 b'\x00\x0c\x00\x00\x10\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-11-05 19:30:50,726 [INFO] Error: bad contact id format
+2017-11-05 19:30:52,242 [INFO] Contact ID: 2017-11-05 19:30:52 b'HELP\r\n' 
+2017-11-05 19:30:52,242 [INFO] Error: bad contact id format
+2017-11-05 19:30:53,758 [INFO] Contact ID: 2017-11-05 19:30:53 b'\x16\x03\x00\x00S\x01\x00\x00O\x03\x00?G\xd7\xf7\xba,\xee\xea\xb2`~\xf3\x00\xfd\x82{\xb9\xd5\x96\xc8w' 
+2017-11-05 19:30:53,759 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:53,759 [INFO] Contact ID: 2017-11-05 19:30:53 b'\x9b\xe6\xc4\xdb<=\xdbo\xef\x10n\x00\x00(\x00\x16\x00\x13\x00\n\x00f\x00\x05\x00\x04\x00e\x00d\x00c' 
+2017-11-05 19:30:53,759 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:53,760 [INFO] Contact ID: 2017-11-05 19:30:53 b'\x00b\x00a\x00`\x00\x15\x00\x12\x00\t\x00\x14\x00\x11\x00\x08\x00\x06\x00\x03\x01\x00' 
+2017-11-05 19:30:53,760 [INFO] Error: bad contact id format
+2017-11-05 19:30:55,275 [INFO] Contact ID: 2017-11-05 19:30:55 b'\x16\x03\x00\x00i\x01\x00\x00e\x03\x03U\x1c\xa7\xe4random1random2ran' 
+2017-11-05 19:30:55,276 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:55,276 [INFO] Contact ID: 2017-11-05 19:30:55 b'dom3random4\x00\x00\x0c\x00/\x00\n\x00\x13\x009\x00\x04\x00\xff\x01\x00\x000\x00\r' 
+2017-11-05 19:30:55,277 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:55,277 [INFO] Contact ID: 2017-11-05 19:30:55 b'\x00,\x00*\x00\x01\x00\x03\x00\x02\x06\x01\x06\x03\x06\x02\x02\x01\x02\x03\x02\x02\x03\x01\x03\x03\x03\x02\x04\x01\x04\x03' 
+2017-11-05 19:30:55,277 [INFO] Error: bad contact id format
+2017-11-05 19:30:55,277 [INFO] Contact ID: 2017-11-05 19:30:55 b'\x04\x02\x01\x01\x01\x03\x01\x02\x05\x01\x05\x03\x05\x02' 
+2017-11-05 19:30:55,277 [INFO] Error: bad contact id format
+2017-11-05 19:30:56,793 [INFO] Contact ID: 2017-11-05 19:30:56 b'\x00\x00\x00qj\x81n0\x81k\xa1\x03\x02\x01\x05\xa2\x03\x02\x01\n\xa4\x81^0\\\xa0\x07\x03\x05\x00P\x80' 
+2017-11-05 19:30:56,794 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:56,794 [INFO] Contact ID: 2017-11-05 19:30:56 b'\x00\x10\xa2\x04\x1b\x02NM\xa3\x170\x15\xa0\x03\x02\x01\x00\xa1\x0e0\x0c\x1b\x06krbtgt\x1b\x02N' 
+2017-11-05 19:30:56,795 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:56,795 [INFO] Contact ID: 2017-11-05 19:30:56 b'M\xa5\x11\x18\x0f19700101000000Z\xa7\x06\x02\x04\x1f\x1e\xb9\xd9\xa8\x170\x15' 
+2017-11-05 19:30:56,795 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:56,796 [INFO] Contact ID: 2017-11-05 19:30:56 b'\x02\x01\x12\x02\x01\x11\x02\x01\x10\x02\x01\x17\x02\x01\x01\x02\x01\x03\x02\x01\x02' 
+2017-11-05 19:30:56,796 [INFO] Error: bad contact id format
+2017-11-05 19:30:58,309 [INFO] Contact ID: 2017-11-05 19:30:58 b'\x00\x00\x00\xa4\xffSMBr\x00\x00\x00\x00\x08\x01@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x06' 
+2017-11-05 19:30:58,310 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:58,310 [INFO] Contact ID: 2017-11-05 19:30:58 b'\x00\x00\x01\x00\x00\x81\x00\x02PC NETWORK PROGRAM 1.0\x00\x02' 
+2017-11-05 19:30:58,310 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:30:58,310 [INFO] Contact ID: 2017-11-05 19:30:58 b'MICROSOFT NETWORKS 1.03\x00\x02MICROSO' 
+2017-11-05 19:30:58,310 [INFO] Error: bad contact id format
+2017-11-05 19:30:58,310 [INFO] Contact ID: 2017-11-05 19:30:58 b'FT NETWORKS 3.0\x00\x02LANMAN1.0\x00\x02LM1.' 
+2017-11-05 19:30:58,310 [INFO] Error: bad contact id format
+2017-11-05 19:30:58,310 [INFO] Contact ID: 2017-11-05 19:30:58 b'2X002\x00\x02Samba\x00\x02NT LANMAN 1.0\x00\x02NT ' 
+2017-11-05 19:30:58,310 [INFO] Error: bad contact id format
+2017-11-05 19:30:58,311 [INFO] Contact ID: 2017-11-05 19:30:58 b'LM 0.12\x00' 
+2017-11-05 19:30:58,311 [INFO] Error: bad contact id format
+2017-11-05 19:30:59,826 [INFO] Contact ID: 2017-11-05 19:30:59 b'l\x00\x0b\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-11-05 19:30:59,826 [INFO] Error: bad contact id format
+2017-11-05 19:31:01,342 [INFO] Contact ID: 2017-11-05 19:31:01 b'GET /nice%20ports%2C/Tri%6Eity.t' 
+2017-11-05 19:31:01,343 [INFO] Error: bad contact id format
+2017-11-05 19:31:01,343 [INFO] Contact ID: 2017-11-05 19:31:01 b'xt%2ebak HTTP/1.0\r\n\r\n' 
+2017-11-05 19:31:01,343 [INFO] Error: bad contact id format
+2017-11-05 19:31:02,858 [INFO] Contact ID: 2017-11-05 19:31:02 b'\x01default\n' 
+2017-11-05 19:31:02,858 [INFO] Error: bad contact id format
+2017-11-05 19:31:04,374 [INFO] Contact ID: 2017-11-05 19:31:04 b'0\x84\x00\x00\x00-\x02\x01\x07c\x84\x00\x00\x00$\x04\x00\n\x01\x00\n\x01\x00\x02\x01\x00\x02\x01d\x01\x01\x00' 
+2017-11-05 19:31:04,375 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:04,375 [INFO] Contact ID: 2017-11-05 19:31:04 b'\x87\x0bobjectClass0\x84\x00\x00\x00\x00' 
+2017-11-05 19:31:04,375 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:05,891 [INFO] Contact ID: 2017-11-05 19:31:05 b'0\x0c\x02\x01\x01`\x07\x02\x01\x02\x04\x00\x80\x00' 
+2017-11-05 19:31:05,892 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:07,407 [INFO] Contact ID: 2017-11-05 19:31:07 b'OPTIONS sip:nm SIP/2.0\r\nVia: SIP' 
+2017-11-05 19:31:07,407 [INFO] Error: bad contact id format
+2017-11-05 19:31:07,407 [INFO] Contact ID: 2017-11-05 19:31:07 b'/2.0/TCP nm;branch=foo\r\nFrom: <s' 
+2017-11-05 19:31:07,408 [INFO] Error: bad contact id format
+2017-11-05 19:31:07,408 [INFO] Contact ID: 2017-11-05 19:31:07 b'ip:nm@nm>;tag=root\r\nTo: <sip:nm2' 
+2017-11-05 19:31:07,408 [INFO] Error: bad contact id format
+2017-11-05 19:31:07,408 [INFO] Contact ID: 2017-11-05 19:31:07 b'@nm2>\r\nCall-ID: 50000\r\nCSeq: 42 ' 
+2017-11-05 19:31:07,409 [INFO] Error: bad contact id format
+2017-11-05 19:31:07,409 [INFO] Contact ID: 2017-11-05 19:31:07 b'OPTIONS\r\nMax-Forwards: 70\r\nConte' 
+2017-11-05 19:31:07,409 [INFO] Error: bad contact id format
+2017-11-05 19:31:07,409 [INFO] Contact ID: 2017-11-05 19:31:07 b'nt-Length: 0\r\nContact: <sip:nm@n' 
+2017-11-05 19:31:07,409 [INFO] Error: bad contact id format
+2017-11-05 19:31:07,410 [INFO] Contact ID: 2017-11-05 19:31:07 b'm>\r\nAccept: application/sdp\r\n\r\n' 
+2017-11-05 19:31:07,410 [INFO] Error: bad contact id format
+2017-11-05 19:31:08,923 [INFO] Contact ID: 2017-11-05 19:31:08 b'TNMP\x04\x00\x00\x00TNME\x00\x00\x04\x00' 
+2017-11-05 19:31:08,923 [INFO] Error: bad contact id format
+2017-11-05 19:31:10,438 [INFO] Contact ID: 2017-11-05 19:31:10 b'\x03\x00\x00\x0b\x06\xe0\x00\x00\x00\x00\x00' 
+2017-11-05 19:31:10,439 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:11,956 [INFO] Contact ID: 2017-11-05 19:31:11 b'DmdT\x00\x00\x00\x17\x00\x00\x00\x01\x00\x00\x00\x00\x11\x11\x00\xff\x01\xff\x13' 
+2017-11-05 19:31:11,957 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:13,488 [INFO] Contact ID: 2017-11-05 19:31:13 b':\x00\x00\x00/\x00\x00\x00\x02\x00\x00@\x02\x0f\x00\x01\x00=\x05\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00/' 
+2017-11-05 19:31:13,488 [INFO] Error: bad contact id format
+2017-11-05 19:31:13,488 [INFO] Contact ID: 2017-11-05 19:31:13 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00@\x1f\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-11-05 19:31:13,489 [INFO] Error: bad contact id format
+2017-11-05 19:31:15,005 [INFO] Contact ID: 2017-11-05 19:31:15 b'JRMI\x00\x02K' 
+2017-11-05 19:31:15,006 [INFO] Error: bad contact id format
+2017-11-05 19:31:16,522 [INFO] Contact ID: 2017-11-05 19:31:16 b'\x01\x00\x00\xfd\xce\xfa\x0b\xb0\xa0\x00\x00\x00MMS\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x12' 
+2017-11-05 19:31:16,522 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:16,523 [INFO] Contact ID: 2017-11-05 19:31:16 b'\x00\x00\x00\x01\x00\x03\x00\xf0\xf0\xf0\xf0\x0b\x00\x04\x00\x1c\x00\x03\x00N\x00S\x00P\x00l\x00a\x00y\x00e' 
+2017-11-05 19:31:16,523 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:16,523 [INFO] Contact ID: 2017-11-05 19:31:16 b'\x00r\x00/\x009\x00.\x00\x00.\x00\x00.\x02\x009\x008\x00\x00;\x00 \x00{\x00\x00\x00\x00\x00A' 
+2017-11-05 19:31:16,523 [INFO] Error: bad contact id format
+2017-11-05 19:31:16,523 [INFO] Contact ID: 2017-11-05 19:31:16 b'\x00A\x00\x00\x00-\x00\x00A\x00\x00\x00-\x00\x00\x00a\x00\x00-\x00A\x00A\x00\x00A\x00-\x00\x00\x00' 
+2017-11-05 19:31:16,523 [INFO] Error: bad contact id format
+2017-11-05 19:31:16,523 [INFO] Contact ID: 2017-11-05 19:31:16 b'\x00\x00A\x00\x00A\x00A\x00\x00A\x00A\x00\x00}\x00\x00\x00\xe0m\xdf_' 
+2017-11-05 19:31:16,523 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:18,038 [INFO] Contact ID: 2017-11-05 19:31:18 b'\x00Z\x00\x00\x01\x00\x00\x00\x016\x01,\x00\x00\x08\x00\x7f\xff\x7f\x08\x00\x00\x00\x01\x00 \x00:\x00\x00\x00\x00' 
+2017-11-05 19:31:18,039 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:18,039 [INFO] Contact ID: 2017-11-05 19:31:18 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x04\xe6\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00(CONNEC' 
+2017-11-05 19:31:18,040 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:18,040 [INFO] Contact ID: 2017-11-05 19:31:18 b'T_DATA=(COMMAND=version))' 
+2017-11-05 19:31:18,040 [INFO] Error: bad contact id format
+2017-11-05 19:31:19,556 [INFO] Contact ID: 2017-11-05 19:31:19 b'\x12\x01\x004\x00\x00\x00\x00\x00\x00\x15\x00\x06\x01\x00\x1b\x00\x01\x02\x00\x1c\x00\x0c\x03\x00(\x00\x04\xff\x08\x00\x01' 
+2017-11-05 19:31:19,557 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:19,557 [INFO] Contact ID: 2017-11-05 19:31:19 b'U\x00\x00\x00MSSQLServer\x00H\x0f\x00\x00' 
+2017-11-05 19:31:19,557 [INFO] Error: bad contact id format
+2017-11-05 19:31:21,071 [INFO] Contact ID: 2017-11-05 19:31:21 b'\x00\x03\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x0f\x00' 
+2017-11-05 19:31:21,071 [INFO] Error: bad contact id format
+2017-11-05 19:31:22,587 [INFO] Contact ID: 2017-11-05 19:31:22 b'GIOP\x01\x00\x01\x00$\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x06\x00\x00\x00abcd' 
+2017-11-05 19:31:22,588 [INFO] Error: bad contact id format
+2017-11-05 19:31:22,588 [INFO] Contact ID: 2017-11-05 19:31:22 b'ef\x00\x00\x04\x00\x00\x00get\x00\x00\x00\x00\x00' 
+2017-11-05 19:31:22,588 [INFO] Error: bad contact id format
+2017-11-05 19:31:24,105 [INFO] Contact ID: 2017-11-05 19:31:24 b'\x00\x9c\x00\x01\x1a+<M\x00\x01\x00\x00\x01\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x01\xff\xff\x00\x01none' 
+2017-11-05 19:31:24,106 [INFO] Error: bad Contact ID translation or user error in DB or issue sending notification
+2017-11-05 19:31:24,106 [INFO] Contact ID: 2017-11-05 19:31:24 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-11-05 19:31:24,106 [INFO] Error: bad contact id format
+2017-11-05 19:31:24,106 [INFO] Contact ID: 2017-11-05 19:31:24 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00be\x00\x00' 
+2017-11-05 19:31:24,106 [INFO] Error: bad contact id format
+2017-11-05 19:31:24,107 [INFO] Contact ID: 2017-11-05 19:31:24 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-11-05 19:31:24,107 [INFO] Error: bad contact id format
+2017-11-05 19:31:24,107 [INFO] Contact ID: 2017-11-05 19:31:24 b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' 
+2017-11-05 19:31:24,107 [INFO] Error: bad contact id format
+2017-11-07 01:01:16,803 [INFO] Contact ID: 2017-11-07 01:01:16 b'GET / HTTP/1.1\r\nAccept-Encoding:' 
+2017-11-07 01:01:16,807 [INFO] Error: bad contact id format
+2017-11-07 01:01:16,808 [INFO] Contact ID: 2017-11-07 01:01:16 b' identity\r\nHost: 91.183.194.2:28' 
+2017-11-07 01:01:16,808 [INFO] Error: bad contact id format
+2017-11-07 01:01:16,808 [INFO] Contact ID: 2017-11-07 01:01:16 b'017\r\nConnection: close\r\nUser-Age' 
+2017-11-07 01:01:16,808 [INFO] Error: bad contact id format
+2017-11-07 01:01:16,808 [INFO] Contact ID: 2017-11-07 01:01:16 b'nt: Mozilla/4.0 (compatible; MSI' 
+2017-11-07 01:01:16,809 [INFO] Error: bad contact id format
+2017-11-07 01:01:16,809 [INFO] Contact ID: 2017-11-07 01:01:16 b'E 5.5; Windows NT)\r\n\r\n' 
+2017-11-07 01:01:16,809 [INFO] Error: bad contact id format
+2017-11-11 07:01:01,647 [INFO] Socket errorI/O error(104): Connection reset by peer

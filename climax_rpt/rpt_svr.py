@@ -41,23 +41,33 @@ def translate(contactID, snsr_list):
     sensor_id = sensor_id.lstrip('0') or '0' # remove leading zeros in text string
     for s in snsr_list:                     # search for sensor name based on sensor ID
         if sensor_id == s[0]:
-            sensor=s[1]
+            sensor_name=s[1]
+            sensor_type=s[2]
             break            
     
 #    print("Event={}".format(evt))
     try:
 
-        alarmMsg += ArmingRequest.value(GG)
-        alarmMsg += ": "
+        if GG == "01":
+            GG="01"
+        elif GG == "10":
+            GG="02"
+        elif GG == "11":
+            GG="03"
+        else :
+            GG="00"               
+        
+#        alarmMsg += ArmingRequest.value(GG)
+#        alarmMsg += ": "
         
         if Q== '1':
-            if sensor == '14' or sensor == '15' :
+            if sensor_type == '0' or sensor_type == '14' or sensor_type == '15' :
                 alarmMsg += "Disarm: "
             else:
                 alarmMsg += "New event: "
                 
         elif Q == '3':
-            if sensor == '14' or sensor == '15' :
+            if sensor_type == '0' or sensor_type == '14' or sensor_type == '15' :
                 alarmMsg += "Armed: "
             else:
                 alarmMsg += "Restore: "
@@ -68,24 +78,24 @@ def translate(contactID, snsr_list):
         # arm vie RC
         if evt == '400':
             alarmMsg += EventCode.value(evt)[0]
-            alarmMsg += "User "
-            alarmMsg += sensor
+            alarmMsg += " User "
+            alarmMsg += sensor_name
             
         # arm via WEB
-        elif evt =='401' and (sensor == '14' or sensor == '15'):
+        elif evt =='401' and (sensor_type == '14' or sensor_type == '15'):
             alarmMsg += EventCode.value(evt)[0]
 
         # arm via Keypad
         elif evt == '407':
             alarmMsg += EventCode.value(evt)[0]
-            alarmMsg += "User "
-            alarmMsg += sensor
+            alarmMsg += " User "
+            alarmMsg += sensor_name
 
         
         else:
             alarmMsg += EventCode.value(evt)[0] # add event name on the message
             alarmMsg += " Sensor "
-            alarmMsg += sensor
+            alarmMsg += sensor_name
             
         
     except:
@@ -94,7 +104,7 @@ def translate(contactID, snsr_list):
         
     else:
 #        print("Event= {}".format(alarmMsg), end='')
-        logging.info("Event: {}".format(alarmMsg))
+        logging.debug("Event: {}".format(alarmMsg))
         return( evt, alarmMsg, EventCode.value(evt)[1] ) 
 
    
@@ -208,7 +218,7 @@ def Main():
                             if Contact_ID_filter.match(data):
                                 connection.sendall( b'\x06' )       # respond only if Contact ID is correct
                                 
-                                logging.debug("Contact ID OK, acknowledge sent")
+                                logging.debug("Contact ID format OK, acknowledge sent")
                                  
                                 rptipid = data[1:5]
                                 tmp = data[6:].split(' ')
@@ -226,7 +236,7 @@ def Main():
                                     if gw_id == []:    
                                         logging.info( " No Gw found with acct2= {}".format(acct2))
                                     else:
-                                        logging.info( " on Gw_id {}".format(gw_id[0][0]))
+                                        logging.debug( " on Gw_id {}".format(gw_id[0][0]))
                
                                         req="INSERT INTO {} (event, eventtime, gwID_id) VALUES ( %s, %s, %s )".format("alarm_events")
                                         value= (data, now, gw_id[0][0],)

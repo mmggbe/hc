@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from alarm import views as al_views
+from accounts import views as account_views
 
 from django.contrib.auth import views
 from mylogin.forms import LoginForm
@@ -23,11 +24,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^$', al_views.index, name='index'),
+    url(r'^$', al_views.index, name='home'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'', include('mylogin.urls')),
-    url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
-    url(r'^logout/$', views.logout, {'next_page': '/login'}),  
+ #   url(r'', include('mylogin.urls')), 
+    url(r'', include('accounts.urls')),
+#    url(r'^signup/$', account_views.signup, name='signup'),
+#    url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
+#    url(r'^logout/$', views.logout, {'next_page': '/login'}),  
     url(r'^camera/', include ('camera.urls')),
     url(r'^history/', include ('history.urls')),
     url(r'^alarm/', include ('alarm.urls')),

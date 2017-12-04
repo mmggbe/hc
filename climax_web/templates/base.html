@@ -1,49 +1,76 @@
-{% load staticfiles %}
-<!DOCTYPE html>
+{% load staticfiles %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- for auto adjustement on smartphones  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no">
-
-    <title>Horus</title>
 <!--  
     <meta http-equiv="refresh" content="5">
+
 -->
- 
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<<<<<<< HEAD
     <link rel="stylesheet" href="{% static 'css/climax_web.css' %}">   
     
     {% block myHead %}
                 
     {% endblock %}
+=======
+    <link rel="stylesheet" href="{% static 'css/climax_web.css' %}">  
+
+    <link rel="icon" href="{% static 'images/eye-of-horus.ico' %}" type="image/x-icon">
+
+    
+    <title>{% block title %}Home Control{% endblock %}</title>  
+    {% block stylesheet %}{% endblock %}
+    
+
+>>>>>>> 893fbcdad2c6510d7abd86fe38a55384c8b31608
         
   </head>
   
   <body>
+  
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">         
-                {% include 'navbar.html' %}
-                <h3 class="text-center">
-                    Home Control
-                </h3>
-                
-                {% block content %}
-                
-                {% endblock %}
-                
-            </div>
-         </div>
-    </div>
     
-    <script src="{% static 'js/jquery-3.1.1.min.js'%}"></script>
+    {% block body %}
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">    
+                    {% if user.is_authenticated %}     
+                        {% include 'navbar.html' %}
+                    
+                            <h1 class="text-center"> Home Control <br>                        
+                            </h1> 
+                            
+                        {% block content %}
+                        
+                        {% endblock %}
+                    
+                    {% else %}
+                        <form class="form-inline ml-auto">
+                            <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+                        </form>
+                    {% endif %}
+                    
+                </div>
+             </div>
+        </div>
+        
+    {% endblock body %}
+    
+    <script src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js'%}"></script>
     <script src="{% static 'js/scripts.js'%}"></script>
+    
+
 <!--    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

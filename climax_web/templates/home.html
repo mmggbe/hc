@@ -1,22 +1,23 @@
 {% extends 'base.html' %}
 
-
 {% block myscript %}
 <script type="text/javascript">
 
     var status_gw={{ status }};
-    
-    $('.btn-group button').eq(status_gw).addClass("active");
+ 
+    $('.btn-group button').eq(status_gw).addClass("btn-primary");
     
       
     //
     // Preserve the active status only for the clicked button
     //
     $('.btn-group button').on('click', function(e) {
-        $('.btn-group button').not(this).removeClass("active");
-        $(this).addClass("active");
-        var btnActive = $('.btn-group button.active');
+        $('.btn-group button').not(this).removeClass("btn-primary");
+        $(this).addClass("btn-primary");
+        var btnActive = $('.btn-group button.btn-primary');
         console.log("1");
+
+
 
         
         $.ajax({
@@ -55,6 +56,8 @@
 {% block content %}
 
 
+
+
             <div class="row">
 
                 <div class="col-md-5">
@@ -62,13 +65,13 @@
                     <div class="btn-group" href="{% url 'gateway_status' %}">
 
                         <button class="btn btn-lg btn-responsive"  type="button">
-                            <em class="glyphicon glyphicon-lock"></em> Armed
+                            <em class="fa fa-lock"></em> Armed
                         </button> 
                         <button class="btn btn-lg btn-responsive" type="button">
-                            <em class="glyphicon glyphicon-lamp"></em> Home
+                            <em class="fa fa-bed"></em> Home
                         </button> 
                         <button class="btn btn-lg btn-responsive" type="button">
-                            <em class="glyphicon glyphicon-home"></em> Unarm
+                            <em class="fa fa-home"></em> Unarm
                         </button> 
 
                     </div>

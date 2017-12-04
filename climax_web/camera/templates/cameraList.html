@@ -64,13 +64,13 @@
             <td><a href={% url 'cameraEdit' pk=camera.pk  %}>{{ camera.description }} </a></td>
             <td><a class="btn btn-default" href="{% url 'cameraRT' pk=camera.pk %}"><span class="glyphicon glyphicon-film"></span></a></td>
             <td>    
-                <div class="btn-group-sm btn-toggle">                        
+                <div class="btn-group btn-toggle">                        
                     {% if camera.securityStatus == "1" %}   
-                        <button class="btn btn-default" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
-                        <button class="btn btn-primary  " type="button" id="{{camera.pk}}_1"><em class="glyphicon glyphicon-lock"></em> Armed</button> 
+                        <button class="btn btn-lg btn-default btn-responsive" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
+                        <button class="btn btn-lg btn-primary btn-responsive " type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Armed</button> 
                     {% else %}
-                        <button class="btn btn-primary   " type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
-                        <button class="btn btn-default" type="button" id="{{camera.pk}}_1"><em class="glyphicon glyphicon-lock"></em> Armed</button> 
+                        <button class="btn btn-lg btn-primary btn-responsive  " type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
+                        <button class="btn btn-lg btn-default btn-responsive" type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Armed</button> 
                     {% endif %}
                 </div>
             </td>

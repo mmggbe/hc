@@ -20,8 +20,12 @@ climax_web/media/*
 *.call
 *.pho
 *.wav
+*.pyc
 run*.sh
 publish.sh
 pull.sh
+<<<<<<< HEAD
 
+=======
+>>>>>>> 893fbcdad2c6510d7abd86fe38a55384c8b31608
 
