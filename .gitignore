@@ -4,6 +4,7 @@ climax_svr/GW_Crypto/cryptoAES.py
 climax_svr/Documentation/*
 climax_web/alarm/migrations/*
 climax_web/camera/migrations/*
+climax_web/camera/__pycache__/*
 climax_web/mylogin/migrations/*
 climax_web/HCsettings.py
 climax_web/climax_web/wsgi*.py
