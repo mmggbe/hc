@@ -62,7 +62,7 @@
         
         <tr>
             <td><a href={% url 'cameraEdit' pk=camera.pk  %}>{{ camera.description }} </a></td>
-            <td><a class="btn btn-default" href="{% url 'cameraRT' pk=camera.pk %}"><span class="glyphicon glyphicon-film"></span></a></td>
+            <td><a class="btn btn-default" href="{% url 'cameraRT' pk=camera.pk %}"><span class="fa fa-film"></span></a></td>
             <td>    
                 <div class="btn-group btn-toggle">                        
                     {% if camera.securityStatus == "1" %}   

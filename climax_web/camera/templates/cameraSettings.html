@@ -8,7 +8,7 @@
         {% for camera in cameras %}
         <li>
           <p>Name: {{ camera.description }} 
-          <a class="btn btn-default" href="{% url 'cameraDelete' pk=camera.pk %}"><span class="glyphicon glyphicon-trash"></span></a> 
+          <a class="btn btn-default" href="{% url 'cameraDelete' pk=camera.pk %}"><span class="fa fa-trash"></span></a> 
           </p>                
         </li>
         {% empty %}
@@ -16,7 +16,7 @@
         {% endfor %}
     </ul>
     
-    <a class="btn btn-default" href="/camera/cameraAdd/"><span class="glyphicon glyphicon-plus-sign"></span></a> 
+    <a class="btn btn-default" href="/camera/cameraAdd/"><span class="fa fa-plus-square"></span></a> 
 </div>  
     
 {% endblock %}
