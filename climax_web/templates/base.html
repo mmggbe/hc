@@ -17,11 +17,9 @@
     <link rel="stylesheet" href="{% static 'css/climax_web.css' %}">   
     <link rel="icon" href="{% static 'images/eye-of-horus.ico' %}" type="image/x-icon">
     
-    {% block myHead %}
-                
-    {% endblock %}
+    {% block myHead %} {% endblock %}
     
-    <title>{% block title %}Home Control{% endblock %}</title>  
+    <title>{% block title %}Horus Monitoring{% endblock %}</title>  
 
     {% block stylesheet %}{% endblock %}
     
@@ -40,7 +38,7 @@
                     {% if user.is_authenticated %}     
                         {% include 'navbar.html' %}
                     
-                            <h1 class="text-center"> Home Control <br>                        
+                            <h1 class="text-center"> Horus Monitoring <br>                        
                             </h1> 
                             
                         {% block content %}
