@@ -20,8 +20,8 @@
         {% for user in users %}
  
         <tr>
-          <td class="align-middle"> {{ user.index_usr }} </td>
-          <td class="align-middle"> <a href={% url 'user_edit' pk=user.pk %}> {{user.name}} </a> </td>  
+          <td class="align-middle"> <a href={% url 'user_edit' pk=user.pk %}> {{ user.index_usr }} </a> </td>
+          <td class="align-middle"> <a href={% url 'user_edit' pk=user.pk %}> {{user.name}}  </a> </td>  
           <td class="align-middle"> {{user.latch}} </td>   
         </tr>
 

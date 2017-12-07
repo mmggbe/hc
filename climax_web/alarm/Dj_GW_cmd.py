@@ -123,7 +123,7 @@ class cmdTo_climax():
         ''' increase the command_id each time a command is sent.
         The command_id can be modified by the polling server 
         '''
-#        gtw=gateways.objects.get(id=self.gtw.id)
+        gtw=gateways.objects.get(id=self.gtw.id)
      
 
         self.gtw.last_cmd_id= self.gtw.last_cmd_id+1

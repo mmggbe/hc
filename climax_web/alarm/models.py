@@ -82,6 +82,9 @@ class sensors( models.Model):
 # <status-energy value="0.0"/>
 # <status-time value="2017/04/22 11:37:30"/>
 
+    def __str__(self):
+        return self.type + " " + self.address
+    
     
 # users of the Climax GW    
 class users( models.Model):   

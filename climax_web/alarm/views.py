@@ -56,42 +56,42 @@ class SensorIcon:
 @login_required(login_url="/login/")
 def index( request):
 
-    
     if request.user.is_authenticated():
-        usr = request.user
+
+        try:
+            gw=gateways.objects.get(userWEB=request.user)
         
-    try:
-        gw=gateways.objects.get(userWEB=usr.id)
-        Glob.current_GW=gw
+        except:
+            Glob.current_GW=None
+            return render( request, 'home.html',{'status': "9",'events':"" }) 
         
-    except: 
-#        return redirect('gateway_new')     
-        return render( request, 'home.html',{'status': "9",'events':"" })  
-    else: # from "try:"
-        # refresh DB content if required
-        #should be 10 users, otherwise --> refresh
-        
-        cmd=cmdTo_climax()
-        if users.objects.filter(gwID=gw.id).count() != 10 :
-            cmd.getUsers()
+        else: # from "try:"
+
+            Glob.current_GW=gw
             
-        cmd.getSensors()
+# refresh DB content if required
+#should be 10 users, otherwise --> refresh
+            cmd=cmdTo_climax()
+            if users.objects.filter(gwID=gw.id).count() != 10 :
+                cmd.getUsers()
+                
+            cmd.getSensors()
+            
+            
+            # return the value for GW and adapt it to the buttons
+            if gw.mode == "3":
+                sts="0"
+            elif gw.mode == "2":
+                sts="1"
+            else :
+                sts="2"      
         
-        
-        # return the value for GW and adapt it to the buttons
-        if gw.mode == "3":
-            sts="0"
-        elif gw.mode == "2":
-            sts="1"
-        else :
-            sts="2"      
-    
-        evts = events.objects.filter(gwID = Glob.current_GW.id ).order_by('id').reverse()[:5]  
-        
-        for evt in evts :
-            evt.translation=translate( evt.event )
-        
-        return render( request, 'home.html',{'status': sts,'events':evts })
+            evts = events.objects.filter(gwID = Glob.current_GW.id ).order_by('id').reverse()[:5]  
+            
+            for evt in evts :
+                evt.translation=translate( evt.event )
+            
+            return render( request, 'home.html',{'status': sts,'events':evts })
 
 
 @login_required(login_url="/")
@@ -113,7 +113,13 @@ def HC_contact_edit( request):
 
 @login_required(login_url="/")
 def users_list( request):
-    usr = users.objects.filter(gwID = Glob.current_GW.id )
+    
+
+    usr=()
+       
+    if Glob.current_GW is not None:
+        usr = users.objects.filter(gwID = Glob.current_GW.id )
+    
     return render( request, 'userslist.html', {'users':usr})
 
 @login_required(login_url="/")
@@ -135,7 +141,7 @@ def user_edit( request, pk ):
 @login_required(login_url="/")
 def gateways_list( request ):       
     
-    gws_list = gateways.objects.filter(userWEB = request.user.id )
+    gws_list = gateways.objects.filter(userWEB=request.user )
     if not gws_list:
         return redirect('gateway_new')
     else:
@@ -208,14 +214,24 @@ def gateway_status( request):
 
 @login_required(login_url="/")
 def sensors_list( request):
-    snrs_list = sensors.objects.filter(gwID = Glob.current_GW.id )
-   
-    # add icon to sensor list
-    for sensor in snrs_list:        
-        sensor.ico = SensorIcon.icon_list[int(sensor.type)]
-#        print("sensor type={}".format (int(sensor.type)) )
     
+    snrs_list=()
+    if Glob.current_GW is not None:
+#        gw=gateways.objects.select_related('sensors').get(userWEB=request.user)
+#        snrs_list = gw.sensors
+
+
+        snrs_list = sensors.objects.filter(gwID = Glob.current_GW.id )
+   
+        # add icon to sensor list
+        for sensor in snrs_list:        
+            sensor.ico = SensorIcon.icon_list[int(sensor.type)]
+
+        
     return render( request, 'sensorslist.html', {'sensors':snrs_list})
+#    else:
+#        return render( request )
+        
 
 @login_required(login_url="/")
 def sensor_delete( request, pk):
@@ -269,11 +285,14 @@ def sensor_modify( request, pk ):
 @login_required(login_url="/")
 def smartplug_list( request):
     
-    smartplug_list = sensors.objects.filter(gwID = Glob.current_GW.id).filter(type="29")
-   
-    # add icon to sensor list
-    # for splug in smartplug_list:        
-    #   print("sensor type={}, power={}".format (int(splug.type),splug.status_switch) )
+    smartplug_list=()
+    if Glob.current_GW is not None:
+#
+        smartplug_list = sensors.objects.filter(gwID = Glob.current_GW.id).filter(type="29")
+       
+        # add icon to sensor list
+        # for splug in smartplug_list:        
+        #   print("sensor type={}, power={}".format (int(splug.type),splug.status_switch) )
     
     return render( request, 'smartpluglist.html', {'status': 1 , 'smartplug_list':smartplug_list})
 
