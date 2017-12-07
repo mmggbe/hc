@@ -25,7 +25,7 @@ climax_web/media/*
 run*.sh
 publish.sh
 pull.sh
-
+readme.txt
 
 =======
 >>>>>>> 893fbcdad2c6510d7abd86fe38a55384c8b31608
