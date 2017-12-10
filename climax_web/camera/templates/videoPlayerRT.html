@@ -28,7 +28,13 @@
         
         var ReLoad = document.getElementById('reload');
         ReLoad.addEventListener('submit', function(event) {
-            player.reset();
+            event.preventDefault();
+            player.src({
+                src: '{{RT_URL}}',
+                type: 'application/x-mpegURL'
+            });
+            player.play();
+          return false;
             });
         
     </script>

@@ -46,7 +46,7 @@
 {% block content %}
 
 <div class="col-md-6">
-     <table class="table table-striped" id="table">
+  <table class="table table-striped" id="table">
     <thead>
       <tr>
         <th>Camera description</th>
@@ -61,7 +61,7 @@
         {% for camera in cameras %}
         
         <tr>
-            <td><a href={% url 'cameraEdit' pk=camera.pk  %}>{{ camera.description }} </a></td>
+            <td><a href={% url 'cameraTest' pk=camera.pk  %}>{{ camera.description }} </a></td>
             <td><a class="btn btn-default" href="{% url 'cameraRT' pk=camera.pk %}"><span class="fa fa-film"></span></a></td>
             <td>    
                 <div class="btn-group btn-toggle">                        
