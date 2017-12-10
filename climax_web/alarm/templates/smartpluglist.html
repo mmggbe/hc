@@ -57,11 +57,11 @@ $('.btn-toggle').click(function() {
             <p> Name: {{ splug.name }}, ON-OFF = {{ splug.status_switch }}, Power = {{ splug.status_power }} W&nbsp; 
                 <div class="btn-group btn-toggle">
                     {% if splug.status_switch == "1" %}
-                        <button class="btn btn-lg btn-primary btn-responsive" id="{{splug.no}}_ON" > ON  </button>
-                        <button class="btn btn-lg btn-default btn-responsive" id="{{splug.no}}_OFF" > OFF </button>
+                        <button class="btn btn-primary btn-responsive" id="{{splug.no}}_ON" > ON  </button>
+                        <button class="btn btn-responsive" id="{{splug.no}}_OFF" > OFF </button>
                     {% else %}
-                        <button class="btn btn-lg btn-default btn-responsive" id="{{splug.no}}_ON" > ON  </button>
-                        <button class="btn btn-lg btn-primary btn-responsive" id="{{splug.no}}_OFF" > OFF </button>
+                        <button class="btn btn-responsive" id="{{splug.no}}_ON" > ON  </button>
+                        <button class="btn btn-primary btn-responsive" id="{{splug.no}}_OFF" > OFF </button>
                     {% endif %}
                     
                 </div>
