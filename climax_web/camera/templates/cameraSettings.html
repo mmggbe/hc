@@ -4,19 +4,28 @@
 {% block content %}
 
 <div class="col-md-6">
-    <ul class="list-unstyled">
-        {% for camera in cameras %}
-        <li>
-          <p>Name: {{ camera.description }} 
-          <a class="btn btn-default" href="{% url 'cameraDelete' pk=camera.pk %}"><span class="fa fa-trash"></span></a> 
-          </p>                
-        </li>
-        {% empty %}
-        <p>No camera configured.</p>
-        {% endfor %}
-    </ul>
+     <table class="table table-striped" id="table">
+    <thead>
+      <tr>
+        <th>Camera description</th>
+        <th></th>
+      </tr>
+    </thead>
     
-    <a class="btn btn-default" href="/camera/cameraAdd/"><span class="fa fa-plus-square"></span></a> 
+     <tbody>
+        {% for camera in cameras %}
+            <tr>
+                <td><a data-toggle="tooltip" title="Edit camera: {{camera.description }}" href={% url 'cameraEdit' pk=camera.pk  %}>{{ camera.description }} </a></td>
+                <td><a class="btn btn-default" href="{% url 'cameraDelete' pk=camera.pk %}"><span class="fa fa-trash"></span></a></td> 
+            </tr>
+        {% empty %}
+            <tr>
+                <td>No camera configured.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    
+    <a data-toggle="tooltip" title="Add a new camera" class="btn btn-default" href="/camera/cameraAdd/"><span class="fa fa-plus-square"></span></a> 
 </div>  
     
 {% endblock %}

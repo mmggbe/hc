@@ -22,7 +22,20 @@ def cameraList(request):
 def cameraAdd (request):
     c = {}
     c.update(csrf(request))
-    return render(request,"cameraAdd.html", c)
+    c['editType']= 'new'
+    return render(request,"cameraEdit.html", c)
+
+@login_required(login_url="/")    
+def cameraEdit (request, pk):
+    c = {}
+    c.update(csrf(request))
+    username = request.user.get_username()
+    cameraObj = camera.objects.filter(user__username=username).get(pk=pk)
+    c['mac']= cameraObj.CameraMac
+    c['description'] = cameraObj.description
+    c['editType']= 'update'
+    c['cameraId']= pk
+    return render(request,"cameraEdit.html", c)
 
 @login_required(login_url="/")
 def cameraSettings(request):
@@ -34,8 +47,12 @@ def cameraSettings(request):
 @login_required(login_url="/")    
 def saveCamera (request):
     current_user = request.user
-    n=camera.objects.create(CameraMac=request.POST['mac'], description=request.POST['description'],user_id=current_user.id,securityStatus='1')
-    n.save()
+    username = request.user.get_username()
+    if request.POST['editType'] == 'new':
+        n=camera.objects.create(CameraMac=request.POST['mac'], description=request.POST['description'],user_id=current_user.id,securityStatus='1')
+        n.save()
+    else:
+        camera.objects.filter(id=request.POST['cameraId']).filter(user__username=username).update(CameraMac=request.POST['mac'], description=request.POST['description'])
     return redirect('/camera/cameraSettings/')
     
 @login_required(login_url='/')
@@ -45,11 +62,11 @@ def cameraDelete(request, pk):
     return redirect('/camera/cameraSettings/')
     
 @login_required(login_url='/')    
-def cameraEdit(request, pk): 
+def cameraTest(request, pk): 
     c = {}
     c.update(csrf(request))
     c['cam_id'] = pk
-    return render(request,'cameraEdit.html', c)
+    return render(request,'cameraTest.html', c)
 
 @login_required(login_url='/')   
 def saveAction(request):
