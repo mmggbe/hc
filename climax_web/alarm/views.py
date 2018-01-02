@@ -10,8 +10,8 @@ from django.forms import ModelForm
 from django.template import RequestContext
 
 from django.contrib.auth.models import User
-from .models import gateways, users, sensors, events
-#from .forms import gatewaysForm, userForm, sensorModifyForm, sensorModifyForm_1, sensorModifyForm2
+from .models import gateways, users, sensors
+from history.models import events
 from .forms import *
 
 from .Dj_GW_cmd import cmdTo_climax, Glob
@@ -57,26 +57,28 @@ class SensorIcon:
 def index( request):
 
     if request.user.is_authenticated():
+        
+        c = {}
+        evts = events.objects.filter(userWEB=request.user).order_by('-timestamp')[:5]
 
         try:
             gw=gateways.objects.get(userWEB=request.user)
         
-        except:
+        except: # the user as no GW configured
+            
             Glob.current_GW=None
-            return render( request, 'home.html',{'status': "9",'events':"" }) 
+            
+            return render( request, 'home.html',{'status': "9",'events': evts }) 
         
         else: # from "try:"
 
             Glob.current_GW=gw
-            
-# refresh DB content if required
-#should be 10 users, otherwise --> refresh
-            cmd=cmdTo_climax()
-            if users.objects.filter(gwID=gw.id).count() != 10 :
+
+            cmd=cmdTo_climax()      # refresh DB content if required
+            if users.objects.filter(gwID=gw.id).count() != 10 :     #should be 10 users, otherwise --> refresh
                 cmd.getUsers()
                 
-            cmd.getSensors()
-            
+            cmd.getSensors()           
             
             # return the value for GW and adapt it to the buttons
             if gw.mode == "3":
@@ -85,11 +87,6 @@ def index( request):
                 sts="1"
             else :
                 sts="2"      
-        
-            evts = events.objects.filter(gwID = Glob.current_GW.id ).order_by('id').reverse()[:5]  
-            
-            for evt in evts :
-                evt.translation=translate( evt.event )
             
             return render( request, 'home.html',{'status': sts,'events':evts })
 
@@ -163,9 +160,7 @@ def gateway_new( request):
             gateways = gw_form.save(commit=False)
             
             if request.user.is_authenticated():
-                usr = request.user
-                gateways.userWEB = usr
-                gateways.userID = usr.id
+                gateways.userWEB = request.user
 
             gateways.ver = "123"
             gateways.sensor_mod = "A"

@@ -9,9 +9,9 @@ from django.utils import timezone
 # Create your models here.
 
 class gateways(models.Model):
-    userWEB = models.ForeignKey(User)        # user o the web platform                      
-#    userWEB = models.OneToOneField(User, on_delete=models.CASCADE)  # user o the web platform                      
-    userID = models.CharField(max_length=25)        # user of the gateway
+#    userWEB = models.ForeignKey(User)        # user of the web platform                      
+    userWEB = models.ForeignKey(User, on_delete=models.CASCADE)  # user of the web platform                      
+    # userID = models.CharField(max_length=25,default=0)        # user of the gateway
     mac = models.CharField(max_length=17)           # "MAC eg. 00:1D:94:03:0F:16"
     ver = models.CharField(max_length=30)           # Version eg. CTC-1815 1.0.34 I1815W36A"
     sensor_mod = models.CharField(max_length=1)     # "sensor_mod value"
@@ -24,6 +24,7 @@ class gateways(models.Model):
     sensorsNbr = models.CharField(max_length=2)     # "Number of sensors connected"
     registrationDatec = models.DateTimeField()      # "Registration date"
     lastSeenTimestamp = models.DateTimeField()      # "Last poll timestamp"
+    
     def __str__(self):
         return self.mac
 
@@ -102,15 +103,22 @@ class users( models.Model):
             choices=USER_LATCH, default='0')                    # "latch_value eg. "1" for enabled )]}
     def __str__(self):
         return self.index_usr + " " + self.name
+
+class care(models.Model):   
     
-class events( models.Model):   
-
-    gwID = models.ForeignKey(gateways,on_delete=models.CASCADE) # "Gateway ID key"),  
-    event = models.CharField(max_length=30)                     # "eventvalue eg. [0730#74 181751000032CA2] ),
-    eventtime = models.DateTimeField(default=timezone.now)      # "Event submission timestamp")],
-
+    CARE_LATCH = (
+        ('0', 'Disabled'),
+        ('1', 'Enabled')
+    ) 
+        
+    gwID = models.ForeignKey(gateways, on_delete=models.CASCADE)  # "Gateway ID key"),
+    latch = models.CharField(max_length=2, \
+            choices=CARE_LATCH, default='0')                    # "latch_value eg. "1" for enabled )]}
+ 
+    
     def __str__(self):
-        return self.event
+        return self.mac
+
     
  
 class userProfile( models.Model):  
@@ -127,7 +135,7 @@ class userProfile( models.Model):
     )
         
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    propertyaddr = models.TextField(max_length=100, blank=True)
+    propertyaddr = models.TextField(max_length=60, blank=True)
     SN_SMS = models.CharField(max_length=13, blank=True)
     SN_Voice = models.CharField(max_length=13, blank=True)
     email = models.CharField(max_length=40, blank=True)

@@ -13,19 +13,23 @@ import sys, os
 sys.path.append ('/home/ftp/Env/userftp/lib/python3.5/site-packages')
 sys.path.append ('/home/hc/uat/hc/climax_web')
 sys.path.append ('/home/hc/uat/hc/climax_svr')
+sys.path.append ('/home/hc/uat/hc/history')
 
 import shutil
 import logging
-import time
+#import time
+import datetime
 import subprocess
 
-from HCsettings import HcDB
-from HCsettings import HcFTP
+from HCsettings import HcDB, EventCode, HcFTP
+
 
 from GW_DB.Dj_Server_DB import DB_mngt
 
 LOG_FILE2 = HcFTP.config("LOG_FILE")
+#LOG_FILE = "/home/marc/camera.log"
 LOG_FILE = "/home/ftp/cameraFTP.log"
+
 VIDEO_STORAGE = HcFTP.config("VIDEO_STORAGE")
 
 def do_movevideo(src, dest):
@@ -66,13 +70,11 @@ def do_search_DB(mac):
                 
 	#retrieving information
 #	MAC = '00:0E:8F:96:82:D6'
-	#cursor.execute("SELECT id, CameraMac, description FROM camera_camera WHERE CameraMac=%s", (mac,))
-	db_cursor.executerReq("""SELECT id, CameraMac, description FROM camera_camera WHERE CameraMac=%s""", (mac,))
-        
-	"""record_nbr=0
-	for id, CameraMAC, description in db_cursor:
-		logger.info(("Camera found: camera_id= {}, MAC= {} Description= {}").format(id,CameraMAC, description))
-		record_nbr +=1"""
+
+#Mage 31/12 (ueser_id added)
+
+	db_cursor.executerReq("""SELECT id, user_id, CameraMac, description FROM camera_camera WHERE CameraMac=%s""", (mac,))
+ 
 	answer = db_cursor.resultatReq()
 	record_nbr = len(answer)
         
@@ -89,20 +91,21 @@ def do_search_DB(mac):
 
 		rtn_val=None
 		
-	else:
-               	rtn_val=answer[0][0]
+	else: # MAC is unique
+#MaGe
+		rtn_val=answer
 		
 			
 	#mariadb_connection.close()
 	db_cursor.close()
 	logger.info('<<<do_search_DB, return camera_id= %s', rtn_val)
-	return rtn_val
+	return rtn_val[0]
 
-def do_write_path_DB(camera_id, filepath):
+def do_write_path_DB(cam_params, filepath):
 
 	head, tail = os.path.split(filepath)
 	
-	logger.info('>>>do_write_path_DB: CAM= %s File= %s', camera_id, tail)
+	logger.info('>>>do_write_path_DB: CAM= %s File= %s', cam_params, tail)
 	
 	#mariadb_connection = mariadb.connect(user=DBUSER, password=DBPASSWD, database=DB)
 	#cursor = mariadb_connection.cursor()
@@ -110,15 +113,27 @@ def do_write_path_DB(camera_id, filepath):
 	if db_cursor.echec:
 		sys.exit(1)
 
-# MySql DATETIME values in 'YYYY-MM-DD HH:MM:SS'
-	now = time.strftime("%Y-%m-%d %H:%M:%S")
+# Mage 31/12 : MySql DATETIME values in 'YYYY-MM-DD HH:MM:SS' and MUST be UTC (django applies timez zone afterwards)
+#	now = time.strftime("%Y-%m-%d %H:%M:%S")
+	now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 	
 	#cursor.execute("INSERT INTO camera_history (timestamp,description,sensor_type,sensor_id) VALUES (%s,%s,%s,%s)", (now, tail[0:-4],"3",camera_id))
 	#mariadb_connection.commit()
 	#mariadb_connection.close()
-	db_cursor.executerReq("""INSERT INTO camera_history (timestamp,description,sensor_type,sensor_id) VALUES (%s,%s,%s,%s)""", (now, tail[0:-4],"3",camera_id))
-	db_cursor.commit()
-	db_cursor.close()
+
+	# write into history
+	req="INSERT INTO {} (timestamp, userWEB_id, type, cameraID_id, event_code, event_description, video_file) VALUES ( %s, %s, %s, %s, %s, %s, %s )".format("history_events")																		 
+	value= (now, cam_params[1], "CA", cam_params[0],"800", EventCode.value("800")[0], tail[0:-4], )
+	db_cursor.executerReq(req, value)
+	db_cursor.commit() 
+	
+#Mage	record_id=cursor.lastrowid
+	
+	# write into camera.file_list
+#	db_cursor.executerReq("""INSERT INTO camera_file_list (hist_id, filename) VALUES (%s,%s)""", (record_id, tail[0:-4]) )
+
+#	db_cursor.commit()
+#	db_cursor.close()
 	
 	logger.info('<<<do_write_path_DB' )
 
@@ -126,7 +141,7 @@ def do_create_vignette(filepath):
 
 #avconv -i 000E8F9AF368123456201605191553170001.avi -f mjpeg -ss 10 -vframes 1 -s 320x240 fichier_vignette.jpg
 
-	FFMPEG_BIN= "avconv"
+	FFMPEG_BIN= "avconv"	# need to install: sudo apt-get install libav-tools
 
 	head, tail = os.path.split(filepath)
 	logger.info('>>>do_create_vignette: File= %s', filepath)

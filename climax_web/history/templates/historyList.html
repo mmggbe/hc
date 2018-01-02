@@ -69,7 +69,7 @@
     <thead>
       <tr>
         <th>Time Stamp</th>
-        <th>Sensor</th>
+        <th>Device</th>
         <th>Description</th>
 
       </tr>
@@ -79,23 +79,27 @@
         {% for line in history %}
         <tr>
             <td>{{line.timestamp}}</td>
-            <td>{{line.sensor}}</td>
+            <td>{{line.type}}</td>
             <td> 
-                {% if line.sensor_type == "3" %}
-                    <button class="btn btn-default" type="button" onclick="openPlayer('/media/{{line.description}}.mp4')" data-toggle="tooltip" data-html="true" title="<img src='/media/{{line.description}}.jpg' alt='Camera preview' style='width:104px;height:75px;'>">
+                {{line.event_description}}
+                {% if line.event_code == "800" %}
+                    <button class="btn btn-default" type="button" onclick="openPlayer('/media/{{line.video_file}}.mp4')" data-toggle="tooltip" data-html="true" title="<img src='/media/{{line.video_file}}.jpg' alt='Camera preview' style='width:104px;height:75px;'>">
                     <em class="fa fa-film" aria-hidden="true"></em>
                     </button> 
-                {% else %}
-                    {{line.description}}
                 {% endif %}
             </td>
         </tr>
         {% empty %}
-        <tr><td>
-            <p>No history</p>
-        </td></tr>
+        <tr>
+            <td>
+                <p>No history</p>
+            </td>
+        </tr>
         {% endfor %}
-
+    </tbody>
+    
+    </table>
+    
 </div>  
     
 {% endblock %}

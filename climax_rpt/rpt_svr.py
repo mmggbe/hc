@@ -6,7 +6,8 @@ Server that manages the reported alarms and that dispatchs them to the right cha
 VERSION = '1.0'
 
 import socket
-import time
+#import time
+import datetime
 import re
 import os
 import sys
@@ -20,7 +21,7 @@ import errno
 
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest
-
+#from history.models import events
 
 
 
@@ -208,8 +209,8 @@ def Main():
                     
                     if data:
                         
-                        
-                        now = time.strftime("%Y-%m-%d %H:%M:%S")                        
+                        now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+#                        now = time.strftime("%Y-%m-%d %H:%M:%S")                        
                         logging.info("Contact ID: {} {} ".format(now, data))
                       
                         try:                         
@@ -231,21 +232,27 @@ def Main():
     
                                 else :
                                     gw=DB_gw(db_cur)
-                                    gw_id = gw.search_gw_from_acct( rptipid, acct2 )
+                                    gw_id = gw.search_gw_from_acct( rptipid, acct2 ) # returns gateways_id
     
                                     if gw_id == []:    
                                         logging.info( " No Gw found with acct2= {}".format(acct2))
                                     else:
                                         logging.debug( " on Gw_id {}".format(gw_id[0][0]))
                
-                                        req="INSERT INTO {} (event, eventtime, gwID_id) VALUES ( %s, %s, %s )".format("alarm_events")
-                                        value= (data, now, gw_id[0][0],)
+                                        
+
+                                        snsr_list = gw.search_sensors_name_from_gwID( gw_id[0][0] ) # get sensors from gateways
+                                        
+                                        event=[] # data          [0730#74 181751000032CA2] 
+                                        event = translate(data, snsr_list) # returns event code, formated alarm message, event action (send SMS, email , call) 
+                                         
+                                        usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] ) # get usr_profile from gateway = username, propertyaddr, SN_SMS, SN_Voice, prof.email, language
+                                    
+                                        req="INSERT INTO {} (timestamp, userWEB_id, type, gwID_id, event_code, event_description) VALUES ( %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
+                                        value= (now, usr_profile[0][0], "GW", gw_id[0][0],event[0], event[1], )
                                         db_cur.executerReq(req, value)
                                         db_cur.commit() 
-                                        snsr_list = gw.search_sensors_name_from_gwID( gw_id[0][0] )
-                                        event=[]
-                                        event = translate(data, snsr_list)  # data          [0730#74 181751000032CA2]  
-                                        usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] )
+                                    
                                     db_cur.close()                               
                                     send_notification(usr_profile[0], event)
 

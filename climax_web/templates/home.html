@@ -78,13 +78,24 @@
 <!--
 -->
                 </div>
+                
+                
                 <div class="col-md-6">
-                    <ul class="list-unstyled">                       
-                        {% for evt in events %}
-                        <li> <p>{{ evt.eventtime}}: {{ evt.translation}}  </p>                
-                        </li>
+                    <ul class="list-unstyled">     
+                    <table class="table table-striped" id="table">
+                                      
+                        {% for evt in events %}                        
+                            <tr> 
+                                <td> {{ evt.timestamp}} </td>
+                                <td> {{ evt.event_description}} </td>                
+                            </tr>
+                     
+                        {% empty %}
+                            <p>No history.</p>
                         {% endfor %}
+                        
                     </ul>
+                    </table>
                 </div>
             </div>
 <!--            

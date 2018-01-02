@@ -25,24 +25,6 @@ class action_list(models.Model):
 
         return self.action
 
-class history(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name="Submission time")
-    sensor_type = models.CharField(max_length=2)
-    sensor = models.ForeignKey(camera)
-    description = models.CharField(max_length=100)
-
-    def __str__(self):
-
-        return self.description
-    
-class file_list(models.Model):
-    camera = models.ForeignKey(camera)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name="Submission time")
-    filename = models.CharField(max_length=100)
-
-    def __str__(self):
-
-        return self.action
 
 class notification(models.Model):
    user = models.ForeignKey(User)
@@ -51,3 +33,5 @@ class notification(models.Model):
    def __str__(self):
 
         return self.firebaseKey
+    
+

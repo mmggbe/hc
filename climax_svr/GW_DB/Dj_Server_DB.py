@@ -147,11 +147,10 @@ class DB_gw:
         gw_id = self.db.resultatReq() # returns a tuple
         return gw_id
         
-        
    
     def search_usrprofile_from_gwID(self, gw_id ):
 
-        req="SELECT username, propertyaddr, SN_SMS, SN_Voice, prof.email, language " \
+        req="SELECT user_id, propertyaddr, SN_SMS, SN_Voice, prof.email, language " \
             "FROM {} AS gw, auth_user AS auth, alarm_userprofile AS prof  " \
             "WHERE  auth.id=prof.user_id and gw.userWEB_id=prof.user_id and gw.id=%s;".format(self.table)
                 
@@ -177,7 +176,8 @@ class DB_gw:
     def search_gw(self, MAC):
 #SELECT mac, acct2 FROM gateways WHERE mac = '01:02:02:03:03:06';
 
-        req="SELECT mac, acct2, id, userID, rptipid FROM {} WHERE mac = %s;".format(self.table)
+        #req="SELECT mac, acct2, id, userID, rptipid FROM {} WHERE mac = %s;".format(self.table)
+        req="SELECT mac, acct2, id, userWEB_id, rptipid FROM {} WHERE mac = %s;".format(self.table)
 
         value= ( MAC,)
 

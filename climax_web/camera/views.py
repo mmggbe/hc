@@ -7,8 +7,8 @@ import time
 import subprocess
 import random, string
 
-from camera.models import camera, action_list, history
-
+from camera.models import camera, action_list
+from history.models import events
 
 @login_required(login_url="/")
 def cameraList(request):
@@ -93,15 +93,18 @@ def cameraArming(request):
     #Log the change in th history table
     if securityStatus == '1':
         descriptionTxt='Camera has been armed'
+        code='801'
     else:
         descriptionTxt='Camera has been unarmed'
+        code='802'
     
     now = time.strftime("%Y-%m-%d %H:%M:%S")
-    n=history.objects.create(timestamp= now, sensor_type='2', description=descriptionTxt, sensor_id=cameraId)
+    n=events.objects.create(timestamp= now, type='CA', userWEB=request.user, event_code=code, event_description=descriptionTxt, cameraID_id=int(cameraId ))
     n.save()
     
+    
     data = {
-        'attribute' : 'securiyStaus= ok'
+        'attribute' : 'securiyStatus= ok'
     }
     return JsonResponse(data)
 

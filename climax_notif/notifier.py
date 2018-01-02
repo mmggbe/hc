@@ -17,9 +17,6 @@ from email.mime.text import MIMEText
 from HCsettings import Notifier, HcDB, Email_svr
 
 
-
-
-
 def send_notification(usr, event):
 # list usr [username, propertyaddr, SN_SMS, SN_Voice, email, language]
 # list event eg: '100', "Medical", [ "1", "0", "0"] # code : "description, email to be sent, sms to be sent, voice call to be issued
@@ -29,7 +26,7 @@ def send_notification(usr, event):
     if event[2][0] == '1' and usr[4].strip() != "":            # check if email to send and email field
 
     #https://stackoverflow.com/questions/24077314/how-to-send-an-email-with-style-in-python3
-        logging.info(" Sending email to email {}".format(usr[4]) )
+        logging.info(" Sending email to email : {}".format(usr[4]) )
                 
 #       title = 'Horus supervisor:'
 #       msg_content = '<h2>{title} > <font color="green">OK</font></h2>\n'.format(title=event)
@@ -73,17 +70,16 @@ def send_notification(usr, event):
         message['From'] = Email_svr.config("from")
         message['To'] = usr[4]
         #message['Cc'] = 'Receiver2 Name <receiver2@server>'
-        message['Subject'] = 'Horus supervisor : your property: {}'.format(usr[1])
+        message['Subject'] = 'Horus supervisor : your property: {}'.format(usr[1].split("\r")[0])
         
         msg_full = message.as_string()
-        logging.info(" 2")
+
         try:
             server = smtplib.SMTP(Email_svr.config("server"),587)
             server.starttls()
             server.ehlo()
             server.login(Email_svr.config("login"), Email_svr.config("password"))
             server.sendmail(Email_svr.config("from"),usr[4], msg_full)
-            logging.info(" 3")
 
         except smtplib.SMTPException as error :
             logging.info("Email to user ID {} failed, error:{}".format(usr[0],str(error)) )
@@ -125,7 +121,7 @@ def send_notification(usr, event):
 #            if False:            # to avoid to waste SMS credit during testing
                 
 #                payload = json.dumps( {'message':'Hello Marc 2','destinations':['+32475618115']} )
-            msg=("Horus: "+usr[0]+": "+event[1])        # still to limit to 140 char.
+            msg="Horus Monitoring: " + ": "  + event[1]        # still to limit to 140 char.
             dest=[(usr[2]),]
              
             payload = json.dumps( {'message':msg,'destinations':dest} )
