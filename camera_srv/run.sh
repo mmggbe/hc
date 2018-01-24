@@ -20,14 +20,14 @@ function stopProcess {
 function processStatus {
     if [ -e run.pid ]
     then
-        if netstat -antp 2>&1 | grep 0.0.0.0:$PORT | grep $(<run.pid)/python > /dev/null
+        if netstat -antp 2>&1 | grep $IP:$PORT | grep $(<run.pid)/python > /dev/null
         then
             echo "status: up"
         else
             echo "error: pid file but port not open"
         fi
     else
-        if netstat -antp 2>&1 | grep 0.0.0.0:$PORT
+        if netstat -antp 2>&1 | grep $IP:$PORT
         then
             echo "error no pid file but port open"
         else
