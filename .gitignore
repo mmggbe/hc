@@ -23,6 +23,7 @@ climax_web/media/*
 *.wav
 *.pyc
 *.out
+*.pid
 run*.sh
 publish.sh
 pull.sh

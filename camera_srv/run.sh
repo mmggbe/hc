@@ -20,7 +20,7 @@ function stopProcess {
 function processStatus {
     if [ -e run.pid ]
     then
-        if netstat -antp 2>&1 | grep 0.0.0.0:$PORT | grep $(<run.pid)/python > /dev/null
+        if netstat -antp 2>&1 | grep $IP:$PORT | grep $(<run.pid)/python > /dev/null
         then
             echo "status: up"
         else
