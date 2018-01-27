@@ -11,6 +11,8 @@ import random, string
 from camera.models import camera, action_list
 from history.models import events
 
+from django.contrib.admin.views.decorators import staff_member_required
+
 @login_required(login_url="/")
 def cameraList(request):
     username = request.user.get_username()
@@ -18,6 +20,12 @@ def cameraList(request):
     
     return render(request,'cameraList.html', locals())
 
+@staff_member_required
+def cameraListAdmin(request):
+    username = request.user.get_username()
+    cameras = camera.objects.all()
+    
+    return render(request,'cameraListAdmin.html', locals())
 
 @login_required(login_url="/")    
 def cameraAdd (request):

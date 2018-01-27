@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^camera/', include ('camera.urls')),
     url(r'^history/', include ('history.urls')),
     url(r'^alarm/', include ('alarm.urls')),
+    url(r'^horusadmin/', include ('horusadmin.urls')),
 #    url(r'^$', index, name='index'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

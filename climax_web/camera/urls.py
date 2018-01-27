@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns= [
         url(r'^$', views.cameraList, name='cameraList'),
+        url(r'^cameraAdmin/', views.cameraListAdmin, name='cameraListAdmin'),
         url(r'^cameraAdd/', views.cameraAdd),
         url(r'^cameraEdit/(?P<pk>\d+)$', views.cameraEdit, name='cameraEdit'),
         url(r'^cameraSettings/', views.cameraSettings),
