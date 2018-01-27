@@ -21,8 +21,6 @@ import errno
 
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest
-#from history.models import events
-
 
 
 

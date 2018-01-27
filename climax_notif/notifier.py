@@ -21,7 +21,7 @@ def send_notification(usr, event):
 # list usr [username, propertyaddr, SN_SMS, SN_Voice, email, language]
 # list event eg: '100', "Medical", [ "1", "0", "0"] # code : "description, email to be sent, sms to be sent, voice call to be issued
 
-    logging.info("Notification to user :{}, content : {}".format(usr[0],event[1]))
+    logging.info("Notification to user :{}, content : {}".format(usr,event))
 
     if event[2][0] == '1' and usr[4].strip() != "":            # check if email to send and email field
 
@@ -86,7 +86,8 @@ def send_notification(usr, event):
 
         finally:
             server.quit()  
-        
+    
+    logging.info("After Sent email ")         
         
     if event[2][1] =='1' and usr[2].strip() != "" :                # check if SMS to send and MSISDN field
         logging.info(" Sending SMS to MSISDN {}".format(usr[2]) )
@@ -135,7 +136,7 @@ def send_notification(usr, event):
         finally:
             logging.info("Sent SMS {}\n".format(r.text))  
 
-            
+    logging.info("After Sent SMS ")          
             
     if event[2][2] =='1' and usr[3].strip() != "" :                # check if Voice to call and MSISDN field
         logging.info(" Calling MSISDN {}".format(usr[3]) )
@@ -168,7 +169,8 @@ Bye
             logging.info("Error voice synthese, error({0}): {1}".format(errno,strerror))
 
         VOICE_ENV = """
-Channel: SIP/{}\n\
+Channel: SIP/belgacom/{}\n\
+CallerID: "Horus" <+3222196052>\n\
 Application: Playback\n\
 Data: {}\n\
 SetVar: CHANNEL(language)=en\n
@@ -203,5 +205,5 @@ SetVar: CHANNEL(language)=en\n
         finally:
             logging.debug('Asterisk envelop file {}'.format(eventFile.name))
 
-
+    logging.info("After Voice ")  
 

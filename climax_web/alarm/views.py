@@ -14,8 +14,8 @@ from .models import gateways, users, sensors
 from history.models import events
 from .forms import *
 
-from .Dj_GW_cmd import cmdTo_climax, Glob
-from .event_translate import translate 
+from .Dj_GW_cmd import cmdTo_climax
+#from .event_translate import translate 
 
 class SensorIcon:
     icon_list= ["icon_keyfob.png",
@@ -66,15 +66,11 @@ def index( request):
         
         except: # the user as no GW configured
             
-            Glob.current_GW=None
-            
             return render( request, 'home.html',{'status': "9",'events': evts }) 
         
         else: # from "try:"
 
-            Glob.current_GW=gw
-
-            cmd=cmdTo_climax()      # refresh DB content if required
+            cmd=cmdTo_climax(gw)      # refresh DB content if required
             if users.objects.filter(gwID=gw.id).count() != 10 :     #should be 10 users, otherwise --> refresh
                 cmd.getUsers()
                 
@@ -93,9 +89,8 @@ def index( request):
 
 @login_required(login_url="/")
 def HC_contact_edit( request):
-#    post = get_object_or_404(userProfile, pk=Glob.current_GW.userWEB_id)
-    post = get_object_or_404(userProfile, pk=request.user.id)
 
+    post = get_object_or_404(userProfile, pk=request.user.id)
 
     if request.method == 'POST':
         ctct_form = contactForm(request.POST, instance=post)
@@ -108,16 +103,24 @@ def HC_contact_edit( request):
         ctct_form = contactForm( instance = post )
     return render( request, 'contactedit.html', {'form': ctct_form})
 
+
 @login_required(login_url="/")
 def users_list( request):
     
-
     usr=()
        
-    if Glob.current_GW is not None:
-        usr = users.objects.filter(gwID = Glob.current_GW.id )
+    try:
+        gw=gateways.objects.get(userWEB=request.user)
     
-    return render( request, 'userslist.html', {'users':usr})
+    except:
+        gw=None
+        
+    else:
+        usr = users.objects.filter(gwID = gw.id )
+
+    finally:
+    
+        return render( request, 'userslist.html', {'users':usr})
 
 @login_required(login_url="/")
 def user_edit( request, pk ):
@@ -126,8 +129,9 @@ def user_edit( request, pk ):
         usr_form = userForm(request.POST, instance=post)
         if usr_form.is_valid():
             post = usr_form.save(commit=False)
-       
-            cmd=cmdTo_climax()
+            
+            gw=gateways.objects.get(userWEB=request.user)
+            cmd=cmdTo_climax(gw)
             cmd.setUsers( post.index_usr, post.code, post.name, post.latch )
             post.save()
             return redirect('users_list')
@@ -144,6 +148,7 @@ def gateways_list( request ):
     else:
         return render( request, 'gatewayslist.html', {'gateways':gws_list})
 
+
 @login_required(login_url="/")
 def gateways_delete( request, pk):
     gw = gateways.objects.get(pk=pk)
@@ -151,6 +156,7 @@ def gateways_delete( request, pk):
     # delete gateway in DB
     gw.delete()
     return redirect('home')
+
 
 @login_required(login_url="/")
 def gateway_new( request):
@@ -181,60 +187,72 @@ def gateway_new( request):
         
     return render(request, 'gatewayedit.html', {'form': gw_form})
 
+
 @login_required(login_url="/")
 def gateway_status( request):
-#    return HttpResponse("Gw Status")
-#    return render( request, 'alarm/test3.html')
-#    cmd = cmdTo_climax(db, "00:1D:94:03:0F:16", "usr1", "1","0730")   
 
-    cmd=cmdTo_climax()
-    btn = request.GET.get('btnActive', None)  
+    try:
+        gw=gateways.objects.get(userWEB=request.user)
+    
+    except:
+        gw=None
 
-    print("Btn= {}".format(btn))
-       
-    # adapt the button value to the DB values 
-    if btn == "2":
-        mode="1"
-    elif btn == "1":
-        mode="2"
-    else :
-        mode="3"
+    else: # from "try:"
+     
+        cmd=cmdTo_climax(gw)
+        btn = request.GET.get('btnActive', None)  
     
-    cmd.setMode(mode)
+        print("Btn= {}".format(btn))
+           
+        # adapt the button value to the DB values 
+        if btn == "2":
+            mode="1"
+        elif btn == "1":
+            mode="2"
+        else :
+            mode="3"
+        
+        cmd.setMode(mode)
     
-    data = {
-        'attribute' : 'gw_mode= ' + mode
-    }
-    return JsonResponse(data)
+    finally:
+
+        data = {
+            'attribute' : 'gw_mode= ' + mode
+        }
+        return JsonResponse(data)
+
 
 @login_required(login_url="/")
 def sensors_list( request):
     
     snrs_list=()
-    if Glob.current_GW is not None:
-#        gw=gateways.objects.select_related('sensors').get(userWEB=request.user)
-#        snrs_list = gw.sensors
+       
+    try:
+        gw=gateways.objects.get(userWEB=request.user)
+    
+    except:
+        gw=None
 
-
-        snrs_list = sensors.objects.filter(gwID = Glob.current_GW.id )
+    else: # from "try:"
+        snrs_list = sensors.objects.filter(gwID = gw.id )
    
         # add icon to sensor list
         for sensor in snrs_list:        
             sensor.ico = SensorIcon.icon_list[int(sensor.type)]
+    
+    finally:
+        
+        return render( request, 'sensorslist.html', {'sensors':snrs_list})
 
-        
-    return render( request, 'sensorslist.html', {'sensors':snrs_list})
-#    else:
-#        return render( request )
-        
 
 @login_required(login_url="/")
 def sensor_delete( request, pk):
 
     snrs = sensors.objects.get(pk=pk)
     
-    # delete sensor on GW
-    cmd=cmdTo_climax()
+    gw=gateways.objects.get(userWEB=request.user)      
+
+    cmd=cmdTo_climax(gw)
     cmd.delSensors( snrs.no )
     
     # delete sensor in DB
@@ -242,6 +260,7 @@ def sensor_delete( request, pk):
  
     return redirect('sensors_list')
     
+
 @login_required(login_url="/")    
 def sensor_modify( request, pk ):
     post = get_object_or_404(sensors, pk=pk)
@@ -258,11 +277,12 @@ def sensor_modify( request, pk ):
         
         if usr_form.is_valid():
             post = usr_form.save(commit=False)
-            #gateways.userID = "Marc"          
-            cmd=cmdTo_climax()
+            gw=gateways.objects.get(userWEB=request.user)      
+            cmd=cmdTo_climax(gw)
             
             cmd.editSensors(post.no, post.name[0:10], post.attr, post.latch )
             post.save()
+            
             return redirect('sensors_list')
     else:
         if post.type == '0':
@@ -281,15 +301,25 @@ def sensor_modify( request, pk ):
 def smartplug_list( request):
     
     smartplug_list=()
-    if Glob.current_GW is not None:
-#
-        smartplug_list = sensors.objects.filter(gwID = Glob.current_GW.id).filter(type="29")
+
+    try:
+        gw=gateways.objects.get(userWEB=request.user)
+    
+    except:
+        gw=None
+    
+    else: # from "try:"
+
+        usr = users.objects.filter(gwID = gw.id )
+        
+        smartplug_list = sensors.objects.filter(gwID = gw.id).filter(type="29")
        
         # add icon to sensor list
         # for splug in smartplug_list:        
         #   print("sensor type={}, power={}".format (int(splug.type),splug.status_switch) )
     
-    return render( request, 'smartpluglist.html', {'status': 1 , 'smartplug_list':smartplug_list})
+    finally:
+        return render( request, 'smartpluglist.html', {'status': 1 , 'smartplug_list':smartplug_list})
 
 
 @login_required(login_url="/")
@@ -300,23 +330,32 @@ def smartplug_cmd( request):
     print("Btn= {}".format(btn))
     btn = btn[0:4]
    
-    cmd=cmdTo_climax()
+    try:
+        gw=gateways.objects.get(userWEB=request.user)
+        
+    except:
+        gw=None
+        
+    else: # from "try:"
+       
+        cmd=cmdTo_climax(gw)
+        
+        zone = btn.split('_')[0]
+        switch= btn[-2:]
+        if switch == 'ON':
+            switch="1"
+        else:
+            switch="0"  
     
-    zone = btn.split('_')[0]
-    switch= btn[-2:]
-    if switch == 'ON':
-        switch="1"
-    else:
-        switch="0"  
-
-    cmd.setSmartPlug( zone, switch )
-
-    # update the switch value in DB (Gateway answer can take up to 20 sec)
-    smartplug = sensors.objects.filter(gwID = Glob.current_GW.id, no=zone).update(status_switch = switch)
+        cmd.setSmartPlug( zone, switch )
     
+        # update the switch value in DB (Gateway answer can take up to 20 sec))
+        smartplug = sensors.objects.filter(gwID = gw.id, no=zone).update(status_switch = switch)
     
-    data = {
-        'attribute' : 'smrt_plug = ' + btn
-    }
-    return JsonResponse(data)
+    finally:   
+        
+        data = {
+            'attribute' : 'smrt_plug = ' + btn
+        }
+        return JsonResponse(data)
  

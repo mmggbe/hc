@@ -10,8 +10,8 @@ import time
 
 from .models import gateways, commands
 
-class Glob:
-    current_GW = None               # current gateway record 
+#class Glob:
+#   current_GW = None               # current gateway record 
 
 CLIMAX_CMD_HDR  = """
 <?xml version="1.0" encoding="ISO-8859-1"?>"""
@@ -33,12 +33,13 @@ class cmdTo_climax():
     '''
 
 
-    def __init__(self):
+    def __init__(self,gw):
         '''
         Constructor
         '''
         
-        self.gtw=Glob.current_GW
+#        self.gtw=Glob.current_GW
+        self.gtw=gw
     
     def getUsers(self):
         
@@ -123,10 +124,10 @@ class cmdTo_climax():
         ''' increase the command_id each time a command is sent.
         The command_id can be modified by the polling server 
         '''
-        gtw=gateways.objects.get(id=self.gtw.id)
+#        gtw=gateways.objects.get(id=self.gtw.id)
      
-
-        self.gtw.last_cmd_id= self.gtw.last_cmd_id+1
+        last_cmd= self.gtw.last_cmd_id+1
+        self.gtw.last_cmd_id= last_cmd
         self.gtw.save()
         
         return(self.gtw.last_cmd_id)

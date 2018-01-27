@@ -1,11 +1,11 @@
 from .models import sensors
-from .Dj_GW_cmd import Glob
+#from .Dj_GW_cmd import Glob
 
 from HCsettings import EventCode
 
 # [0730#74 181751000032CA2]             
                 
-def translate(contactID):
+def translate(contactID, gtw):
     
     alarmMsg=""
     sensor_id=""                       # to be sure it will be processed as a string
@@ -19,7 +19,7 @@ def translate(contactID):
     sensor_id= contactID[-7:-5].lstrip("0") # representing zone number C 1 = 0 (fixed) , C 2 C 3 = Zone number
 
     #sensor = sensors.objects.filter(gwID = Glob.current_GW.id, no = sensor_id)
-    sensor = sensors.objects.filter(gwID__id = Glob.current_GW.id, no=sensor_id)
+    sensor = sensors.objects.filter(gwID__id = gtw.id, no=sensor_id)
     
     if sensor.exists() :      
         sensor_name = sensor[0].name
