@@ -30,36 +30,26 @@ def translate(contactID, snsr_list):
     
     alarmMsg=""
 #[0730#74 18_1_751_00_003_2CA2]
-#         MT Q XYZ GG CCC
-    Q = contactID[-14:-13]
-    evt= contactID[-13:-10]
-    GG = contactID[-10:-8] 
-    sensor_id= contactID[-7:-5]
+#[0730#119 18 3 401 00 015 C0CF]
+#          MT Q EEE GG ZZZ
+
+    Q = contactID[-14:-13] # Q: Event quialifier 1: new event & disarm 3: restore & arm
+    evt= contactID[-13:-10]  # EEE: event code
+    GG = contactID[-10:-8] # GG: partition number (always 00 for non partitioned panels)
+    sensor_id= contactID[-7:-5]  # ZZZ: representing zone number C 1 = 0 (fixed) , C 2 C 3 = Zone number
     
     sensor=""
     sensor_id = sensor_id.lstrip('0') or '0' # remove leading zeros in text string
+    
     for s in snsr_list:                     # search for sensor name based on sensor ID
         if sensor_id == s[0]:
             sensor_name=s[1]
             sensor_type=s[2]
             break            
-    
-#    print("Event={}".format(evt))
-    try:
 
-        if GG == "01":
-            GG="01"
-        elif GG == "10":
-            GG="02"
-        elif GG == "11":
-            GG="03"
-        else :
-            GG="00"               
-        
-#        alarmMsg += ArmingRequest.value(GG)
-#        alarmMsg += ": "
-        
-        if Q== '1':
+    try:
+                
+        if Q == '1':
             if sensor_type == '0' or sensor_type == '14' or sensor_type == '15' :
                 alarmMsg += "Disarm: "
             else:
@@ -70,11 +60,12 @@ def translate(contactID, snsr_list):
                 alarmMsg += "Armed: "
             else:
                 alarmMsg += "Restore: "
+                evt = '000'     # no need to process that message
         else:
             alarmMsg += ""
         
         
-        # arm vie RC
+        # arm via RC
         if evt == '400':
             alarmMsg += EventCode.value(evt)[0]
             alarmMsg += " User "
@@ -98,11 +89,10 @@ def translate(contactID, snsr_list):
             
         
     except:
-        logging.info("Error ContactID: {}".format(contactID))
+        logging.info("Error ContactID: {}, evt:{}, GG:{}, sensorid:{}".format(contactID,evt, GG, sensor_id))
         return( "" )
         
     else:
-#        print("Event= {}".format(alarmMsg), end='')
         logging.debug("Event: {}".format(alarmMsg))
         return( evt, alarmMsg, EventCode.value(evt)[1] ) 
 
@@ -243,13 +233,14 @@ def Main():
                                         
                                         event=[] # data          [0730#74 181751000032CA2] 
                                         event = translate(data, snsr_list) # returns event code, formated alarm message, event action (send SMS, email , call) 
-                                         
-                                        usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] ) # get usr_profile from gateway = username, propertyaddr, SN_SMS, SN_Voice, prof.email, language
-                                    
-                                        req="INSERT INTO {} (timestamp, userWEB_id, type, gwID_id, event_code, event_description) VALUES ( %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
-                                        value= (now, usr_profile[0][0], "GW", gw_id[0][0],event[0], event[1], )
-                                        db_cur.executerReq(req, value)
-                                        db_cur.commit() 
+                                        
+                                        if event[0] != '000':
+                                            usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] ) # get usr_profile from gateway = username, propertyaddr, SN_SMS, SN_Voice, prof.email, language
+                                        
+                                            req="INSERT INTO {} (timestamp, userWEB_id, type, gwID_id, event_code, event_description) VALUES ( %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
+                                            value= (now, usr_profile[0][0], "GW", gw_id[0][0],event[0], event[1], )
+                                            db_cur.executerReq(req, value)
+                                            db_cur.commit() 
                                     
                                     db_cur.close()                               
                                     send_notification(usr_profile[0], event)

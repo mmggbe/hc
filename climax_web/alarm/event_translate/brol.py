@@ -12,11 +12,11 @@ def translate(contactID, gtw):
     sensor_name = ""
 
 #[0730#74 18_1_751_00_003_2CA2]
-#         MT Q XYZ GG CCC
-    Q = contactID[-14:-13] # 1: new event & disarm 3: restore & arm
-    evt= contactID[-13:-10]
-    GG = contactID[-10:-8] # 
-    sensor_id= contactID[-7:-5].lstrip("0") # representing zone number C 1 = 0 (fixed) , C 2 C 3 = Zone number
+#         MT Q EEE GG CCC
+    Q = contactID[-14:-13] # Q: Event quialifier 1: new event & disarm 3: restore & arm
+    evt= contactID[-13:-10] # EEE: event code
+    GG = contactID[-10:-8] # GG: partition number (always 00 for non partitioned panels)
+    sensor_id= contactID[-7:-5].lstrip("0") # ZZZ: representing zone number C 1 = 0 (fixed) , C 2 C 3 = Zone number
 
     #sensor = sensors.objects.filter(gwID = Glob.current_GW.id, no = sensor_id)
     sensor = sensors.objects.filter(gwID__id = gtw.id, no=sensor_id)

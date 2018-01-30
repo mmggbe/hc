@@ -86,8 +86,7 @@ def send_notification(usr, event):
 
         finally:
             server.quit()  
-    
-    logging.info("After Sent email ")         
+            logging.debug("email sent ")         
         
     if event[2][1] =='1' and usr[2].strip() != "" :                # check if SMS to send and MSISDN field
         logging.info(" Sending SMS to MSISDN {}".format(usr[2]) )
@@ -122,7 +121,7 @@ def send_notification(usr, event):
 #            if False:            # to avoid to waste SMS credit during testing
                 
 #                payload = json.dumps( {'message':'Hello Marc 2','destinations':['+32475618115']} )
-            msg="Horus Monitoring: " + ": "  + event[1]        # still to limit to 140 char.
+            msg="Horus Monitoring: " + event[1]        # still to limit to 140 char.
             dest=[(usr[2]),]
              
             payload = json.dumps( {'message':msg,'destinations':dest} )
@@ -135,8 +134,7 @@ def send_notification(usr, event):
 
         finally:
             logging.info("Sent SMS {}\n".format(r.text))  
-
-    logging.info("After Sent SMS ")          
+     
             
     if event[2][2] =='1' and usr[3].strip() != "" :                # check if Voice to call and MSISDN field
         logging.info(" Calling MSISDN {}".format(usr[3]) )
@@ -204,6 +202,5 @@ SetVar: CHANNEL(language)=en\n
 
         finally:
             logging.debug('Asterisk envelop file {}'.format(eventFile.name))
-
-    logging.info("After Voice ")  
+            logging.debug("Voice call submitted")  
 
