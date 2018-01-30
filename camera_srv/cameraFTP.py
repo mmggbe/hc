@@ -25,10 +25,10 @@ from HCsettings import HcDB, EventCode, HcFTP
 
 from GW_DB.Dj_Server_DB import DB_mngt
 
-LOG_FILE2 = HcFTP.config("LOG_FILE")
-LOG_FILE = "/home/ftp/cameraFTP.log"
+LOG_FILE = HcFTP.config("LOG_FILE")
 
 VIDEO_STORAGE = HcFTP.config("VIDEO_STORAGE")
+MAX_FILES = HcFTP.config("MAX_FILES")
 
 def do_movevideo(src, dest):
 	logger.info('>>>do_movevideo %s', src)
@@ -75,6 +75,7 @@ def do_search_DB(mac):
         
 	if record_nbr >1:
 		logger.error('Multiple entries for MAC= %s', mac)
+		
 		db_cursor.close()
 
 		exit()
@@ -110,7 +111,7 @@ def do_write_path_DB(cam_params, filepath):
 
 	# write into history
 	req="INSERT INTO {} (timestamp, userWEB_id, type, cameraID_id, event_code, event_description, video_file) VALUES ( %s, %s, %s, %s, %s, %s, %s )".format("history_events")																		 
-	value= (now, cam_params[1], "CA", cam_params[0],"800", EventCode.value("800")[0], tail[0:-4], )
+	value= (now, cam_params[1], "CA", cam_params[0],"800", EventCode.value("800")[0]+" on " + cam_params[3], tail[0:-4], )
 	db_cursor.executerReq(req, value)
 	db_cursor.commit() 
 	
@@ -144,17 +145,44 @@ def do_create_mp4(filepath):
         logger.info('<<<do_create_mp4' )
 
 def do_count_record(cam):
-    logger.info('>>>do_count_recordfor camera id %s', mac)
+    logger.info('>>>do_count_record for camera id %s', cam)
     db_cursor= DB_mngt(HcDB.config())
     if db_cursor.echec:
-            sys.exit(1)
-            
-    db_cursor.executerReq("""SELECT count(id) FROM camera_camera WHERE id=%s""", (cam,))
-
+        logger.info('exit ')
+        sys.exit(1)       
+    db_cursor.executerReq("""select count(*) from history_events where cameraID_id = %s and video_file is not null""", (cam,))
     answer = db_cursor.resultatReq()
-    return len(answer)
+    db_cursor.close()
+    logger.info("<<<<do_count_record {0}".format(answer[0][0]))
+    return answer[0][0]
 
-
+def do_clean_up_files (cam):
+    logger.info('>>>do_delete_file')
+    
+    while do_count_record(cam) > int(MAX_FILES):
+        logger.info("more than %s files need clean up!", MAX_FILES)
+        #extract the oldest file from the db
+        db_cursor= DB_mngt(HcDB.config())
+        if db_cursor.echec:
+            sys.exit(1)       
+        db_cursor.executerReq("""select id, video_file from history_events where cameraID_id = %s and video_file is not null order by timestamp limit 1""", (cam,))
+        (id, file) = db_cursor.resultatReq()[0]
+        
+        #delete file . mp4 + .jpg
+        try:
+            os.remove(VIDEO_STORAGE + file + ".mp4")
+        except:
+            logger.info("file: %s.mp4 doesn't exist", file)
+        try:
+            os.remove(VIDEO_STORAGE + file + ".jpg")
+        except:
+            logger.info("file: %s.jpg doesn't exist", file)
+            
+        logger.info("id: %s", id)
+        db_cursor.executerReq("""delete from history_events where id = %s""", (id,))
+        db_cursor.commit()
+        logger.info("file: %s deleted", id)
+    
 
 def do_MAC_formatting(mac_string):
     logger.info('>>>do_MAC_formatting' )
@@ -194,7 +222,7 @@ def main(argv):
             print( arg )
 
     logger.info("++++ {0} started with UID {1}, GID {2} ++++".format(argv[0],os.getuid(),os.getgid()))
-    logger.info("path: {0}".format(LOG_FILE2))
+    logger.info("path: {0}".format(LOG_FILE))
     logger.info( ("Argument List: {}").format(str(sys.argv)))
 
 #000E8F88C2F1 201209031438030001.avi
@@ -217,28 +245,29 @@ def main(argv):
 
     res=0
     res=do_search_DB(MAC_str)
-if res:
-            if do_count_record(id) > 10:
-                        logger.info("more than 10 files need clean up!")
-            if do_movevideo(FTP_file_path, VIDEO_STORAGE+tail ) :
-                do_write_path_DB(res, VIDEO_STORAGE+tail)					
-                do_create_vignette(VIDEO_STORAGE+tail)
-                do_create_mp4(VIDEO_STORAGE+tail)
-                os.remove(VIDEO_STORAGE+tail)
+ 
+    
+    if res:
+        do_clean_up_files(res[0])
+        if do_movevideo(FTP_file_path, VIDEO_STORAGE+tail ) :
+            do_write_path_DB(res, VIDEO_STORAGE+tail)
+            do_create_vignette(VIDEO_STORAGE+tail)
+            do_create_mp4(VIDEO_STORAGE+tail)
+            os.remove(VIDEO_STORAGE+tail)
+            logger.info( "{0} successfully terminated".format(argv[0]))
+
+        else:
+            logger.info("Camera {0} not registered".format(MAC_str))
+                
+            try:
+                os.remove(FTP_file_path)
+
+            except OSError as e:
+                logger.info( "Cannot delete: {0}, OS error: {1}".format(FTP_file_path, os.strerror(e.errno)))
+            else:
+                logger.info( "File deleted: {0}".format(FTP_file_path))
                 logger.info( "{0} successfully terminated".format(argv[0]))
-
-	else:
-		logger.info("Camera {0} not registered".format(MAC_str))
-			
-		try:
-			os.remove(FTP_file_path)
-
-		except OSError as e:
-			logger.info( "Cannot delete: {0}, OS error: {1}".format(FTP_file_path, os.strerror(e.errno)))
-		else:
-			logger.info( "File deleted: {0}".format(FTP_file_path))
-			logger.info( "{0} successfully terminated".format(argv[0]))		
-	
+    
 
 if __name__ == "__main__":
    main(sys.argv)
