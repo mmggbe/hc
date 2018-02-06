@@ -37,6 +37,34 @@
 
     });
     
+    $('.btn-SnapShot').click(function() {
+        var camera = ($(this).attr('id'));
+
+        $.ajax({
+            url: 'SnapShot',
+            type: 'get',
+            data: {'cameraId': camera},
+            dataType: 'json',
+
+            success: function(data){
+                if (data.attribute == "ok"){
+                    alert ("The video will be placed in history within few seconds");}
+                else if (data.attribute == "camera is off"){
+                    alert ("Your camera is off");}
+                else {
+               alert("A problem occured");}
+            },
+
+            failure: function(data){
+                alert('Got an error');
+            },
+
+            complete : function(data){
+                //console.log("Ajax: no data from backend");
+       }
+        });
+    });
+    
 </script>
 {% endblock %}
 
@@ -62,7 +90,7 @@
         <tr>
         
             <td>{{ camera.description }} </td>
-            <td></td>
+            <td><button class="btn btn-SnapShot" type="button" id="{{camera.pk}}"><em class="fa fa-film"></em></td>
 
             <td>    
                 <div class="btn-group btn-toggle">                        

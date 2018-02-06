@@ -1,3 +1,20 @@
+#id_attr li {
+    display: table;
+    width: 100%;
+}
+
+#id_attr li > label,
+#id_attr li > input {
+    display: table-cell;
+}
+
+#id_attr li > input {
+    width: 20%;
+}
+
+#id_attr li input {
+
+}
 
 .container-fluid {
      background: #fdfdfd url(../images/circles-light.png); 
@@ -22,15 +39,16 @@
     /* Position the content inside the overlay */
     .overlay-content {
         position: relative;
-        top: 25%; /* 25% from the top */
+        top: 0; /* 25% from the top */
         width: 100%; /* 100% width */
         text-align: center; /* Centered text/links */
-        margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+        margin-top: 0px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+	height:100%;
     }
 
     /* The navigation links inside the overlay */
     .overlay a {
-        padding: 8px;
+        padding: 0px; /* 8px */
         text-decoration: none;
         font-size: 36px;
         color: #818181;
@@ -49,4 +67,5 @@
         top: 20px;
         right: 45px;
         font-size: 60px;
+	z-index: 2;
     }

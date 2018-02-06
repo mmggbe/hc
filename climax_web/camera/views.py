@@ -58,7 +58,17 @@ def saveCamera (request):
     current_user = request.user
     username = request.user.get_username()
     if request.POST['editType'] == 'new':
+        #create the camera
         n=camera.objects.create(CameraMac=request.POST['mac'], description=request.POST['description'],user_id=current_user.id,securityStatus='1')
+        n.save()
+        
+        #Send the config to the camera
+        camID = n.id
+        actionCmd = 'GET /adm/set_group.cgi?group=FTP&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
+        n=action_list.objects.create(action=actionCmd, camera_id=camID)
+        n.save()
+        actionCmd = 'GET /adm/set_group.cgi?group=FTP2&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
+        n=action_list.objects.create(action=actionCmd, camera_id=camID)
         n.save()
     else:
         camera.objects.filter(id=request.POST['cameraId']).filter(user__username=username).update(CameraMac=request.POST['mac'], description=request.POST['description'])
@@ -82,7 +92,17 @@ def saveAction(request):
     n=action_list.objects.create(action=request.POST['action'], camera_id=request.POST['camera'])
     n.save()
     return redirect('/camera/')
-    
+
+@login_required(login_url='/')   
+def configureFTP(request):
+    actionCmd = 'GET /adm/set_group.cgi?group=FTP&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
+    n=action_list.objects.create(action=actionCmd, camera_id=request.POST['camera'])
+    n.save()
+    actionCmd = 'GET /adm/set_group.cgi?group=FTP2&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
+    n=action_list.objects.create(action=actionCmd, camera_id=request.POST['camera'])
+    n.save()
+    return redirect('/camera/admin')
+
 @login_required(login_url="/")
 def cameraArming(request):
     cameraId=request.GET.get('cameraId', '')
@@ -143,7 +163,7 @@ def cameraRT(request, pk):          #Real Time view
     c['pid']= r.pid
     
     return render(request,'videoPlayerRT.html', c)
-
+    
 @login_required(login_url='/')
 def cameraRTStop(request, pk):
     cmd1='GET /adm/rtsp_push.cgi?format=1&addr=horus.ovh&vport=9418&aport=20182&action=1 HTTP/1.1\r\n'
@@ -154,3 +174,23 @@ def cameraRTStop(request, pk):
     cameras = camera.objects.filter(user__username=username)
     
     return render(request,'cameraList.html', locals())
+
+@login_required(login_url='/')    
+def SnapShot(request):
+    cameraId=request.GET.get('cameraId', '')
+    username = request.user.get_username()
+    data = {}
+    try:
+        cameraObj = camera.objects.filter(user__username=username).get(pk=cameraId)
+    except camera.DoesNotExist:
+        data = {'attribute' : 'camera does not exist'}
+    else:
+        if cameraObj.status == 1:
+            cmd='GET /adm/retrieve_start.cgi?pre_second=10&post_second=0 HTTP/1.1\r\n'
+            n=action_list.objects.create(action=cmd, camera_id=cameraId)
+            n.save()
+            data = {'attribute' : 'ok'}
+        else:
+            data = {'attribute' : 'camera is off'}
+        
+    return JsonResponse(data)

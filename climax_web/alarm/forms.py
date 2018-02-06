@@ -66,7 +66,7 @@ class sensorModifyForm_3(forms.ModelForm):
         ('6', 'Home Access'),    
     )
     
-    attr = forms.ChoiceField(widget=RadioSelect,\
+    attr = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'alignedRadio'}),\
     choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
 
     class Meta:

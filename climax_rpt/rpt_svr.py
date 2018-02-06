@@ -251,7 +251,10 @@ def Main():
                                 logging.info("Error: bad contact id format")
 
                         except:
-                            db_cur.close()   
+
+                            if db_cur in locals():
+                                db_cur.close()  
+
                             logging.info("Error: bad Contact ID translation or user error in DB or issue sending notification")
                                  
                     else:
