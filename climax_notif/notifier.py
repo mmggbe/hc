@@ -21,7 +21,8 @@ def send_notification(usr, event):
 # list usr [username, propertyaddr, SN_SMS, SN_Voice, email, language]
 # list event eg: '100', "Medical", [ "1", "0", "0"] # code : "description, email to be sent, sms to be sent, voice call to be issued
 
-    logging.info("Notification to user :{}, content : {}".format(usr,event))
+    logging.info("Notification to user id:{}, content : {}".format(usr[0],event[1]))
+    logging.debug("Notification to user:{}, content : {}".format(usr,event))
 
     if event[2][0] == '1' and usr[4].strip() != "":            # check if email to send and email field
 

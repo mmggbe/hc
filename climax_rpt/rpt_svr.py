@@ -26,7 +26,7 @@ from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest
 
 # examle of contact Id received : [0730#74 181751000032CA2]
                 
-def translate(contactID, snsr_list):
+def translate(contactID, snsr_list, usr_list):
     
     alarmMsg=""
 #[0730#74 18_1_751_00_003_2CA2]
@@ -41,11 +41,21 @@ def translate(contactID, snsr_list):
     sensor=""
     sensor_id = sensor_id.lstrip('0') or '0' # remove leading zeros in text string
     
+    
+    sensor_name=""
     for s in snsr_list:                     # search for sensor name based on sensor ID
         if sensor_id == s[0]:
             sensor_name=s[1]
             sensor_type=s[2]
-            break            
+            break 
+    
+    user_name=""
+    for u in usr_list:                     # search for sensor name based on sensor ID
+        if sensor_id == u[0]:
+            user_name=u[1]
+            break 
+    
+                   
 
     try:
                 
@@ -79,8 +89,12 @@ def translate(contactID, snsr_list):
         elif evt == '407':
             alarmMsg += EventCode.value(evt)[0]
             alarmMsg += " User "
-            alarmMsg += sensor_name
+            alarmMsg += user_name
 
+        # Gateway auto test : 602, GG:00, sensorid:0
+        elif evt == '602':
+            alarmMsg += EventCode.value(evt)[0]
+            alarmMsg += " = OK"
         
         else:
             alarmMsg += EventCode.value(evt)[0] # add event name on the message
@@ -230,9 +244,10 @@ def Main():
                                         
 
                                         snsr_list = gw.search_sensors_name_from_gwID( gw_id[0][0] ) # get sensors from gateways
+                                        usr_list = gw.search_users_name_from_gwID( gw_id[0][0] ) # get users from gateways)
                                         
                                         event=[] # data          [0730#74 181751000032CA2] 
-                                        event = translate(data, snsr_list) # returns event code, formated alarm message, event action (send SMS, email , call) 
+                                        event = translate(data, snsr_list, usr_list) # returns event code, formated alarm message, event action (send SMS, email , call) 
                                         
                                         if event[0] != '000':
                                             usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] ) # get usr_profile from gateway = username, propertyaddr, SN_SMS, SN_Voice, prof.email, language

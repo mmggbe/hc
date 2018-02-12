@@ -173,6 +173,18 @@ class DB_gw:
         snsr_list = self.db.resultatReq() # returns a tuple
         return snsr_list
     
+    
+    def search_users_name_from_gwID(self, gw_id ):
+
+        req="SELECT index_usr, name " \
+            "FROM alarm_users AS usr " \
+            "WHERE usr.gwID_id=%s;"
+                      
+        value= (gw_id,)
+        self.db.executerReq(req, value)
+        users_list = self.db.resultatReq() # returns a tuple
+        return users_list
+    
     def search_gw(self, MAC):
 #SELECT mac, acct2 FROM gateways WHERE mac = '01:02:02:03:03:06';
 
