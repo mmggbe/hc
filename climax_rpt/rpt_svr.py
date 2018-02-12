@@ -33,7 +33,7 @@ def translate(contactID, snsr_list, usr_list):
 #[0730#119 18 3 401 00 015 C0CF]
 #          MT Q EEE GG ZZZ
 
-    Q = contactID[-14:-13] # Q: Event quialifier 1: new event & disarm 3: restore & arm
+    Q = contactID[-14:-13] # Q: Event qualifier 1: new event & disarm 3: restore & arm
     evt= contactID[-13:-10]  # EEE: event code
     GG = contactID[-10:-8] # GG: partition number (always 00 for non partitioned panels)
     sensor_id= contactID[-7:-5]  # ZZZ: representing zone number C 1 = 0 (fixed) , C 2 C 3 = Zone number
@@ -41,66 +41,47 @@ def translate(contactID, snsr_list, usr_list):
     sensor=""
     sensor_id = sensor_id.lstrip('0') or '0' # remove leading zeros in text string
     
-    
-    sensor_name=""
-    for s in snsr_list:                     # search for sensor name based on sensor ID
-        if sensor_id == s[0]:
-            sensor_name=s[1]
-            sensor_type=s[2]
-            break 
-    
-    user_name=""
-    for u in usr_list:                     # search for sensor name based on sensor ID
-        if sensor_id == u[0]:
-            user_name=u[1]
-            break 
-    
-                   
 
     try:
-                
-        if Q == '1':
-            if sensor_type == '0' or sensor_type == '14' or sensor_type == '15' :
-                alarmMsg += "Disarm: "
-            else:
-                alarmMsg += "New event: "
-                
-        elif Q == '3':
-            if sensor_type == '0' or sensor_type == '14' or sensor_type == '15' :
-                alarmMsg += "Armed: "
-            else:
-                alarmMsg += "Restore: "
-                evt = '000'     # no need to process that message
-        else:
-            alarmMsg += ""
         
-        
-        # arm via RC
-        if evt == '400':
-            alarmMsg += EventCode.value(evt)[0]
-            alarmMsg += " User "
-            alarmMsg += sensor_name
+        if evt == "400" or evt == "401" or evt == "407" :
             
-        # arm via WEB
-        elif evt =='401' and (sensor_type == '14' or sensor_type == '15'):
-            alarmMsg += EventCode.value(evt)[0]
+            user_name=""                   # if user is not found then suer is type 14, meaning WEB but redundant with message type "400"
+            for u in usr_list:                  # search for sensor name based on sensor ID
+                if sensor_id == u[0]:
+                    user_name=u[1]
+                    break 
+        
+            if Q == '1':
+                alarmMsg = "Disarmed with "
+            else: 
+                alarmMsg = "Armed with "
 
-        # arm via Keypad
-        elif evt == '407':
             alarmMsg += EventCode.value(evt)[0]
-            alarmMsg += " User "
-            alarmMsg += user_name
+            alarmMsg += " by user "
+            alarmMsg += user_name      
 
-        # Gateway auto test : 602, GG:00, sensorid:0
-        elif evt == '602':
+        
+        elif evt == "602":     
             alarmMsg += EventCode.value(evt)[0]
             alarmMsg += " = OK"
         
+        
         else:
+            
+                
+            sensor_name=""
+            for s in snsr_list:                     # search for sensor name based on sensor ID
+                if sensor_id == s[0]:
+                    sensor_name=s[1]
+                    sensor_type=s[2]
+                    break 
+
+            alarmMsg = "Event: "
             alarmMsg += EventCode.value(evt)[0] # add event name on the message
             alarmMsg += " Sensor "
             alarmMsg += sensor_name
-            
+
         
     except:
         logging.info("Error ContactID: {}, evt:{}, GG:{}, sensorid:{}".format(contactID,evt, GG, sensor_id))
