@@ -44,9 +44,9 @@ def translate(contactID, snsr_list, usr_list):
 
     try:
         
-        if evt == "400" or evt == "401" or evt == "407" :
+        if evt == "401" or evt == "407" :
             
-            user_name=""                   # if user is not found then suer is type 14, meaning WEB but redundant with message type "400"
+            user_name=""                   # if user is not found then user is type 14, meaning WEB but redundant with message type "401"
             for u in usr_list:                  # search for sensor name based on sensor ID
                 if sensor_id == u[0]:
                     user_name=u[1]
@@ -58,17 +58,33 @@ def translate(contactID, snsr_list, usr_list):
                 alarmMsg = "Armed with "
 
             alarmMsg += EventCode.value(evt)[0]
-            alarmMsg += " by user "
+            alarmMsg += " by user "                 
             alarmMsg += user_name      
+
+        elif evt == "400" :
+            
+            sensor_name=""                          # keyfob searched based on device name
+            for s in snsr_list:                     # search for sensor name based on sensor ID
+                if sensor_id == s[0]:
+                    sensor_name=s[1]
+                    sensor_type=s[2]
+                    break 
+       
+            if Q == '1':
+                alarmMsg = "Disarmed with "
+            else: 
+                alarmMsg = "Armed with "
+
+            alarmMsg += EventCode.value(evt)[0]
+            alarmMsg += ": "                 
+            alarmMsg += sensor_name      
 
         
         elif evt == "602":     
             alarmMsg += EventCode.value(evt)[0]
             alarmMsg += " = OK"
-        
-        
-        else:
-            
+                
+        else:          
                 
             sensor_name=""
             for s in snsr_list:                     # search for sensor name based on sensor ID
@@ -76,13 +92,16 @@ def translate(contactID, snsr_list, usr_list):
                     sensor_name=s[1]
                     sensor_type=s[2]
                     break 
+            
+            if Q == '1':                            # new event
+                alarmMsg += "Event: "
+                alarmMsg += EventCode.value(evt)[0] # add event name on the message
+                alarmMsg += " Sensor "
+                alarmMsg += sensor_name
 
-            alarmMsg = "Event: "
-            alarmMsg += EventCode.value(evt)[0] # add event name on the message
-            alarmMsg += " Sensor "
-            alarmMsg += sensor_name
+            else:      
+                evt = '000'                         #  Q = 3 : Restore event : no need to process that message
 
-        
     except:
         logging.info("Error ContactID: {}, evt:{}, GG:{}, sensorid:{}".format(contactID,evt, GG, sensor_id))
         return( "" )
