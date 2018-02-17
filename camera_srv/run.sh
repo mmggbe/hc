@@ -3,7 +3,7 @@
 PPATH=/home/hc/uat/hc/climax_web:/home/hc/uat/hc/climax_svr
 VIRTENV=/home/hc/Env/uat/bin/activate
 IP=192.168.0.2
-PORT=8008
+PORT=21522
 
 
 function help {

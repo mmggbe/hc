@@ -1,12 +1,34 @@
 {% extends 'base.html' %}
 
+{% block myscript %}
+
+<script>
+function phonenumber(inputtxt)
+{
+  var phoneno = /^\+324\d{8}$/;
+  if(inputtxt.value.match(phoneno))
+  {
+      return true;
+  }
+  else
+  {
+     alert("Not a valid Phone Number");
+     return false;
+  }
+  }
+</script>
+{% endblock %}
+
+
+
 {% block content %}
+
     <div class="row">
       <div class="col-lg-6 col-md-8 col-sm-10">
-        <form method="post" novalidate>
+        <form method="post" name="contactForm" novalidate>
             {% csrf_token %}
             {% include 'includes/form.html' %}
-        <button type="submit" class="btn btn-success">Save</button>
+        <input type="submit" class="btn btn-success" value="Save" onclick="return phonenumber(document.contactForm.SN_SMS);">
         </form>
       </div>
   </div>    
