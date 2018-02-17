@@ -46,7 +46,7 @@ def translate(contactID, snsr_list, usr_list):
         
         if evt == "401" or evt == "407" :
             
-            user_name=""                   # if user is not found then user is type 14, meaning WEB but redundant with message type "401"
+            user_name="WEB"                   # if user is not found then user is type 14, meaning WEB but redundant with message type "401"
             for u in usr_list:                  # search for sensor name based on sensor ID
                 if sensor_id == u[0]:
                     user_name=u[1]

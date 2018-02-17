@@ -28,7 +28,7 @@ class SensorIcon:
                 "icon_keypad.png",
                 "glass",
                 "wrist",
-                "wrist",
+                "icon_medical",
                 "icon_watersensor.png",
                 "12",
                 "",
