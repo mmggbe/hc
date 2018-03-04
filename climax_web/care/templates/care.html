@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+
+
+{% block myscript %}
+<script type="text/javascript">
+
+
+
+$('.btn-toggle').click(function() {
+    $(this).find('.btn').toggleClass('active'); 
+    $(this).find('.btn').toggleClass('btn-primary');
+
+ 
+    $.ajax({
+        url: 'cmd',
+        type: 'get',
+        data: {
+            'btnActive': ($(this).find('.btn-primary').attr('id'))
+        },
+        dataType: 'json',
+
+        success: function(data){
+//            alert(data.attribute);
+        },
+        
+        failure: function(data){
+//            alert('Got an error');
+        },
+        
+        complete : function(data){
+            console.log("Ajax: no data from backend");
+
+        }
+    });
+ 
+//    for debug purpose
+//       var param = 'Button ID = '+($(this).find('.btn-primary').attr('id'));
+//       $('#texteJQ').html(param); 
+    
+});
+  
+  
+</script>
+{% endblock %}
+
+
+
+{% block content %}
+{% load staticfiles %}
+
+<div class="col-md-6">
+    <ul class="list-unstyled">
+            <p>
+                <div class="btn-group btn-toggle">
+                    {% if status == "1" %}
+                        <button class="btn btn-primary btn-responsive" id="ON" > ON  </button>
+                        <button class="btn btn-responsive" id="OFF" > OFF </button>
+                    {% else %}
+                        <button class="btn btn-responsive"  id="ON" > ON  </button>
+                        <button class="btn btn-primary btn-responsive"  id="OFF" > OFF </button>
+                    {% endif %}
+                    
+                </div>
+            </p>
+ 
+    </ul>
+  
+</div>  
+   
+ 
+<div class="col-md-6">
+  <table class="table table-striped" id="table">
+    <thead>
+      <tr>
+        <th>Sensor name</th>
+
+        <th>Start period</th>
+        <th>End period</th>
+        <th></th>
+
+      </tr>
+    </thead>
+    
+     <tbody>
+        {% for rule in rules %}
+        
+        <tr>
+        
+            <td>{{ rule.sensor.name }} </td>
+    
+            <td>{{ rule.start_time }} </td> 
+            
+            <td>{{ rule.end_time }} </td>            
+            
+            
+             <td>   <a data-toggle="tooltip" title="Add a new rule" class="btn btn-default" href="{% url 'careAddRule' %}" > <span class="fa fa-plus-square"></span> </a>  </td>
+             <td>   <a data-toggle="tooltip" title="Delete a rule" class="btn btn-default" href="{% url 'careDelRule' pk=rule.pk %}"><span class="fa fa-trash"></span></a> </td>
+  
+       
+               
+        </tr>  
+     
+      
+        {% empty %}
+        <tr>
+            <td>No rule configured.</td>
+            <td></td>            
+            <td></td>                      
+            <td>   <a data-toggle="tooltip" title="Add a new rule" class="btn btn-default" href="{% url 'careAddRule' %}" > <span class="fa fa-plus-square"></span> </a>  </td>
+
+        </tr>
+        {% endfor %}
+        
+    </tbody>
+    
+</div>  
+   
+   
+  
+
+{% endblock %}

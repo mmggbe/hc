@@ -9,9 +9,7 @@ from django.utils import timezone
 # Create your models here.
 
 class gateways(models.Model):
-#    userWEB = models.ForeignKey(User)        # user of the web platform                      
     userWEB = models.ForeignKey(User, on_delete=models.CASCADE)  # user of the web platform                      
-    # userID = models.CharField(max_length=25,default=0)        # user of the gateway
     mac = models.CharField(max_length=17)           # "MAC eg. 00:1D:94:03:0F:16"
     ver = models.CharField(max_length=30)           # Version eg. CTC-1815 1.0.34 I1815W36A"
     sensor_mod = models.CharField(max_length=1)     # "sensor_mod value"
@@ -84,7 +82,7 @@ class sensors( models.Model):
 # <status-time value="2017/04/22 11:37:30"/>
 
     def __str__(self):
-        return self.type + " " + self.address
+        return self.name
     
     
 # users of the Climax GW    
@@ -104,20 +102,6 @@ class users( models.Model):
     def __str__(self):
         return self.index_usr + " " + self.name
 
-class care(models.Model):   
-    
-    CARE_LATCH = (
-        ('0', 'Disabled'),
-        ('1', 'Enabled')
-    ) 
-        
-    gwID = models.ForeignKey(gateways, on_delete=models.CASCADE)  # "Gateway ID key"),
-    latch = models.CharField(max_length=2, \
-            choices=CARE_LATCH, default='0')                    # "latch_value eg. "1" for enabled )]}
- 
-    
-    def __str__(self):
-        return self.mac
 
     
  

@@ -9,7 +9,7 @@ import os, sys, stat
 import shutil
 import subprocess
 import tempfile
-
+from datetime import datetime
 
 import smtplib
 from email.mime.text import MIMEText
@@ -37,36 +37,25 @@ def send_notification(usr, event):
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
   </head>
-  <body>Hi,
+  <body>Hi, <br>
     <br>
+    The following event has been detected at {2} on: <br>
+    [property] <font color="green"> <br>
+      {0} </font> <br>
+    [event] <font color="green"> <br>
+      {1} </font> <br>
+    Please take the appropriate actions <br>
     <br>
-    The following event has been detected:
-    <br>
-    <br>
-    [property] <font color="green">
-      <br>
-      {0}
-    </font>
-    <br><br>
-    [event] <font color="green">
-      <br>
-      {1}
-    </font>
-    <br>
-    <br>
-    Please take the appropriate actions
-    <br>
-    <br>
-    Best regards
-    <br>
+    Best regards <br>
     Your Horus Monitoring System
+    
   </body>
 </html>
 
 """
         
-        message = MIMEText(EMAIL_CONTENT.format(usr[1],event[1]), 'html')
-        logging.info("MIME text : usr {} event {}".format(usr[1],event[1]))
+        message = MIMEText(EMAIL_CONTENT.format(usr[1],event[1], datetime.today().strftime("%Y-%m-%d %H:%M:%S")) , 'html')
+        logging.info("MIME text : usr {} event {}".format(usr[1],event[1]) )
         
         message['From'] = Email_svr.config("from")
         message['To'] = usr[4]
@@ -85,7 +74,7 @@ def send_notification(usr, event):
         except smtplib.SMTPException as error :
             logging.info("Email to user ID {} failed, error:{}".format(usr[0],str(error)) )
 
-        finally:
+        else:
             server.quit()  
             logging.debug("email sent ")         
         
@@ -149,7 +138,7 @@ Bye
 
 """
         msg= VOICE_MSG_CONTENT.format(event[1])
-#create e temporary file name        
+#create a temporary file name        
         tf = tempfile.NamedTemporaryFile(delete=False)
         wavFile = tf.name + ".wav"
         
@@ -181,7 +170,7 @@ SetVar: CHANNEL(language)=en\n
             eventFile = tempfile.NamedTemporaryFile(delete=False,suffix=".call")
             fd = os.open(eventFile.name,  os.O_RDWR|os.O_CREAT)    
             
-            # Horus needs to be in teh same group as Asterisk
+            # Horus needs to be in the same group as Asterisk
             os.fchmod(fd, stat.S_IRGRP | stat.S_IWGRP | stat.S_IWUSR | stat.S_IRUSR | stat.S_IROTH)       
                
             # don't put the ".wav" extension in the enveloppe

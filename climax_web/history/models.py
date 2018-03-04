@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from alarm.models import gateways
+from alarm.models import gateways, sensors
 from camera.models import camera
+
 # Create your models here.
 
 
@@ -19,7 +20,8 @@ class events(models.Model):
     
     userWEB = models.ForeignKey(User, on_delete=models.CASCADE) 
     cameraID = models.ForeignKey(camera, blank=True, null=True, on_delete=models.CASCADE)
-    gwID = models.ForeignKey(gateways, blank=True, null=True, on_delete=models.CASCADE)     # "Gateway ID key"),    
+    gwID = models.ForeignKey(gateways, blank=True, null=True, on_delete=models.CASCADE)     # "Gateway ID key"), 
+    sensorID = models.ForeignKey(sensors, blank=True, null=True)   
     event_code = models.CharField(max_length=4)                     # value of class EventCode: '100'
     event_description = models.CharField(max_length=40)             # "eventvalue eg. 'Alarm on sensor Living'
     video_file = models.CharField(max_length=40,null=True, blank=True)

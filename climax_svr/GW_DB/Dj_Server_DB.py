@@ -164,7 +164,7 @@ class DB_gw:
     
     def search_sensors_name_from_gwID(self, gw_id ):
 
-        req="SELECT no, name, type " \
+        req="SELECT id, no, name, type " \
             "FROM alarm_sensors AS snsr " \
             "WHERE snsr.gwID_id=%s;"
                       
@@ -188,13 +188,11 @@ class DB_gw:
     def search_gw(self, MAC):
 #SELECT mac, acct2 FROM gateways WHERE mac = '01:02:02:03:03:06';
 
-        #req="SELECT mac, acct2, id, userID, rptipid FROM {} WHERE mac = %s;".format(self.table)
         req="SELECT mac, acct2, id, userWEB_id, rptipid FROM {} WHERE mac = %s;".format(self.table)
 
         value= ( MAC,)
 
         record_nbr=0
-#        if self.db.executerReq(req, value):
         if self.db.executerReq(req, value):
             # analyse the result 
             records = self.db.resultatReq()      # returns a tuple of tuples
@@ -204,11 +202,65 @@ class DB_gw:
 #                    print(item, end=' ')
 #                print()
                 if record_nbr >1 :
-                    print("ERROD DB : Redundant GW %s", rec)
+                    print("ERROR DB : Redundant GW %s", rec)
                     return None
                 else:
                     return rec
         return 0    
+    
+    def search_rules_from_gwID(self, gw_id ):
+        
+        """
+        Query: SELECT `care_carerule`.`id`, `care_carerule`.`sensor_id`, `care_carerule`.`start_time`, `care_carerule`.`end_time` , `care_carerule`.`in_rule FROM `care_carerule` INNER JOIN `alarm_sensors` ON (`care_carerule`.`sensor_id` = `alarm_sensors`.`id`) WHERE `alarm_sensors`.`gwID_id` = 4
+        """
+
+        req="SELECT `care_carerule`.`id`, sensor_id, start_time, end_time, in_rule " \
+            "FROM care_carerule " \
+            "INNER JOIN `alarm_sensors` ON (`care_carerule`.`sensor_id` = `alarm_sensors`.`id`)" \
+            "WHERE `alarm_sensors`.`gwID_id`=%s;"
+                      
+        value= (gw_id,)
+        self.db.executerReq(req, value)
+        snsr_list = self.db.resultatReq() # returns a tuple
+        return snsr_list
+   
+     
+    
+    def search_gw_with_Care_flag(self, care_latch ):
+
+             
+        req="SELECT gwID_id "\
+            "FROM care_care "\
+            "WHERE latch = %s;"
+                                
+        value= (care_latch ,)
+        self.db.executerReq(req, value)
+        gw_list = self.db.resultatReq() # returns a tuple
+        return gw_list
+    
+    
+    def apply_rule(self,sensor_id, start_date, end_date):
+        """
+        SELECT `history_events`.`id`, `history_events`.`timestamp`, `history_events`.`type`, `history_events`.`userWEB_id`, `history_events`.`cameraID_id`, `history_events`.`gwID_id`, `history_events`.`sensorID_id`, `history_events`.`event_code`, `history_events`.`event_description`, `history_events`.`video_file` FROM `history_events` WHERE (`history_events`.`sensorID_id` = 16 AND `history_events`.`timestamp` BETWEEN "2018-02-26 08:00:00" AND "2018-02-26 11:00:00"); 
+        """
+        
+        req="SELECT `history_events`.`id` " \
+            "FROM `history_events` " \
+            "WHERE (`history_events`.`sensorID_id` = %s AND `history_events`.`timestamp` BETWEEN %s AND %s);" 
+        
+        
+        value= ( sensor_id, start_date, end_date )
+        self.db.executerReq(req, value)
+        evt_list = self.db.resultatReq() # returns a tuple
+        return evt_list
+
+    def upd_in_rule_flag(self, rule_id, flag ):
+        
+        req="UPDATE {} SET  in_rule= %s WHERE id = %s;".format("care_carerule")
+        value= ( flag, rule_id)
+        self.db.executerReq(req, value)
+        self.db.commit() 
+
         
     def upd_polling_gw(self, MAC, mode ):
         

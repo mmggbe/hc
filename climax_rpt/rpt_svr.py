@@ -38,9 +38,10 @@ def translate(contactID, snsr_list, usr_list):
     GG = contactID[-10:-8] # GG: partition number (always 00 for non partitioned panels)
     sensor_id= contactID[-7:-5]  # ZZZ: representing zone number C 1 = 0 (fixed) , C 2 C 3 = Zone number
     
-    sensor=""
+#    sensor=""
     sensor_id = sensor_id.lstrip('0') or '0' # remove leading zeros in text string
     
+    sensor_ref_id=0
 
     try:
         
@@ -65,9 +66,10 @@ def translate(contactID, snsr_list, usr_list):
             
             sensor_name=""                          # keyfob searched based on device name
             for s in snsr_list:                     # search for sensor name based on sensor ID
-                if sensor_id == s[0]:
-                    sensor_name=s[1]
-                    sensor_type=s[2]
+                if sensor_id == s[1]:
+                    sensor_name=s[2]
+                    sensor_type=s[3]
+                    sensor_ref_id=s[0]
                     break 
        
             if Q == '1':
@@ -83,14 +85,16 @@ def translate(contactID, snsr_list, usr_list):
         elif evt == "602":     
             alarmMsg += EventCode.value(evt)[0]
             alarmMsg += " = OK"
+            sensor_id = None                        # the GW is not a sensor, will give a NULL in the history DB
                 
         else:          
                 
             sensor_name=""
             for s in snsr_list:                     # search for sensor name based on sensor ID
-                if sensor_id == s[0]:
-                    sensor_name=s[1]
-                    sensor_type=s[2]
+                if sensor_id == s[1]:
+                    sensor_name=s[2]
+                    sensor_type=s[3]
+                    sensor_ref_id=s[0]
                     break 
             
             if Q == '1':                            # new event
@@ -101,6 +105,7 @@ def translate(contactID, snsr_list, usr_list):
 
             else:      
                 evt = '000'                         #  Q = 3 : Restore event : no need to process that message
+                alarmMsg = "Event: Restore"
 
     except:
         logging.info("Error ContactID: {}, evt:{}, GG:{}, sensorid:{}".format(contactID,evt, GG, sensor_id))
@@ -108,7 +113,7 @@ def translate(contactID, snsr_list, usr_list):
         
     else:
         logging.debug("Event: {}".format(alarmMsg))
-        return( evt, alarmMsg, EventCode.value(evt)[1] ) 
+        return( evt, alarmMsg, EventCode.value(evt)[1], sensor_ref_id ) 
 
    
 def getopts():
@@ -241,8 +246,6 @@ def Main():
                                     else:
                                         logging.debug( " on Gw_id {}".format(gw_id[0][0]))
                
-                                        
-
                                         snsr_list = gw.search_sensors_name_from_gwID( gw_id[0][0] ) # get sensors from gateways
                                         usr_list = gw.search_users_name_from_gwID( gw_id[0][0] ) # get users from gateways)
                                         
@@ -252,8 +255,8 @@ def Main():
                                         if event[0] != '000':
                                             usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] ) # get usr_profile from gateway = username, propertyaddr, SN_SMS, SN_Voice, prof.email, language
                                         
-                                            req="INSERT INTO {} (timestamp, userWEB_id, type, gwID_id, event_code, event_description) VALUES ( %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
-                                            value= (now, usr_profile[0][0], "GW", gw_id[0][0],event[0], event[1], )
+                                            req="INSERT INTO {} (timestamp, userWEB_id, type, gwID_id, sensorID_id, event_code, event_description) VALUES ( %s, %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
+                                            value= (now, usr_profile[0][0], "GW", gw_id[0][0], event[3], event[0], event[1])
                                             db_cur.executerReq(req, value)
                                             db_cur.commit() 
                                     
@@ -285,10 +288,6 @@ def Main():
 
 
     db_cur.close()       
-            
-            
-            
-           
             
         
 if __name__ == '__main__':

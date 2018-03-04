@@ -15,7 +15,7 @@
     
     
     /* Open when someone clicks on the span element */
-     var source = document.createElement('source');
+    var source = document.createElement('source');
     function openPlayer(filename) {
         /* configure the requested video file in the player */
         var video = document.getElementById('Player');
@@ -63,7 +63,7 @@
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-8">
     
     <table class="table table-striped" id="table">
     <thead>
@@ -100,49 +100,51 @@
     
     </table>
     
-     {% if history.has_other_pages %}
-    <nav aria-label="History pagination" class="mb-4">
-      <ul class="pagination">
-        {% if history.has_previous %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ history.previous_page_number }}">Previous</a>
-          </li>
-        {% else %}
-          <li class="page-item disabled">
-            <span class="page-link">Previous</span>
-          </li>
-        {% endif %}
-
-        {% for page_num in history.paginator.page_range %}
-          {% if history.number == page_num %}
-            <li class="page-item active">
-              <span class="page-link">
-                {{ page_num }}
-                <span class="sr-only">(current)</span>
-              </span>
-            </li>
-          {% else %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-            </li>
-          {% endif %}
-        {% endfor %}
-
-        {% if history.has_next %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ history.next_page_number }}">Next</a>
-          </li>
-        {% else %}
-          <li class="page-item disabled">
-            <span class="page-link">Next</span>
-          </li>
-        {% endif %}
-      </ul>
-    </nav>
-  {% endif %}
-
+    <ul class="pagination">
     
-
+        {% if history.has_previous %}
+            <li><a href="?page={{ history.previous_page_number }}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+        {% else %}
+            <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+        {% endif %}
+    
+        {% if history.number|add:'-4' > 1 %}
+            <li><a href="?page={{ history.number|add:'-5' }}">&hellip;</a></li>
+        {% endif %}
+    
+        {% for page_num in history.paginator.page_range %}
+            {% if history.number == page_num %}
+                <li class="page-item active">
+                    <span class="page-link"> 
+                        {{ page_num }} 
+                        <span class="sr-only">(current)</span>
+                    </span>                 
+                </li>
+            {% elif page_num > history.number|add:'-5' and page_num < history.number|add:'5' %}
+                <li >
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    
+        {% if history.paginator.num_pages > history.number|add:'4' %}
+            <li>
+                <a href="?page={{ history.number|add:'5' }}">&hellip;</a>
+            </li>
+        {% endif %}
+        
+        {% if history.has_next %}
+            <li>
+                <a href="?page={{ history.next_page_number }}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>                  
+            </li>
+            
+        {% else %}
+            <li class="disabled">
+                <span><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+            </li>
+        {% endif %}
+    
+    </ul>
     
 </div>  
 

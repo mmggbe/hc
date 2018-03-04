@@ -26,15 +26,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^$', al_views.index, name='home'),
     url(r'^admin/', include(admin.site.urls)),
- #   url(r'', include('mylogin.urls')), 
-    url(r'', include('accounts.urls')),
-#    url(r'^signup/$', account_views.signup, name='signup'),
-#    url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
-#    url(r'^logout/$', views.logout, {'next_page': '/login'}),  
+    url(r'', include('accounts.urls')), 
     url(r'^camera/', include ('camera.urls')),
     url(r'^history/', include ('history.urls')),
     url(r'^alarm/', include ('alarm.urls')),
     url(r'^horusadmin/', include ('horusadmin.urls')),
-#    url(r'^$', index, name='index'),
+    url(r'^care/', include ('care.urls')),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
