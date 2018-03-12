@@ -87,15 +87,18 @@ $('.btn-toggle').click(function() {
     
      <tbody>
         {% for rule in rules %}
-        
+        {% load tz %}
+
+
         <tr>
         
             <td>{{ rule.sensor.name }} </td>
-    
+            
+            {% localtime on %}
             <td>{{ rule.start_time }} </td> 
             
             <td>{{ rule.end_time }} </td>            
-            
+            {% endlocaltime %}
             
              <td>   <a data-toggle="tooltip" title="Add a new rule" class="btn btn-default" href="{% url 'careAddRule' %}" > <span class="fa fa-plus-square"></span> </a>  </td>
              <td>   <a data-toggle="tooltip" title="Delete a rule" class="btn btn-default" href="{% url 'careDelRule' pk=rule.pk %}"><span class="fa fa-trash"></span></a> </td>

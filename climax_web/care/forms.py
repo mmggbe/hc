@@ -1,14 +1,17 @@
 from django import forms
-from django.db import models
-from django.forms.fields import ChoiceField
-from django.forms.widgets import RadioSelect
+#from django.db import models
+from django.forms import ModelForm
+#from django.forms.fields import ChoiceField
+#from django.forms.widgets import RadioSelect
 from .models import CareRule
 
 class rulesForm(forms.ModelForm):     
 
     class Meta:
         model = CareRule
-        fields = ('sensor','start_time','end_time',)
+        fields = ('sensor', 'start_time','end_time',)
+#        localized_fields = ('sensor','start_time','end_time',)
+
     
     
 #    def __init__(self, sensor, *args, **kwargs):

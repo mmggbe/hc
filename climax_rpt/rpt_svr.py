@@ -40,8 +40,7 @@ def translate(contactID, snsr_list, usr_list):
     
 #    sensor=""
     sensor_id = sensor_id.lstrip('0') or '0' # remove leading zeros in text string
-    
-    sensor_ref_id=0
+    sensor_ref_id=None
 
     try:
         
@@ -218,7 +217,7 @@ def Main():
                         
                         now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 #                        now = time.strftime("%Y-%m-%d %H:%M:%S")                        
-                        logging.info("Contact ID: {} {} ".format(now, data))
+                        logging.info("Contact ID: UTC {} {} ".format(now, data))
                       
                         try:                         
                             data = data.decode()                                

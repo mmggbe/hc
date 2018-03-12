@@ -6,12 +6,13 @@ Server that manages the care rules alarms and that dispatchs them to the right c
 VERSION = '1.0'
 
 
-from datetime import date, time, datetime
+from datetime import date, time, datetime, timezone
 
 import os
 import sys
 import argparse
 import logging
+import pytz
 
 from notifier import send_notification
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
@@ -84,8 +85,13 @@ def Main():
         exit()
 
     else :
-        d = date.today()
         
+        
+        # get naive date
+        current_tz = pytz.timezone('Europe/Brussels')
+        date = datetime.now().date()
+        
+      
         gwDB=DB_gw(db_cur)
         gw_list = gwDB.search_gw_with_Care_flag( "1" )
        
@@ -97,10 +103,15 @@ def Main():
             for rule in rules:
                 logging.info("Rule: sensor_id {}, start_time {}, end_time {}".format(rule[1],rule[2],rule[3]) )
                 
-                start= datetime.combine(d, time(0, 0) ) + rule[2]
-                end  = datetime.combine(d, time(0, 0) ) + rule[3]
+                dt= datetime.combine(date, time(0, 0) ) + rule[2]
+                start = current_tz.localize(dt).astimezone(pytz.utc)                             # convert to UTC time
+ 
                 
-                if start <= datetime.today() <= end:   # we are between the start and the end of the rule               
+                dt = datetime.combine(date, time(0, 0) ) + rule[3]
+                end  = current_tz.localize(dt).astimezone(pytz.utc)                                # convert to UTC time
+
+                
+                if start <= datetime.now(timezone.utc) <= end:   # we are between the start and the end of the rule               
                     if rule[4] != "1":          # rule was not valid during the last script run
                         gwDB.upd_in_rule_flag(rule[0], "1")      # update flag of rule id
                         logging.debug("Rule is applicable")
