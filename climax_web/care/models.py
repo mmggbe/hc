@@ -7,23 +7,22 @@ import datetime
 
 # Create your models here.
 
-class Care(models.Model):   
-    
+class Care(models.Model):
+
     CARE_LATCH = (
         ('0', 'Disabled'),
         ('1', 'Enabled')
-    ) 
-        
+    )
+
     gwID = models.OneToOneField(gateways, on_delete=models.CASCADE)  # "Gateway ID key"),
     latch = models.CharField(max_length=2, \
             choices=CARE_LATCH, default='0')                    # "latch_value eg. "1" for enabled )]}
- 
-    
+
     def __str__(self):
         return self.latch
 
 class CareRule(models.Model):
-    
+
     sensor= models.ForeignKey(sensors, on_delete=models.CASCADE)  # sensor on which the rule will be applied
     start_time = models.TimeField(default=datetime.date.today)      # start time of "no motion" detection
     end_time = models.TimeField(default=datetime.date.today)      # end time of "no motion" detection

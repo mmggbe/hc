@@ -40,32 +40,16 @@ from socketserver import ThreadingMixIn
 
 import mysql.connector
 
-from HCsettings import HcDB
+from HCsettings import HcDB, HcLog
 from GW_DB.Dj_Server_DB import DB_mngt
 
+import logging
+from HcLog import Log
 
-#Debug = False
-Debug = True
 
-# Default error message template
-DEFAULT_ERROR_MESSAGE = """\
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-        <title>Error response</title>
-    </head>
-    <body>
-        <h1>Error response</h1>
-        <p>Error code: %(code)d</p>
-        <p>Message: %(message)s.</p>
-        <p>Error code explanation: %(code)s - %(explain)s.</p>
-    </body>
-</html>
-"""
+#debug = False 
+debug = True
 
-DEFAULT_ERROR_CONTENT_TYPE = "text/html;charset=utf-8"
 
 class HTTPServer(socketserver.TCPServer):
 
@@ -89,9 +73,6 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
     # The format is multiple whitespace-separated strings,
     # where each string is of the form name[/version].
     server_version = "BaseHTTP/" + __version__
-
-    error_message_format = DEFAULT_ERROR_MESSAGE
-    error_content_type = DEFAULT_ERROR_CONTENT_TYPE
 
     # The default request version.  This only affects responses up until
     # the point where the request line is parsed, so it mainly decides what
@@ -117,8 +98,9 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
         requestline = requestline.rstrip('\r\n')
         self.requestline = requestline
         words = requestline.split()
-      
+        
         if len(words) == 3:
+            hclog.debug("command search")
             command, path, version = words
             try:
                 
@@ -129,8 +111,8 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
                 if command[:5] == 'HTTP/' and path == '200' and version =='OK':
                     version = command
                     self.command = "200ok"
-                    self.log_error("code %s, message %s", "gdv:", "it is a 200 ok")
-                    """Because the 200 ok is not understood as a command, we need to flush the the input file
+                    hclog.debug("it is a 200 ok")
+                    """Because the 200 ok is not understood as a command, we need to flush the input file
                         Readnew line until OK message appears"""
                     while True:
                         raw_requestline = self.rfile.readline()
@@ -147,73 +129,54 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
                     raise ValueError
                 base_version_number = version.split('/', 1)[1]
                 version_number = base_version_number.split(".")
-                # RFC 2145 section 3.1 says there can be only one "." and
-                #   - major and minor numbers MUST be treated as
-                #      separate integers;
-                #   - HTTP/2.4 is a lower version than HTTP/2.13, which in
-                #      turn is lower than HTTP/12.3;
-                #   - Leading zeros MUST be ignored by recipients.
                 if len(version_number) != 2:
                     raise ValueError
                 version_number = int(version_number[0]), int(version_number[1])
                 
             except (ValueError, IndexError):
-                self.send_error(
-                    HTTPStatus.BAD_REQUEST,
-                    "Bad request version (%r)" % version)
+                self.send_error()
                 return False
              
             if version_number >= (1, 1) and self.protocol_version >= "HTTP/1.1":
                 self.close_connection = False
             if version_number >= (2, 0):
-                self.send_error(
-                    HTTPStatus.HTTP_VERSION_NOT_SUPPORTED,
-                    "Invalid HTTP version (%s)" % base_version_number)
+                self.send_error()
                 return False
         
-        self.command, self.path, self.request_version = command, path, version
+            self.command, self.path, self.request_version = command, path, version
 
-        # Examine the headers and look for a Connection directive.
-        try:
-            self.headers = http.client.parse_headers(self.rfile,
-                                                     _class=self.MessageClass)
-        except http.client.LineTooLong as err:
-            self.send_error(
-                HTTPStatus.REQUEST_HEADER_FIELDS_TOO_LARGE,
-                "Line too long",
-                str(err))
-            return False
-        except http.client.HTTPException as err:
-            self.send_error(
-                HTTPStatus.REQUEST_HEADER_FIELDS_TOO_LARGE,
-                "Too many headers",
-                str(err)
-            )
-            return False
-
-        conntype = self.headers.get('Connection', "")
-        if conntype.lower() == 'close':
-            self.close_connection = True
-        elif (conntype.lower() == 'keep-alive' and
-              self.protocol_version >= "HTTP/1.1"):
-            self.close_connection = False
-        # Examine the headers and look for an Expect directive
-        expect = self.headers.get('Expect', "")
-        if (expect.lower() == "100-continue" and
-                self.protocol_version >= "HTTP/1.1" and
-                self.request_version >= "HTTP/1.1"):
-            if not self.handle_expect_100():
+            # Examine the headers and look for a Connection directive.
+            try:
+                self.headers = http.client.parse_headers(self.rfile,
+                                                         _class=self.MessageClass)
+            except http.client.LineTooLong as err:
+                self.send_error()
                 return False
-        return True
+            except http.client.HTTPException as err:
+                self.send_error()
+                return False
+            
+            conntype = self.headers.get('Connection', "")
+            if conntype.lower() == 'close':
+                self.close_connection = True
+            elif (conntype.lower() == 'keep-alive' and
+                  self.protocol_version >= "HTTP/1.1"):
+                self.close_connection = False
+            # Examine the headers and look for an Expect directive
+            expect = self.headers.get('Expect', "")
+            if (expect.lower() == "100-continue" and
+                    self.protocol_version >= "HTTP/1.1" and
+                    self.request_version >= "HTTP/1.1"):
+                if not self.handle_expect_100():
+                    return False
+            return True
+        else:
+            #Bad format
+            self.send_error()
 
 
     def handle_one_request(self):
         """Handle a single HTTP request.
-
-        You normally don't need to override this method; see the class
-        __doc__ string for information on how to handle specific HTTP
-        commands such as GET and POST.
-
         """
         try:
             self.raw_requestline = self.rfile.readline(65537)
@@ -221,7 +184,7 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
                 self.requestline = ''
                 self.request_version = ''
                 self.command = ''
-                self.send_error(HTTPStatus.REQUEST_URI_TOO_LONG)
+                self.send_error()
                 return
             if not self.raw_requestline:
                 self.close_connection = True
@@ -231,16 +194,14 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
                 return
             mname = 'do_' + self.command
             if not hasattr(self, mname):
-                self.send_error(
-                    HTTPStatus.NOT_IMPLEMENTED,
-                    "Unsupported method (%r)" % self.command)
+                self.send_error()
                 return
             method = getattr(self, mname)
             method()
             self.wfile.flush() #actually send the response if not already done.
         except socket.timeout as e:
             #a read or a write timed out.  Discard this connection
-            self.log_error("Request timed out: %r", e)
+            hclog.debug("Request timed out: %r", e)
             self.close_connection = True
             return
 
@@ -252,60 +213,11 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
         while not self.close_connection:
             self.handle_one_request()
 
-    def send_error(self, code, message=None, explain=None):
-        """Send and log an error reply.
-
-        Arguments are
-        * code:    an HTTP error code
-                   3 digits
-        * message: a simple optional 1 line reason phrase.
-                   *( HTAB / SP / VCHAR / %x80-FF )
-                   defaults to short entry matching the response code
-        * explain: a detailed message defaults to the long entry
-                   matching the response code.
-
-        This sends an error response (so it must be called before any
-        output has been generated), logs the error, and finally sends
-        a piece of HTML explaining the error to the user.
-
-        """
-
-        try:
-            shortmsg, longmsg = self.responses[code]
-        except KeyError:
-            shortmsg, longmsg = '???', '???'
-        if message is None:
-            message = shortmsg
-        if explain is None:
-            explain = longmsg
-        self.log_error("code %d, message %s", code, message)
-        self.send_response(code, message)
+    def send_error(self):
+        hclog.error("Bad message received from %s", self.address_string() )
         self.send_header('Connection', 'close')
-
-        # Message body is omitted for cases described in:
-        #  - RFC7230: 3.3. 1xx, 204(No Content), 304(Not Modified)
-        #  - RFC7231: 6.3.6. 205(Reset Content)
-        body = None
-        if (code >= 200 and
-            code not in (HTTPStatus.NO_CONTENT,
-                         HTTPStatus.RESET_CONTENT,
-                         HTTPStatus.NOT_MODIFIED)):
-            # HTML encode to prevent Cross Site Scripting attacks
-            # (see bug #1100201)
-            content = (self.error_message_format % {
-                'code': code,
-                'message': html.escape(message, quote=False),
-                'explain': html.escape(explain, quote=False)
-            })
-            body = content.encode('UTF-8', 'replace')
-            self.send_header("Content-Type", self.error_content_type)
-            self.send_header('Content-Length', int(len(body)))
         self.end_headers()
-
-        if self.command != 'HEAD' and body:
-            self.wfile.write(body)
-
-    
+        
 
     def send_header(self, keyword, value):
         """Send a MIME header to the headers buffer."""
@@ -332,53 +244,6 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
             self.wfile.write(b"".join(self._headers_buffer))
             self._headers_buffer = []
 
-    def log_request(self, code='-', size='-'):
-        """Log an accepted request.
-
-        This is called by send_response().
-
-        """
-        if isinstance(code, HTTPStatus):
-            code = code.value
-        self.log_message('"%s" %s %s',
-                         self.requestline, str(code), str(size))
-
-    def log_error(self, format, *args):
-        """Log an error.
-
-        This is called when a request cannot be fulfilled.  By
-        default it passes the message on to log_message().
-
-        Arguments are the same as for log_message().
-
-        XXX This should go to the separate error log.
-
-        """
-        if Debug:
-            self.log_message(format, *args)
-
-    def log_message(self, format, *args):
-        """Log an arbitrary message.
-
-        This is used by all other logging functions.  Override
-        it if you have specific logging wishes.
-
-        The first argument, FORMAT, is a format string for the
-        message to be logged.  If the format string contains
-        any % escapes requiring parameters, they should be
-        specified as subsequent arguments (it's just like
-        printf!).
-
-        The client ip and current date/time are prefixed to
-        every message.
-
-        """
-
-        sys.stderr.write("%s - - [%s] %s\n" %
-                         (self.address_string(),
-                          self.log_date_time_string(),
-                          format%args))
-
     def version_string(self):
         """Return the server software version string."""
         return self.server_version + ' ' + self.sys_version
@@ -389,19 +254,6 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
             timestamp = time.time()
         return email.utils.formatdate(timestamp, usegmt=True)
 
-    def log_date_time_string(self):
-        """Return the current time formatted for logging."""
-        now = time.time()
-        year, month, day, hh, mm, ss, x, y, z = time.localtime(now)
-        s = "%02d/%3s/%04d %02d:%02d:%02d" % (
-                day, self.monthname[month], year, hh, mm, ss)
-        return s
-
-    weekdayname = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-
-    monthname = [None,
-                 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     def address_string(self):
         """Return the client address."""
@@ -437,34 +289,34 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 
     def do_POST(self):
               
-        self.log_error("code %s, message %s", "gdv:", "-------- Handle POST in CameraServer.py-----------")
+        hclog.debug("-------- Handle POST in CameraServer.py-----------")
         data = self.rfile.readline()
         mac = data.decode().split("|")[0]
         mac = mac.upper()
-        self.log_error("code %s, message %s", "gdv:", mac)
+        hclog.debug("Poll Camera : %s", mac)
         
-#        db = mysql.connector.connect(host="localhost", user="hc", password="HCMGGDB9", database="hcdb_branch_cam")
         cursor= DB_mngt(HcDB.config()) 
+        
         if cursor.echec:
             sys.exit(1)
+            hclog.debug ("cannot open db")
 
-#       cursor = db.cursor()
-#       cursor.execute("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
         cursor.executerReq("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
-#       idCam = cursor.fetchone()
         idCam = cursor.resultatReqOneRec()
+        hclog.debug ("camera id: %s", idCam[0])
         
         if idCam:
+
             ts = time.time()
             timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-#           cursor.execute("""UPDATE camera_camera SET status = 1, lastSeenTimestamp = %s WHERE CameraMac=%s""", (timestamp, mac,))
+            #Update the camer status
             cursor.executerReq("""UPDATE camera_camera SET status = 1, lastSeenTimestamp = %s WHERE CameraMac=%s""", (timestamp, mac,))
-#           db.commit()
             cursor.commit()
-#           cursor.execute("""SELECT id, action FROM camera_action_list WHERE camera_id=%s LIMIT 0, 1""", idCam)
-#           resp = cursor.fetchone()
+            hclog.debug("Timestamp update done")
+            #Lookup for camera action
             cursor.executerReq("""SELECT id, action FROM camera_action_list WHERE camera_id=%s LIMIT 0, 1""", idCam)
             resp = cursor.resultatReqOneRec()
+
             
             if resp:
                 answer = resp[1].replace("\\r\\n", "\r\n")
@@ -475,20 +327,17 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write("?commandid=934723039".encode())
                 
-#                cursor.execute("""DELETE FROM camera_action_list WHERE id=%s""", (resp[0],))
-#                db.commit()
                 cursor.executerReq("""DELETE FROM camera_action_list WHERE id=%s""", (resp[0],))
                 cursor.commit()
-                self.log_error("code %s, message %s", "gdv:", "Action for the camera")
+                hclog.info("Action for camera id %s, mac %s", (idCam[0], mac,) )
             else:
                 self.close_connection = False
-                self.log_error("code %s, message %s", "gdv:", "No action for the camera")
+                hclog.debug("No action for camera id %s", idCam[0])
             
             
         else:
-            self.log_error("code %s, message %s", "gdv:", "Camera not registred")
+            hclog.error("Camera not registred from: %s", self.address_string())
             
-#        db.close
         cursor.close()
         
         
@@ -503,6 +352,12 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     """ This class allows to handle requests in separated threads.
         No further content needed, don't touch this. """
 
+def get_logging_level():
+    if debug:
+        return logging.DEBUG
+    else:
+        return logging.ERROR
+
 def run(HandlerClass=BaseHTTPRequestHandler,
          ServerClass=HTTPServer, protocol="HTTP/1.0", port=8000, bind=""):
     """Test the HTTP request handler class.
@@ -516,7 +371,7 @@ def run(HandlerClass=BaseHTTPRequestHandler,
     httpd = ThreadedHTTPServer(server_address, HandlerClass)
     sa = httpd.socket.getsockname()
     serve_message = "Serving HTTP on {host} port {port} (http://{host}:{port}/) ..."
-    print(serve_message.format(host=sa[0], port=sa[1]))
+    hclog.info(serve_message.format(host=sa[0], port=sa[1]))
     
     try:
             httpd.serve_forever()
@@ -535,6 +390,22 @@ if __name__ == '__main__':
                         nargs='?',
                         help='Specify alternate port [default: 8000]')
     args = parser.parse_args()
+    
+    # define logging
+    #logging.basicConfig(format='%(asctime)s %(name)s[%(process)d]: %(message)s',datefmt='%b %d %H:%M:%S', level=get_logging_level(), filename='/data/log/uat/camera.log')
+    """logger = logging.getLogger('camera_srv')
+    logger.setLevel(get_logging_level())
+    
+    handler = TimedRotatingFileHandler('/data/log/uat/camera.log',
+                                       when='midnight',
+                                       backupCount=5)
+    formatter = logging.Formatter('%(asctime)s %(name)s[%(process)d]: %(message)s',datefmt='%b %d %H:%M:%S')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)"""
+    
+    hclog = Log("camera_srv", debug)
+    
+    
     handler_class = SimpleHTTPRequestHandler
     run(HandlerClass=handler_class, port=args.port, bind=args.bind)
     

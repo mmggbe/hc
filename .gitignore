@@ -10,6 +10,7 @@ climax_web/care/migrations/*
 climax_web/HCsettings.py
 climax_web/climax_web/wsgi*.py
 climax_web/climax_web/settings*.py
+lib/HCsettings.py
 climax_web/media/*
 *.kate-swp
 *.odt
@@ -32,3 +33,4 @@ readme.txt
 .project
 .pydevproject
 .settings
+
