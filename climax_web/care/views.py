@@ -63,13 +63,13 @@ def care_cmd( request ):
 def care_add_rule( request ):
 
     if request.method == 'POST':
-        rule_form = rulesForm(request.POST)
+        rule_form = rulesForm(request.user, request.POST)
         if rule_form.is_valid():
             post = rule_form.save()
             return redirect('care')
 
     else:
-        rule_form = rulesForm()
+        rule_form = rulesForm(request.user)
 
     return render( request, 'rule_edit.html', {'form': rule_form})
 

@@ -4,6 +4,7 @@ from django.forms import ModelForm
 #from django.forms.fields import ChoiceField
 #from django.forms.widgets import RadioSelect
 from .models import CareRule
+from alarm.models import sensors
 
 class rulesForm(forms.ModelForm):     
 
@@ -14,6 +15,6 @@ class rulesForm(forms.ModelForm):
 
     
     
-#    def __init__(self, sensor, *args, **kwargs):
-#        super(rulesForm, self).__init__(*args, **kwargs)
-#        self.fields['sensor'].queryset = CareRule.objects.filter(sensor__type = 3)
+    def __init__(self, user, *args, **kwargs):
+        super(rulesForm, self).__init__(*args, **kwargs)
+        self.fields['sensor'].queryset = sensors.objects.filter(gwID__userWEB=user)
