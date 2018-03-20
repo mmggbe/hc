@@ -19,20 +19,24 @@ from history.models import events
 
 @login_required(login_url="/")    
 def carePage (request):
-    rules = ["ab","cd"]
-
-
+    rules = []
     try:
-        care_sts= Care.objects.get(gwID__userWEB=request.user)
-
-    except ObjectDoesNotExist:      # Care mode has never been used : create the config (Mode=ON-OFF)
+        current_gw=gateways.objects.get(userWEB=request.user)       # check ther is a GW
+    
+    except:
+        return redirect('home')
         
-        current_gw=gateways.objects.get(userWEB=request.user)
-        care_sts = Care.objects.create(gwID=current_gw,latch = "0")
-
-    finally: 
-        rules = CareRule.objects.filter(sensor__gwID__userWEB=request.user)   
-        return render(request,"care.html",{'status': care_sts.latch,'rules':rules})
+    else:
+        
+        try:
+            care_sts= Care.objects.get(gwID__userWEB=request.user)
+    
+        except ObjectDoesNotExist:      # Care mode has never been used : create the config (Mode=ON-OFF)
+            care_sts = Care.objects.create(gwID=current_gw,latch = "0")
+    
+        finally: 
+            rules = CareRule.objects.filter(sensor__gwID__userWEB=request.user)   
+            return render(request,"care.html",{'status': care_sts.latch,'rules':rules})
 
 
 

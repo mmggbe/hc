@@ -2,11 +2,15 @@ from django import forms
 from django.db import models
 from django.forms.fields import ChoiceField
 from django.forms.widgets import RadioSelect
+from django.core.validators import RegexValidator
 
 from .models import gateways, users, sensors, userProfile
 
 
 class gatewaysForm(forms.ModelForm):
+    mac = forms.CharField(validators=[RegexValidator(regex=r'^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$', message='MAC addrss should be XX:XX:XX:XX:XX:XX')])
+    description = forms.CharField()
+
     class Meta:
         model = gateways
         fields = ('mac','description',)      
@@ -17,9 +21,23 @@ class userForm(forms.ModelForm):
         fields = ('code', 'name', 'latch')
  
 class contactForm(forms.ModelForm):
+    
+    propertyaddr = forms.CharField(
+        label='Property address',
+        widget=forms.Textarea(
+            attrs={'rows': 3, 'placeholder': 'Your address?'}
+            ),
+        max_length=100
+    )
+    email = forms.EmailField(required=False)
+    
+    SN_Voice= forms.CharField(label='GSM nbr for voice call',required=False,validators=[RegexValidator(regex=r'^\+324\d{8}$', message='Should be a GSM number starting with +324xxxxxxxx')])
+    SN_SMS= forms.CharField(label='GSM nbr for SMS',required=False,validators=[RegexValidator(regex=r'^\+324\d{8}$', message='Should be a GSM number starting with +324xxxxxxxx')])
+    
     class Meta:
         model = userProfile
         fields = ('language', 'propertyaddr', 'email', 'SN_SMS', 'SN_Voice')
+
 
 # Keyfo        
 class sensorModifyForm_0(forms.ModelForm):
@@ -98,7 +116,7 @@ class sensorModifyForm_other(forms.ModelForm):
 #        fields = ['name','attr','address']
         fields = ['name','address']
         
-        
+"""        
 class sensorModifyForm2(forms.Form):
     
     SENSOR_ATTRIBUTE = (
@@ -120,5 +138,5 @@ class sensorModifyForm2(forms.Form):
     status1 = forms.CharField(max_length=2)        # "Sensor status1"),
     status2 = forms.CharField(max_length=2)        # "Sensor status2"),
     
-   
+"""   
         

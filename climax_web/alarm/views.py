@@ -86,7 +86,6 @@ def index( request):
             
             return render( request, 'home.html',{'status': sts,'events':evts })
 
-
 @login_required(login_url="/")
 def HC_contact_edit( request):
 

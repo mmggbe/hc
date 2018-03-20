@@ -28,7 +28,7 @@ function phonenumber(inputtxt)
         <form method="post" name="contactForm" novalidate>
             {% csrf_token %}
             {% include 'includes/form.html' %}
-        <input type="submit" class="btn btn-success" value="Save" onclick="return phonenumber(document.contactForm.SN_SMS);">
+        <input type="submit" class="btn btn-success" value="Save" >
         </form>
       </div>
   </div>    
