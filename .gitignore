@@ -26,6 +26,8 @@ climax_web/media/*
 *.pyc
 *.out
 *.pid
+*.ini
+
 run*.sh
 publish.sh
 pull.sh
