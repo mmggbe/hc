@@ -7,6 +7,7 @@ import time
 import subprocess
 import os
 import random, string
+from HCsettings import HcFTP
 
 from .forms import *
 
@@ -80,6 +81,21 @@ def cameraSettings(request):
    
 @login_required(login_url='/')
 def cameraDelete(request, pk):
+    VIDEO_STORAGE = HcFTP.config("VIDEO_STORAGE")
+    
+    queryset=events.objects.filter(cameraID_id=pk).filter(event_code = '800')
+    for event in queryset:
+        try:
+            os.remove(VIDEO_STORAGE + event.video_file + ".mp4") 
+        except:
+            print ("Cannot delete the file")
+        try:
+            os.remove(VIDEO_STORAGE + file + ".jpg")
+        except:
+            print ("Cannot delete the file")
+        event.delete()
+    events.objects.filter(cameraID_id=pk).delete()
+    action_list.objects.filter(camera_id=pk).delete()
     username = request.user.get_username()
     camera.objects.filter(pk=pk).filter(user__username=username).delete()
     return redirect('/camera/cameraSettings/')

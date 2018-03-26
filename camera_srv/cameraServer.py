@@ -201,7 +201,7 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
             self.wfile.flush() #actually send the response if not already done.
         except socket.timeout as e:
             #a read or a write timed out.  Discard this connection
-            hclog.debug("Request timed out: %r", e)
+            hclog.debug("Request timed out: {}".format(e))
             self.close_connection = True
             return
 
@@ -214,7 +214,7 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
             self.handle_one_request()
 
     def send_error(self):
-        hclog.error("Bad message received from %s", self.address_string() )
+        hclog.error("Bad message received from {}".format(self.address_string()) )
         self.send_header('Connection', 'close')
         self.end_headers()
         
@@ -293,7 +293,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         data = self.rfile.readline()
         mac = data.decode().split("|")[0]
         mac = mac.upper()
-        hclog.debug("Poll Camera : %s", mac)
+        hclog.debug("Poll Camera : {}".format(mac))
         
         cursor= DB_mngt(HcDB.config()) 
         
@@ -303,7 +303,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
         cursor.executerReq("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
         idCam = cursor.resultatReqOneRec()
-        hclog.debug ("camera id: %s", idCam[0])
+        hclog.debug ("camera id: {}".format(idCam[0]))
         
         if idCam:
 
@@ -329,14 +329,14 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 
                 cursor.executerReq("""DELETE FROM camera_action_list WHERE id=%s""", (resp[0],))
                 cursor.commit()
-                hclog.info("Action for camera id %s, mac %s", (idCam[0], mac,) )
+                hclog.info("Action for camera id {}, mac {}".format(idCam[0], mac,) )
             else:
                 self.close_connection = False
-                hclog.debug("No action for camera id %s", idCam[0])
+                hclog.debug("No action for camera id {}".format(idCam[0]))
             
             
         else:
-            hclog.error("Camera not registred from: %s", self.address_string())
+            hclog.error("Camera not registred from: {}".format(self.address_string()))
             
         cursor.close()
         

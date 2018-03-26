@@ -48,6 +48,10 @@ def do_movevideo(src, dest):
 		
 	else:
 		logger.info('Succesfully moved from %s to %s', src, dest)
+		try:
+			os.chmod(dest, stat.S_IWGRP)
+		except Exception as e:
+			logger.info( "Cannot change file access: {0}".format(e))
 		result=True
 	
 	finally:
