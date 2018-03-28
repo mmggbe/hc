@@ -258,9 +258,10 @@ def Main():
                                             value= (now, usr_profile[0][0], "GW", gw_id[0][0], event[3], event[0], event[1])
                                             db_cur.executerReq(req, value)
                                             db_cur.commit() 
+                                            send_notification(usr_profile[0], event)
+
                                     
                                     db_cur.close()                               
-                                    send_notification(usr_profile[0], event)
 
 
                                          

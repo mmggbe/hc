@@ -14,7 +14,7 @@ from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
 
-from HCsettings import Notifier, HcDB, Email_svr
+from HCsettings import SMS_Notif, HcDB, Email_svr
 
 
 def send_notification(usr, event):
@@ -84,22 +84,31 @@ def send_notification(usr, event):
         try:
             logging.debug("EnCo SMS API: Acquiring token\n")
               
-            payload = {'grant_type': 'client_credentials', 'scope': 'openid'}         
-            r = requests.post("https://api.enco.io/token", data=payload, auth=( Notifier.config("client_id"), Notifier.config("client_secret")))
-            logging.debug("Get token {}\n".format(r.text))
+            payload = {'grant_type': 'client_credentials', 'scope': 'openid'}  
             
-            authInfo = r.json()
-            tokenBearer = authInfo['access_token']
-    
-            logging.debug("Using token to retrieve user information\n")
-            
-            auth_header = {'Authorization':'Bearer {}'.format(tokenBearer), 'Accept':'application/json'}
-            r = requests.get("https://api.enco.io/userinfo?schema=openid", headers=auth_header)
-            logging.debug("Get user info {}\n".format(r.text))
-            userInfo = r.json()
-            
-            logging.debug("Name: {}, Given name: {}, Familly name: {}, Email: {}\n".format(userInfo['name'],userInfo['given_name'], userInfo['family_name'],userInfo['email']) )   
-            
+            enco_perm_token = SMS_Notif.config("enco_secret" )
+            if enco_perm_token and enco_perm_token.strip():             # there is a EnCO SMS permanent token in the HCsettings.py file
+                tokenBearer = enco_perm_token
+                logging.debug("Using Enco permanent token for MS sending\n" )   
+
+                
+            else:                                                       # use Marg Gerin account and accquire tmp token
+              
+                r = requests.post("https://api.enco.io/token", data=payload, auth=(SMS_Notif.config("client_id"), SMS_Notif.config("client_secret")))
+                logging.debug("Get token {}\n".format(r.text))
+                
+                authInfo = r.json()
+                tokenBearer = authInfo['access_token']
+        
+                logging.debug("Using token to retrieve user information\n")
+                
+                auth_header = {'Authorization':'Bearer {}'.format(tokenBearer), 'Accept':'application/json'}
+                r = requests.get("https://api.enco.io/userinfo?schema=openid", headers=auth_header)
+                logging.debug("Get user info {}\n".format(r.text))
+                userInfo = r.json()
+                
+                logging.debug("Name: {}, Given name: {}, Familly name: {}, Email: {}\n".format(userInfo['name'],userInfo['given_name'], userInfo['family_name'],userInfo['email']) )   
+                
             """
             curl -i -X POST 'https://api.enco.io/sms/1.0.0/sms/outboundmessages?forceCharacterLimit=false' 
             -H 'Authorization: Bearer 674f4fc8db0000000083e887306cd8' 
@@ -107,10 +116,6 @@ def send_notification(usr, event):
             -H 'Accept: application/json'  
             -d '{"message":"Hello World Test Message","destinations":["+32000000000"]}'
             """
-            
-#            if False:            # to avoid to waste SMS credit during testing
-                
-#                payload = json.dumps( {'message':'Hello Marc 2','destinations':['+32475618115']} )
             msg="Horus Monitoring: " + event[1]        # still to limit to 140 char.
             dest=[(usr[2]),]
              
