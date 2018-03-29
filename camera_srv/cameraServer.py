@@ -15,34 +15,19 @@ __all__ = [
     "SimpleHTTPRequestHandler",
 ]
 
-import email.utils
-import html
+
 import http.client
-import io
-import mimetypes
-import os
-import posixpath
-import select
-import shutil
 import socket # For gethostbyaddr()
 import socketserver
 import sys
-import time
-import urllib.parse
-import copy
 import argparse
-
 import time
 import datetime
-
 from http import HTTPStatus
 from socketserver import ThreadingMixIn
-
 import mysql.connector
-
 from HCsettings import HcDB, HcLog
 from GW_DB.Dj_Server_DB import DB_mngt
-
 import logging
 from HcLog import Log
 
@@ -214,7 +199,7 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
             self.handle_one_request()
 
     def send_error(self):
-        hclog.error("Bad message received from %s", self.address_string() )
+        hclog.error("Bad message received",self.address_string() )
         self.send_header('Connection', 'close')
         self.end_headers()
         
@@ -247,13 +232,6 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
     def version_string(self):
         """Return the server software version string."""
         return self.server_version + ' ' + self.sys_version
-
-    def date_time_string(self, timestamp=None):
-        """Return the current date and time formatted for a message header."""
-        if timestamp is None:
-            timestamp = time.time()
-        return email.utils.formatdate(timestamp, usegmt=True)
-
 
     def address_string(self):
         """Return the client address."""
@@ -293,7 +271,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         data = self.rfile.readline()
         mac = data.decode().split("|")[0]
         mac = mac.upper()
-        hclog.debug("Poll Camera : %s", mac)
+        hclog.debug("Poll Camera : {}".format(mac))
         
         cursor= DB_mngt(HcDB.config()) 
         
@@ -303,7 +281,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
         cursor.executerReq("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
         idCam = cursor.resultatReqOneRec()
-        hclog.debug ("camera id: %s", idCam[0])
+        hclog.debug ("camera id: {}".format(idCam[0]))
         
         if idCam:
 
@@ -329,14 +307,14 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 
                 cursor.executerReq("""DELETE FROM camera_action_list WHERE id=%s""", (resp[0],))
                 cursor.commit()
-                hclog.info("Action for camera id %s, mac %s", (idCam[0], mac,) )
+                hclog.info("Action for camera id {}, mac {}".format(idCam[0], mac) )
             else:
                 self.close_connection = False
-                hclog.debug("No action for camera id %s", idCam[0])
+                hclog.debug("No action for camera id {}".format(idCam[0]))
             
             
         else:
-            hclog.error("Camera not registred from: %s", self.address_string())
+            hclog.error("Camera not registred",self.address_string())
             
         cursor.close()
         
@@ -391,18 +369,7 @@ if __name__ == '__main__':
                         help='Specify alternate port [default: 8000]')
     args = parser.parse_args()
     
-    # define logging
-    #logging.basicConfig(format='%(asctime)s %(name)s[%(process)d]: %(message)s',datefmt='%b %d %H:%M:%S', level=get_logging_level(), filename='/data/log/uat/camera.log')
-    """logger = logging.getLogger('camera_srv')
-    logger.setLevel(get_logging_level())
-    
-    handler = TimedRotatingFileHandler('/data/log/uat/camera.log',
-                                       when='midnight',
-                                       backupCount=5)
-    formatter = logging.Formatter('%(asctime)s %(name)s[%(process)d]: %(message)s',datefmt='%b %d %H:%M:%S')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)"""
-    
+        
     hclog = Log("camera_srv", debug)
     
     

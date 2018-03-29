@@ -1,26 +1,25 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-"""HClog library.
+'''
+HClog library.
 
 version 1.0
 March 2013
-G. De Vocht"""
 
+@author: G. De Vocht
+'''
 import logging
 from logging.handlers import TimedRotatingFileHandler
+from HCsettings import HcLog
 
-
-class Log:
-
-            
-    def __init__(self, srvName, debug):
-        """Usage:
+class Log(object):
+    '''
+    Usage:
              srvName: (= Service Name) Thisis the name of the service indicated in the log TimedRotatingFileHandler
              debug: if true error and debug message will be logged, otherwise only error
-           """
+    '''
+    def __init__(self, srvName, debug):
         
-        logPath= ''
-        retentionTime = 5
+        logPath= HcLog.config("logPath")
+        retentionTime = int(HcLog.config("retentionTime"))
         
         self.logger = logging.getLogger(srvName)
         
@@ -29,7 +28,7 @@ class Log:
         handler = TimedRotatingFileHandler(logPath + srvName + '.log',
                                         when='midnight',
                                         backupCount=retentionTime)
-        formatter = logging.Formatter('%(asctime)s %(name)s[%(process)d]: %(message)s',datefmt='%b %d %H:%M:%S')
+        formatter = logging.Formatter('%(asctime)s %(name)s(%(process)d)[%(levelname)s]: %(message)s',datefmt='%b %d %H:%M:%S')
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
         
@@ -39,18 +38,25 @@ class Log:
         else:
             return logging.ERROR
         
-    def error(self, msg):
-        self.logger.error(msg)
+    def error(self, msg, ip=None):
+        self.logger.error(self.__message(msg, ip))
         
-    def debug(self, msg):
-        self.logger.debug(msg)
+    def debug(self, msg, ip=None):
+        self.logger.debug(self.__message(msg, ip))
         
-    def info(self, msg):
-        self.logger.info(msg)
+    def info(self, msg, ip=None):
+        self.logger.info(self.__message(msg, ip))
           
-    
+    def __message(self, msg, ip):
+        if ip is None :
+            return msg
+        else:
+            return msg + " From " + ip
+        
 if __name__ == '__main__':
 
-    hclog = HcLog('testLog', True)
-    hclog.error ('this is a test error message')
-    hclog.debug('this  is a test debug message')
+    hclog = Log('testLog', True)
+    hclog.error ('this is a test error message without ip')
+    hclog.debug('this  is a test debug message without ip')
+    hclog.error ('this is a test error message with ip', '1.1.1.1')
+    hclog.debug('this  is a test debug message with ip', '1.1.1.1')
