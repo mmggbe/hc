@@ -10,19 +10,22 @@
         <tr>
           <th>Index</th>
           <th>Name</th>
-          <th>Enabled</th>
+          <th>Active user</th>
           <th><br>
           </th>
         </tr>
       </thead>
 
       <tbody>
+        {% load form_tags %}
+
         {% for user in users %}
  
         <tr>
           <td class="align-middle"> <a href={% url 'user_edit' pk=user.pk %}> {{ user.index_usr }} </a> </td>
           <td class="align-middle"> <a href={% url 'user_edit' pk=user.pk %}> {{user.name}}  </a> </td>  
-          <td class="align-middle"> {{user.latch}} </td>   
+          <td class="align-middle"> {{user.latch}}
+          </td>   
         </tr>
 
         {% empty %}

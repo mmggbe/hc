@@ -186,7 +186,7 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
             self.wfile.flush() #actually send the response if not already done.
         except socket.timeout as e:
             #a read or a write timed out.  Discard this connection
-            hclog.debug("Request timed out: %r", e)
+            hclog.debug("Request timed out: {}".format(e))
             self.close_connection = True
             return
 

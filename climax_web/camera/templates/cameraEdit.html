@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 
-{% block content %}
+{% block contentOLd %}
 <form action="/camera/saveCamera/" method="POST">{% csrf_token %}
 
     <div data-role="fieldcontain">
@@ -27,4 +27,17 @@
     </form>
 </div>
 {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+      <div class="col-lg-6 col-md-8 col-sm-10">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% include 'includes/form.html' %}
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>  
+   </div>
+
+
 {% endblock %}

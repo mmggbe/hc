@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
@@ -7,6 +7,9 @@ import time
 import subprocess
 import os
 import random, string
+from HCsettings import HcFTP
+
+from .forms import *
 
 from camera.models import camera, action_list
 from history.models import events
@@ -27,24 +30,47 @@ def cameraListAdmin(request):
     
     return render(request,'cameraListAdmin.html', locals())
 
-@login_required(login_url="/")    
-def cameraAdd (request):
-    c = {}
-    c.update(csrf(request))
-    c['editType']= 'new'
-    return render(request,"cameraEdit.html", c)
+
+def cameraAdd( request ):
+
+    if request.method == 'POST':
+        camera_form = cameraEditForm(request.user, request.POST)
+        if camera_form.is_valid():
+            cam = camera_form.save(commit=False)
+            cam.user_id = request.user.id
+            cam.securityStatus = '1'            
+            cam.save()
+            
+            #Send the config to the camera
+            camID = cam.id
+            actionCmd = 'GET /adm/set_group.cgi?group=FTP&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
+            n=action_list.objects.create(action=actionCmd, camera_id=camID)
+            n.save()
+            actionCmd = 'GET /adm/set_group.cgi?group=FTP2&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
+            n=action_list.objects.create(action=actionCmd, camera_id=camID)
+            n.save()
+      
+            return redirect('cameraSettings')
+
+    else:
+        camera_form = cameraEditForm(request.user)
+
+    return render( request, 'cameraEdit.html', {'form': camera_form})
+
 
 @login_required(login_url="/")    
 def cameraEdit (request, pk):
-    c = {}
-    c.update(csrf(request))
-    username = request.user.get_username()
-    cameraObj = camera.objects.filter(user__username=username).get(pk=pk)
-    c['mac']= cameraObj.CameraMac
-    c['description'] = cameraObj.description
-    c['editType']= 'update'
-    c['cameraId']= pk
-    return render(request,"cameraEdit.html", c)
+    post = get_object_or_404(camera, pk=pk)
+    if request.method == 'POST':
+        camera_form = cameraEditForm(request.user, request.POST, instance=post)
+        if camera_form.is_valid():
+            post = camera_form.save(commit=False)
+            post.save()
+            return redirect('cameraSettings')
+    else:
+        camera_form = cameraEditForm( request.user, instance = post )
+    return render( request, 'cameraEdit.html', {'form': camera_form})
+
 
 @login_required(login_url="/")
 def cameraSettings(request):
@@ -52,30 +78,24 @@ def cameraSettings(request):
     cameras = camera.objects.filter(user__username=username)
     
     return render(request,'cameraSettings.html', locals())
-
-@login_required(login_url="/")    
-def saveCamera (request):
-    current_user = request.user
-    username = request.user.get_username()
-    if request.POST['editType'] == 'new':
-        #create the camera
-        n=camera.objects.create(CameraMac=request.POST['mac'], description=request.POST['description'],user_id=current_user.id,securityStatus='1')
-        n.save()
-        
-        #Send the config to the camera
-        camID = n.id
-        actionCmd = 'GET /adm/set_group.cgi?group=FTP&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
-        n=action_list.objects.create(action=actionCmd, camera_id=camID)
-        n.save()
-        actionCmd = 'GET /adm/set_group.cgi?group=FTP2&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
-        n=action_list.objects.create(action=actionCmd, camera_id=camID)
-        n.save()
-    else:
-        camera.objects.filter(id=request.POST['cameraId']).filter(user__username=username).update(CameraMac=request.POST['mac'], description=request.POST['description'])
-    return redirect('/camera/cameraSettings/')
-    
+   
 @login_required(login_url='/')
 def cameraDelete(request, pk):
+    VIDEO_STORAGE = HcFTP.config("VIDEO_STORAGE")
+    
+    queryset=events.objects.filter(cameraID_id=pk).filter(event_code = '800')
+    for event in queryset:
+        try:
+            os.remove(VIDEO_STORAGE + event.video_file + ".mp4") 
+        except:
+            print ("Cannot delete the file")
+        try:
+            os.remove(VIDEO_STORAGE + file + ".jpg")
+        except:
+            print ("Cannot delete the file")
+        event.delete()
+    events.objects.filter(cameraID_id=pk).delete()
+    action_list.objects.filter(camera_id=pk).delete()
     username = request.user.get_username()
     camera.objects.filter(pk=pk).filter(user__username=username).delete()
     return redirect('/camera/cameraSettings/')

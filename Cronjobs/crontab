@@ -21,3 +21,7 @@
 # 
 # m h  dom mon dow   command
 * * * * * /home/hc/uat/hc/camera_srv/cameraStatus.sh
+* * * * * /home/hc/prod/hc/camera_srv/cameraStatus.sh
+*/15 * * * * /home/hc/uat/hc/care_svr/care_svr.sh >> /home/hc/uat/hc/care_svr/care.log 2>&1
+*/15 * * * * /home/hc/prod/hc/care_svr/care_svr.sh >> /home/hc/prod/hc/care_svr/care.log 2>&1
+

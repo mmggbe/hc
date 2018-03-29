@@ -54,7 +54,7 @@ $('.btn-toggle').click(function() {
         {% for splug in smartplug_list %}
         <li>
             <HR>
-            <p> Name: {{ splug.name }}, ON-OFF = {{ splug.status_switch }}, Power = {{ splug.status_power }} W&nbsp; 
+            <p> Name: {{ splug.name }},   Power = {{ splug.status_power }} W&nbsp; 
                 <div class="btn-group btn-toggle">
                     {% if splug.status_switch == "1" %}
                         <button class="btn btn-primary btn-responsive" id="{{splug.no}}_ON" > ON  </button>
