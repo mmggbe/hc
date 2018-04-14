@@ -89,10 +89,10 @@ def send_notification(usr, event):
             enco_perm_token = SMS_Notif.config("enco_secret" )
             if enco_perm_token and enco_perm_token.strip():             # there is a EnCO SMS permanent token in the HCsettings.py file
                 tokenBearer = enco_perm_token
-                logging.debug("Using Enco permanent token for MS sending\n" )   
+                logging.debug("Using Enco permanent token for SMS sending\n" )   
 
                 
-            else:                                                       # use Marg Gerin account and accquire tmp token
+            else:                                                       # use Marc account and accquire tmp token
               
                 r = requests.post("https://api.enco.io/token", data=payload, auth=(SMS_Notif.config("client_id"), SMS_Notif.config("client_secret")))
                 logging.debug("Get token {}\n".format(r.text))

@@ -49,6 +49,15 @@ def cameraAdd( request ):
             actionCmd = 'GET /adm/set_group.cgi?group=FTP2&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
             n=action_list.objects.create(action=actionCmd, camera_id=camID)
             n.save()
+# MaGe    arm the camera to be aligned with securityStatus
+            cmd1='GET /adm/set_group.cgi?group=SYSTEM&pir_mode=1 HTTP/1.1\r\n'
+            cmd2='GET /adm/set_group.cgi?group=EVENT&event_trigger=1&event_interval=0&event_pir=ftpu:1&event_attach=avi,1,10,20 HTTP/1.1\r\n'
+            n=action_list.objects.create(action=cmd1, camera_id=camID)
+            n.save()
+            n=action_list.objects.create(action=cmd2, camera_id=camID)
+            n.save()
+      
+      
       
             return redirect('cameraSettings')
 

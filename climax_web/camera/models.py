@@ -11,6 +11,8 @@ class camera(models.Model):
    status = models.BooleanField(default=False)
    securityStatus = models.CharField(max_length=10)
    lastSeenTimestamp = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name="Submission time")
+   notificationEnabled = models.BooleanField(default=False)
+   activateWithAlarm = models.BooleanField(default=False)
    
    def __str__(self):
 

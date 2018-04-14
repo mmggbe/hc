@@ -65,12 +65,12 @@ class sensorModifyForm_0(forms.ModelForm):
         ('11', 'Medical Emergency'),      
     )
     
-    attr = forms.ChoiceField(widget=Select,\
+    attr = forms.ChoiceField(label='Mode', widget=Select,\
     choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
 
     class Meta:
         model = sensors
-        fields = ['name','attr','address']
+        fields = ['name','attr']
 
 # Door Contact
 class sensorModifyForm_1(forms.ModelForm):
@@ -86,11 +86,11 @@ class sensorModifyForm_1(forms.ModelForm):
         ('12', 'Water'), 
     )
     
-    attr = forms.ChoiceField(widget=Select, choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
+    attr = forms.ChoiceField(label='Mode', widget=Select, choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
 
     class Meta:
         model = sensors
-        fields = ['name','attr','address']
+        fields = ['name','attr']
 
 
 # IR sensor     
@@ -103,12 +103,12 @@ class sensorModifyForm_3(forms.ModelForm):
         ('6', 'Home Access'),    
     )
     
-    attr = forms.ChoiceField(widget=forms.Select(attrs={'class':'alignedRadio'}),\
+    attr = forms.ChoiceField(label='Mode', widget=forms.Select(attrs={'class':'alignedRadio'}),\
     choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
 
     class Meta:
         model = sensors
-        fields = ['name','attr','address']
+        fields = ['name','attr']
 
 # others
 class sensorModifyForm_other(forms.ModelForm):
@@ -133,29 +133,5 @@ class sensorModifyForm_other(forms.ModelForm):
     class Meta:
         model = sensors
 #        fields = ['name','attr','address']
-        fields = ['name','address']
-        
-"""        
-class sensorModifyForm2(forms.Form):
-    
-    SENSOR_ATTRIBUTE = (
-        ('1', 'Buglar'),
-        ('2', 'Home Omit'),
-        ('3', 'Delay Zone'),
-        ('4', 'Entry Zone'),
-        ('5', 'Away Only'),
-        ('6', 'Home Access'),      
-    )
- 
-    no = forms.CharField(max_length=2)             # "Sensor zone eg 1,2,3..."),
-    address = forms.CharField(max_length=6)        # "Sensor address"),
-    type = forms.CharField(max_length=2)           # "Sensor type"),
-    attr = forms.ChoiceField(widget=RadioSelect,\
-    choices=SENSOR_ATTRIBUTE)          # "Sensor Attributes"),
-
-    name = forms.CharField(max_length=30)          # "Sensor name"),
-    status1 = forms.CharField(max_length=2)        # "Sensor status1"),
-    status2 = forms.CharField(max_length=2)        # "Sensor status2"),
-    
-"""   
+        fields = ['name']
         
