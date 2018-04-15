@@ -1,7 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from django.forms.fields import ChoiceField
-from django.forms.widgets import RadioSelect, Select
+
 
 from .models import camera
 
@@ -21,19 +20,20 @@ class cameraEditForm(forms.ModelForm):
         
         return mac_passed
 
-    USER_LATCH = (
-        ('0', 'Disabled'),
-        ('1', 'Enabled')
+    CAM_NOTIF = (
+        (False, 'Disabled'),
+        (True, 'Enabled')
     )
-    notificationEnabled = forms.ChoiceField(label='Enable Camera notification',widget=Select, choices = USER_LATCH)
+    notificationEnabled = forms.ChoiceField(label='Enable Camera notification',widget=forms.Select, choices = CAM_NOTIF)
 
     
     YES_NO = (
-        ('0', 'No'),
-        ('1', 'Yes')
+        (False, 'No'),
+        (True, 'Yes')
     )
-    activateWithAlarm = forms.ChoiceField(label='Arm camera toghether with alarm',widget=Select, choices = YES_NO)
+    activateWithAlarm = forms.ChoiceField(label='Arm camera toghether with alarm',widget=forms.Select, choices = YES_NO, initial=True)
 
+  
   
 
     class Meta:

@@ -5,16 +5,30 @@ from django.contrib.auth.models import User
 
 
 class camera(models.Model):
-   user = models.ForeignKey(User)
-   CameraMac = models.CharField(max_length=17)
-   description = models.CharField(max_length=100)
-   status = models.BooleanField(default=False)
-   securityStatus = models.CharField(max_length=10)
-   lastSeenTimestamp = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name="Submission time")
-   notificationEnabled = models.BooleanField(default=False)
-   activateWithAlarm = models.BooleanField(default=False)
-   
-   def __str__(self):
+    
+    
+    CAM_NOTIF = (
+        (False, 'Disabled'),
+        (True, 'Enabled')
+    )
+    
+    YES_NO = (
+        (False, 'No'),
+        (True, 'Yes')
+    )
+    
+    user = models.ForeignKey(User)
+    CameraMac = models.CharField(max_length=17)
+    description = models.CharField(max_length=100)
+    status = models.BooleanField(default=False)
+    securityStatus = models.CharField(max_length=10)
+    lastSeenTimestamp = models.DateTimeField(auto_now_add=True, auto_now=False, verbose_name="Submission time")
+    notificationEnabled = models.BooleanField(default=False, \
+        choices=CAM_NOTIF)         # "CAM enabling notification
+    activateWithAlarm = models.BooleanField(default=True, \
+        choices=YES_NO)         # "enabling CAM notification when alarm is enabled
+    
+    def __str__(self):
 
         return self.description
    
