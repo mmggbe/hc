@@ -14,6 +14,7 @@ import sys, os
 sys.path.append ('/home/ftp/Env/userftp/lib/python3.5/site-packages')
 sys.path.append ('/home/hc/uat/hc/climax_web')
 sys.path.append ('/home/hc/uat/hc/climax_svr')
+sys.path.append ('/home/hc/uat/hc/climax_notif')
 sys.path.append ('/home/hc/uat/hc/history')
 
 import shutil
