@@ -10,12 +10,13 @@ from django.forms import ModelForm
 from django.template import RequestContext
 
 from django.contrib.auth.models import User
-from .models import gateways, users, sensors
-from history.models import events
-from .forms import *
 
+from .models import gateways, users, sensors
+from .forms import *
 from .Dj_GW_cmd import cmdTo_climax
-#from .event_translate import translate 
+
+from history.models import events
+from camera.camera_lib import camera_cmd
 
 class SensorIcon:
     icon_list= ["icon_keyfob.png",
@@ -199,19 +200,26 @@ def gateway_status( request):
     else: # from "try:"
      
         cmd=cmdTo_climax(gw)
+        cmd_cam=camera_cmd()
+        
         btn = request.GET.get('btnActive', None)  
     
         print("Btn= {}".format(btn))
            
         # adapt the button value to the DB values 
         if btn == "2":
-            mode="1"
+            mode="1"        # disarmed
+            cmd_cam.arm_camera_in_List(request.user)
+            
         elif btn == "1":
-            mode="2"
+            mode="2"        # home
+            cmd_cam.arm_camera_in_List(request.user)
         else :
-            mode="3"
+            mode="3"        # armed
+            cmd_cam.disarm_camera_in_List(request.user)
         
         cmd.setMode(mode)
+        
     
     finally:
 

@@ -30,7 +30,7 @@ class camera(models.Model):
     
     def __str__(self):
 
-        return self.description
+        return  self.user.username + " " + self.CameraMac + " " + self.description 
    
 class action_list(models.Model):
     camera = models.ForeignKey(camera)
@@ -39,7 +39,7 @@ class action_list(models.Model):
     
     def __str__(self):
 
-        return self.action
+        return self.camera.user.username + " " + self.camera.CameraMac + " " + self.action
 
 
 class notification(models.Model):
