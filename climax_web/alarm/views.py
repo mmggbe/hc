@@ -209,14 +209,14 @@ def gateway_status( request):
         # adapt the button value to the DB values 
         if btn == "2":
             mode="1"        # disarmed
-            cmd_cam.arm_camera_in_List(request.user)
+            cmd_cam.disarm_camera_in_List(request.user)
             
         elif btn == "1":
             mode="2"        # home
-            cmd_cam.arm_camera_in_List(request.user)
+            cmd_cam.disarm_camera_in_List(request.user)
         else :
             mode="3"        # armed
-            cmd_cam.disarm_camera_in_List(request.user)
+            cmd_cam.arm_camera_in_List(request.user)
         
         cmd.setMode(mode)
         
