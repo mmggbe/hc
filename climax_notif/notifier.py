@@ -14,20 +14,22 @@ from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
 
+from HcLog import Log
 from HCsettings import SMS_Notif, HcDB, Email_svr
 
+hclog=Log.get(__name__)
 
 def send_notification(usr, event):
 # list usr [username, propertyaddr, SN_SMS, SN_Voice, email, language]
 # list event eg: '100', "Medical", [ "1", "0", "0"] # code : "description, email to be sent, sms to be sent, voice call to be issued
 
-    logging.info("Notification to user id:{}, content : {}".format(usr[0],event[1]))
-    logging.debug("Notification to user:{}, content : {}".format(usr,event))
+    hclog.info("Notification to user id:{}, content : {}".format(usr[0],event[1]))
+    hclog.debug("Notification to user:{}, content : {}".format(usr,event))
 
     if event[2][0] == '1' and usr[4].strip() != "":            # check if email to send and email field
 
     #https://stackoverflow.com/questions/24077314/how-to-send-an-email-with-style-in-python3
-        logging.info(" Sending email to email : {}".format(usr[4]) )
+        hclog.info(" Sending email to email : {}".format(usr[4]) )
                 
 #       title = 'Horus supervisor:'
 #       msg_content = '<h2>{title} > <font color="green">OK</font></h2>\n'.format(title=event)
@@ -55,7 +57,7 @@ def send_notification(usr, event):
 """
         
         message = MIMEText(EMAIL_CONTENT.format(usr[1],event[1], datetime.today().strftime("%Y-%m-%d %H:%M:%S")) , 'html')
-        logging.info("MIME text : usr {} event {}".format(usr[1],event[1]) )
+        hclog.info("MIME text : usr {} event {}".format(usr[1],event[1]) )
         
         message['From'] = Email_svr.config("from")
         message['To'] = usr[4]
@@ -72,42 +74,42 @@ def send_notification(usr, event):
             server.sendmail(Email_svr.config("from"),usr[4], msg_full)
 
         except smtplib.SMTPException as error :
-            logging.info("Email to user ID {} failed, error:{}".format(usr[0],str(error)) )
+            hclog.info("Email to user ID {} failed, error:{}".format(usr[0],str(error)) )
 
         else:
             server.quit()  
-            logging.debug("email sent ")         
+            hclog.debug("email sent ")         
         
     if event[2][1] =='1' and usr[2].strip() != "" :                # check if SMS to send and MSISDN field
-        logging.info(" Sending SMS to MSISDN {}".format(usr[2]) )
+        hclog.info(" Sending SMS to MSISDN {}".format(usr[2]) )
         
         try:
-            logging.debug("EnCo SMS API: Acquiring token\n")
+            hclog.debug("EnCo SMS API: Acquiring token\n")
               
             payload = {'grant_type': 'client_credentials', 'scope': 'openid'}  
             
             enco_perm_token = SMS_Notif.config("enco_secret" )
             if enco_perm_token and enco_perm_token.strip():             # there is a EnCO SMS permanent token in the HCsettings.py file
                 tokenBearer = enco_perm_token
-                logging.debug("Using Enco permanent token for SMS sending\n" )   
+                hclog.debug("Using Enco permanent token for SMS sending\n" )   
 
                 
             else:                                                       # use Marc account and accquire tmp token
               
                 r = requests.post("https://api.enco.io/token", data=payload, auth=(SMS_Notif.config("client_id"), SMS_Notif.config("client_secret")))
-                logging.debug("Get token {}\n".format(r.text))
+                hclog.debug("Get token {}\n".format(r.text))
                 
                 authInfo = r.json()
                 tokenBearer = authInfo['access_token']
         
-                logging.debug("Using token to retrieve user information\n")
+                hclog.debug("Using token to retrieve user information\n")
                 
                 auth_header = {'Authorization':'Bearer {}'.format(tokenBearer), 'Accept':'application/json'}
                 r = requests.get("https://api.enco.io/userinfo?schema=openid", headers=auth_header)
-                logging.debug("Get user info {}\n".format(r.text))
+                hclog.debug("Get user info {}\n".format(r.text))
                 userInfo = r.json()
                 
-                logging.debug("Name: {}, Given name: {}, Familly name: {}, Email: {}\n".format(userInfo['name'],userInfo['given_name'], userInfo['family_name'],userInfo['email']) )   
+                hclog.debug("Name: {}, Given name: {}, Familly name: {}, Email: {}\n".format(userInfo['name'],userInfo['given_name'], userInfo['family_name'],userInfo['email']) )   
                 
             """
             curl -i -X POST 'https://api.enco.io/sms/1.0.0/sms/outboundmessages?forceCharacterLimit=false' 
@@ -125,14 +127,14 @@ def send_notification(usr, event):
             r = requests.post("https://api.enco.io/sms/1.0.0/sms/outboundmessages?forceCharacterLimit=false", data=payload, headers=auth_header)
             
         except (requests.exceptions.ConnectionError, requests.exceptions.RequestException) as error:
-            logging.info("SMS to user ID {} failed, error:{}".format(usr[0],str(error)) )
+            hclog.info("SMS to user ID {} failed, error:{}".format(usr[0],str(error)) )
 
         finally:
-            logging.info("Sent SMS {}\n".format(r.text))  
+            hclog.info("Sent SMS {}\n".format(r.text))  
      
             
     if event[2][2] =='1' and usr[3].strip() != "" :                # check if Voice to call and MSISDN field
-        logging.info(" Calling MSISDN {}".format(usr[3]) )
+        hclog.info(" Calling MSISDN {}".format(usr[3]) )
         
         VOICE_MSG_CONTENT = """
 Hello\n
@@ -159,7 +161,7 @@ Bye
 
         except Exception as e:
             errno, strerror = e.args
-            logging.info("Error voice synthese, error({0}): {1}".format(errno,strerror))
+            hclog.info("Error voice synthese, error({0}): {1}".format(errno,strerror))
 
         VOICE_ENV = """
 Channel: SIP/belgacom/{}\n\
@@ -187,15 +189,15 @@ SetVar: CHANNEL(language)=en\n
             shutil.move(eventFile.name, "/var/spool/asterisk/outgoing")
             
         except IOError as e:
-            logging.info("I/O error({0}): {1}, cannot move ".format(e.errno, e.strerror))
+            hclog.info("I/O error({0}): {1}, cannot move ".format(e.errno, e.strerror))
             
         except OSError as err:
-            logging.info("OS error: {0}".format(err))
+            hclog.info("OS error: {0}".format(err))
             
         except:
-            logging.info("Unexpected error:{}".format(sys.exc_info()[0]))
+            hclog.info("Unexpected error:{}".format(sys.exc_info()[0]))
 
         finally:
-            logging.debug('Asterisk envelop file {}'.format(eventFile.name))
-            logging.debug("Voice call submitted")  
+            hclog.debug('Asterisk envelop file {}'.format(eventFile.name))
+            hclog.debug("Voice call submitted")  
 

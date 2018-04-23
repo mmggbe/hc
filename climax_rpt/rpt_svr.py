@@ -20,7 +20,10 @@ import errno
 
 
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
-from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest
+from HcLog import Log
+
+from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest, HcLog
+
 
 
 
@@ -107,11 +110,11 @@ def translate(contactID, snsr_list, usr_list):
                 alarmMsg = "Event: Restore"
 
     except:
-        logging.info("Error ContactID: {}, evt:{}, GG:{}, sensorid:{}".format(contactID,evt, GG, sensor_id))
+        hclog.info("Error ContactID: {}, evt:{}, GG:{}, sensorid:{}".format(contactID,evt, GG, sensor_id))
         return( "" )
         
     else:
-        logging.debug("Event: {}".format(alarmMsg))
+        hclog.debug("Event: {}".format(alarmMsg))
         return( evt, alarmMsg, EventCode.value(evt)[1], sensor_ref_id ) 
 
    
@@ -143,38 +146,24 @@ def getopts():
 
     opts = parser.parse_args()
     return opts
-   
-
-def get_logging_level(opts):
-    '''
-    Get the logging levels specified on the command line.
-    The level can only be set once.
-    '''
-    if opts.level == 'notset':
-        return logging.NOTSET
-    elif opts.level == 'debug':
-        return logging.DEBUG
-    elif opts.level == 'info':
-        return logging.INFO
-    elif opts.level == 'warning':
-        return logging.WARNING
-    elif opts.level == 'error':
-        return logging.ERROR
-    elif opts.level == 'critical':
-        return logging.CRITICAL
 
 def err(msg):
     '''
     Report an error message and exit.
     '''
-    logging.debug('ERROR: %s' % (msg))
+    hclog.debug('ERROR: %s' % (msg))
     sys.exit(1)
 
 
 def Main():
     
     opts = getopts()  
-    logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=get_logging_level(opts))
+    
+    global hclog
+    hclog = Log(__name__, opts.level)
+#    hclog = Log("reporting_srv", opts.level)
+ #   opts = getopts()  
+ #   hclog.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=get_logging_level(opts))
 
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -185,7 +174,7 @@ def Main():
     server_port = Rpt_svr.config("port")
     server = (server_ip, int(server_port))
     
-    logging.info('starting up on %s port %s' % server)
+    hclog.info('starting up on %s port %s' % server)
     sock.bind(server)
     # Listen for incoming connections
     sock.listen(1)
@@ -209,7 +198,7 @@ def Main():
                     
                 except SocketError as e:
                     errno, strerror = e.args
-                    logging.info("Socket errorI/O error({0}): {1}".format(errno,strerror))
+                    hclog.info("Socket errorI/O error({0}): {1}".format(errno,strerror))
 
                 else:
                     
@@ -217,7 +206,7 @@ def Main():
                         
                         now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 #                        now = time.strftime("%Y-%m-%d %H:%M:%S")                        
-                        logging.info("Contact ID: UTC {} {} ".format(now, data))
+                        hclog.info("Contact ID: UTC {} {} ".format(now, data))
                       
                         try:                         
                             data = data.decode()                                
@@ -225,7 +214,7 @@ def Main():
                             if Contact_ID_filter.match(data):
                                 connection.sendall( b'\x06' )       # respond only if Contact ID is correct
                                 
-                                logging.debug("Contact ID format OK, acknowledge sent")
+                                hclog.debug("Contact ID format OK, acknowledge sent")
                                  
                                 rptipid = data[1:5]
                                 tmp = data[6:].split(' ')
@@ -234,16 +223,16 @@ def Main():
                                 db_cur= DB_mngt( HcDB.config() ) 
     
                                 if db_cur.echec:
-                                    logging.info("Cannot open DB")
+                                    hclog.info("Cannot open DB")
     
                                 else :
                                     gw=DB_gw(db_cur)
                                     gw_id = gw.search_gw_from_acct( rptipid, acct2 ) # returns gateways_id
     
                                     if gw_id == []:    
-                                        logging.info( " No Gw found with acct2= {}".format(acct2))
+                                        hclog.info( " No Gw found with acct2= {}".format(acct2))
                                     else:
-                                        logging.debug( " on Gw_id {}".format(gw_id[0][0]))
+                                        hclog.debug( " on Gw_id {}".format(gw_id[0][0]))
                
                                         snsr_list = gw.search_sensors_name_from_gwID( gw_id[0][0] ) # get sensors from gateways
                                         usr_list = gw.search_users_name_from_gwID( gw_id[0][0] ) # get users from gateways)
@@ -266,14 +255,14 @@ def Main():
 
                                          
                             else:
-                                logging.info("Error: bad contact id format")
+                                hclog.info("Error: bad contact id format")
 
                         except:
 
                             if db_cur in locals():
                                 db_cur.close()  
 
-                            logging.info("Error: bad Contact ID translation or user error in DB or issue sending notification")
+                            hclog.info("Error: bad Contact ID translation or user error in DB or issue sending notification")
                                  
                     else:
 #                        print ('no more data from {}'.format(client_address))

@@ -16,7 +16,7 @@ class Log(object):
              srvName: (= Service Name) Thisis the name of the service indicated in the log TimedRotatingFileHandler
              debug: if true error and debug message will be logged, otherwise only error
     '''
-    def __init__(self, srvName, debug):
+    def __init__(self, srvName, level):
         
         logPath= HcLog.config("logPath")
         retentionTime = int(HcLog.config("retentionTime"))
@@ -24,7 +24,7 @@ class Log(object):
         
         self.logger = logging.getLogger(srvName)
         
-        self.logger.setLevel(self.get_logging_level(debug))
+        self.logger.setLevel(self.get_logging_level(level))
         
         handler = TimedRotatingFileHandler(logPath + srvName + '.log',
                                         when='midnight',
@@ -34,11 +34,32 @@ class Log(object):
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
         
+    """    
     def get_logging_level(self, debug):
         if debug:
             return logging.DEBUG
         else:
             return logging.INFO
+    """
+    
+    def get_logging_level(self, level):
+        '''
+        Get the logging levels specified on the command line.
+        The level can only be set once.
+        '''
+        if level == 'notset':
+            return logging.NOTSET
+        elif level == 'debug':
+            return logging.DEBUG
+        elif level == 'info':
+            return logging.INFO
+        elif level == 'warning':
+            return logging.WARNING
+        elif level == 'error':
+            return logging.ERROR
+        elif level == 'critical':
+            return logging.CRITICAL
+   
         
     def get(srvName):
         return logging.getLogger(srvName)

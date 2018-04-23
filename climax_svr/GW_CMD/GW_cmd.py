@@ -14,7 +14,12 @@ from random import randrange
 
 from lxml import etree
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
-from HCsettings import HcDB,GW_Pol_svr, Rpt_svr
+from HCsettings import HcDB,GW_Pol_svr, Rpt_svr, HcLog
+
+from HcLog import Log
+
+hclog=Log.get(__name__)
+
 
 CLIMAX_CMD_HDR  = """
 <?xml version="1.0" encoding="ISO-8859-1"?>"""
@@ -48,6 +53,7 @@ class cmdTo_climax():
         self.rptip_ID = rptip_ID
         self.queue = cmd_queue(db_cur)
 
+
 # regular polling answer (no command to be sent     
     def polling(self, rptipid):
         
@@ -58,7 +64,7 @@ class cmdTo_climax():
     <date value="{}" />
 </polling>"""      
         response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid, time.strftime("%Y-%m-%d %H:%M:%S"))
-#        logging.debug("Polling response to GW= {0}\n".format(response) )
+        hclog.debug("Polling response to GW= {0}\n".format(response) )
 
         return response
     
@@ -89,7 +95,7 @@ class cmdTo_climax():
             GW_Pol_svr.config("ip"), GW_Pol_svr.config("port") , \
             rptipid, Rpt_svr.config("ip"), Rpt_svr.config("port"), \
             acct2 )
-#        logging.debug("XML command to be send = {0}".format(response) )
+        hclog.debug("XML command to be send = {0}".format(response) )
         
         return response
     
@@ -142,7 +148,7 @@ class cmdTo_climax():
         </command>"""
 
         response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid )
-#        logging.debug("XML command to be send = {0}".format(response) )
+        hclog.debug("XML command to be send = {0}".format(response) )
         
         return response
      
@@ -162,25 +168,10 @@ class cmdTo_climax():
 </polling>"""
 
         response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid )
-#        logging.debug("XML command to be send = {0}".format(response) )
+        hclog.debug("XML command to be send = {0}".format(response) )
         
         return response   
     
-
-    
-    def test_old(self, rptipid):
-        CLIMAX_CMD_BODY= """
-<polling>
-    <mac value="00:1D:94:03:0A:9E" />
-    <rptipid value="5052" />
-    <date value="19/03/2016 10:48:46" />
-</polling>"""
-       
-       
-        response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid )
-        logging.debug("XML command to be send = {0}\n".format(response) )
-        
-        return response
     
     def server_cmd( self ):
         # check if there is a command to be sent

@@ -79,9 +79,12 @@ example:
 
 
 '''
+
+
+
 from pyasn1.compat.octets import null
 import urllib
-#import GW_DB
+
 
 # LICENSE
 #   Copyright (c) 2015 Joe Linoff
@@ -111,7 +114,6 @@ import urllib
 VERSION = '1.3'
 
 import argparse
-#import BaseHTTPServer
 import http.server
 import socketserver
 from urllib.parse import urlparse
@@ -119,7 +121,7 @@ import cgi
 import logging
 import os
 import sys
-#import parser
+
 import configparser
 
 from lxml import etree
@@ -128,7 +130,10 @@ from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 from GW_Crypto.cryptoAES import AESCipher
 from GW_CMD.GW_cmd import cmdTo_climax
 from GW_answer.GW_answer import answerFrom_climax
-from HCsettings import HcDB
+from HcLog import Log
+
+from HCsettings import HcDB, HcLog
+
 
 
 def make_request_handler_class(opts):
@@ -149,7 +154,7 @@ def make_request_handler_class(opts):
             '''
             Handle a HEAD request.
             '''
-            logging.debug('HEADER %s' % (self.path))
+            hclog.debug('HEADER %s' % (self.path))
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
@@ -200,7 +205,7 @@ def make_request_handler_class(opts):
             '''
             Handle a GET request.
             '''
-            logging.info('GET %s' % (self.path))
+            hclog.info('GET %s' % (self.path))
 
             # Parse out the arguments.
             # The arguments follow a '?' in the URL. Here is an example:
@@ -216,14 +221,14 @@ def make_request_handler_class(opts):
             # Print out logging information about the path and args.
             if 'content-type' in self.headers:
                 ctype, _ = cgi.parse_header(self.headers['content-type'])
-                logging.debug('TYPE %s' % (ctype))
+                hclog.debug('TYPE %s' % (ctype))
 
-            logging.debug('PATH %s' % (rpath))
-            logging.debug('ARGS %d' % (len(args)))
+            hclog.debug('PATH %s' % (rpath))
+            hclog.debug('ARGS %d' % (len(args)))
             if len(args):
                 i = 0
                 for key in sorted(args):
-                    logging.debug('ARG[%d] %s=%s' % (i, key, args[key]))
+                    hclog.debug('ARG[%d] %s=%s' % (i, key, args[key]))
                     i += 1
 
             # Check to see whether the file is stored locally,
@@ -242,7 +247,7 @@ def make_request_handler_class(opts):
             '''
             Handle POST requests.
             '''
-            logging.debug('POST received %s' % (self.path))
+            hclog.debug('POST received %s' % (self.path))
 
             # CITATION: http://stackoverflow.com/questions/4233218/python-basehttprequesthandler-post-variables
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
@@ -264,8 +269,8 @@ def make_request_handler_class(opts):
             
 # decryt xml frame            
             command_xml = AES.decrypt(command_enc[0])
-            logging.info("POST decrypted: MAC = {}".format(MAC) )    # remove trailling zeros
-            logging.debug("{}\n".format(command_xml.replace('\x00',"")) )    # remove trailling zeros
+            hclog.info("POST decrypted: MAC = {}".format(MAC) )    # remove trailling zeros
+            hclog.debug("{}\n".format(command_xml.replace('\x00',"")) )    # remove trailling zeros
      
 # check if MAC is defined in DB_GW
             climax_xml= etree.fromstring(command_xml.encode('iso-8859-1'))
@@ -285,7 +290,7 @@ def make_request_handler_class(opts):
              
             
                 if (gw_params):
-                    logging.debug( "MAC {} found in Climax_DB".format(MAC_xml) )
+                    hclog.debug( "MAC {} found in Climax_DB".format(MAC_xml) )
                     mac_gwParams = gw_params[0]
                     acct2_gwParams = gw_params[1]
                     gw_ID_gwParams = gw_params[2]
@@ -296,7 +301,7 @@ def make_request_handler_class(opts):
                     rptipid_xml= elt.get ("value", "0")
                     
                     if rptipid_xml == "" or rptip_ID_gwParams == "":
-                        logging.info("Register GW MAC : {}".format(MAC_xml))
+                        hclog.info("Register GW MAC : {}".format(MAC_xml))
    
                         # get acct2 number in config file					
                         config = configparser.ConfigParser()
@@ -322,7 +327,7 @@ def make_request_handler_class(opts):
                         gw.upd_account_gw(MAC_xml, rptipid_xml,last_acct2_created)
 
 
-                        logging.info("POST: Register sent to GW= {0}".format(server_resp) )
+                        hclog.info("POST: Register sent to GW= {0}".format(server_resp) )
                     
                         
                     else:       # GW is registered, analyse GW answer                        
@@ -337,7 +342,7 @@ def make_request_handler_class(opts):
                         if server_resp == None:
                             server_resp=cmdTo_gw.polling(rptip_ID_gwParams)
                                           
-                        logging.debug("POST: Polling sent to GW= {0}\n".format(server_resp) )
+                        hclog.debug("POST: Polling sent to GW= {0}\n".format(server_resp) )
 
 
                        
@@ -355,12 +360,12 @@ def make_request_handler_class(opts):
 
                  
                 else:
-                    logging.info("Polling : MAC not found in DB {}".format(MAC_xml) )
+                    hclog.info("Polling : MAC not found in DB {}".format(MAC_xml) )
                 
                 
                 db_cur.close()
             
-            logging.debug("POST: exit POST function\n\n\n" )
+            hclog.debug("POST: exit POST function\n\n\n" )
    
     return MyRequestHandler
 
@@ -369,7 +374,7 @@ def err(msg):
     '''
     Report an error message and exit.
     '''
-    logging.debug('ERROR: %s' % (msg))
+    hclog.debug('ERROR: %s' % (msg))
     sys.exit(1)
 
 
@@ -387,13 +392,6 @@ def getopts():
                                      description=description,
                                      epilog=epilog)
 
-    parser.add_argument('-d', '--daemonize',
-                        action='store',
-                        type=str,
-                        default='FALSE',
-                        metavar='DIR',
-                        help='daemonize this process, store the 3 run files (.log, .err, .pid) in DIR (default "%(default)s")')
-
     parser.add_argument('-H', '--host',
                         action='store',
                         type=str,
@@ -407,34 +405,18 @@ def getopts():
                         choices=['notset', 'debug', 'info', 'warning', 'error', 'critical',],
                         help='define the logging level, the default is %(default)s')
 
-    parser.add_argument('--no-dirlist',
-                        action='store_true',
-                        help='disable directory listings')
-
     parser.add_argument('-p', '--port',
                         action='store',
                         type=int,
                         default=8080,
                         help='port, default=%(default)s')
 
-    parser.add_argument('-r', '--rootdir',
-                        action='store',
-                        type=str,
-                        default=os.path.abspath('.'),
-                        help='web directory root that contains the HTML/CSS/JS files %(default)s')
-
-    parser.add_argument('-v', '--verbose',
-                        action='count',
-                        help='level of verbosity')
-
     parser.add_argument('-V', '--version',
                         action='version',
                         version='%(prog)s - v' + VERSION)
 
     opts = parser.parse_args()
-    opts.rootdir = os.path.abspath(opts.rootdir)
-    if not os.path.isdir(opts.rootdir):
-        err('Root directory does not exist: ' + opts.rootdir)
+
     if opts.port < 1 or opts.port > 65535:
         err('Port is out of range [1..65535]: %d' % (opts.port))
     return opts
@@ -446,89 +428,25 @@ def httpd(opts):
     '''
     RequestHandlerClass = make_request_handler_class(opts)
     server = http.server.HTTPServer((opts.host, opts.port), RequestHandlerClass)
-    logging.info('Server starting %s:%s (level=%s)' % (opts.host, opts.port, opts.level))
+    hclog.info('Server starting %s:%s (level=%s)' % (opts.host, opts.port, opts.level))
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         pass
     server.server_close()
-    logging.info('Server stopping %s:%s' % (opts.host, opts.port))
+    hclog.info('Server stopping %s:%s' % (opts.host, opts.port))
 
 
-def get_logging_level(opts):
-    '''
-    Get the logging levels specified on the command line.
-    The level can only be set once.
-    '''
-    if opts.level == 'notset':
-        return logging.NOTSET
-    elif opts.level == 'debug':
-        return logging.DEBUG
-    elif opts.level == 'info':
-        return logging.INFO
-    elif opts.level == 'warning':
-        return logging.WARNING
-    elif opts.level == 'error':
-        return logging.ERROR
-    elif opts.level == 'critical':
-        return logging.CRITICAL
 
 
-def daemonize(opts):
-    '''
-    Daemonize this process.
-
-    CITATION: http://stackoverflow.com/questions/115974/what-would-be-the-simplest-way-to-daemonize-a-python-script-in-linux
-    '''
-    if os.path.exists(opts.daemonize) is False:
-        err('directory does not exist: ' + opts.daemonize)
-
-    if os.path.isdir(opts.daemonize) is False:
-        err('not a directory: ' + opts.daemonize)
-
-    bname = 'webserver-%s-%d' % (opts.host, opts.port)
-    outfile = os.path.abspath(os.path.join(opts.daemonize, bname + '.log'))
-    errfile = os.path.abspath(os.path.join(opts.daemonize, bname + '.err'))
-    pidfile = os.path.abspath(os.path.join(opts.daemonize, bname + '.pid'))
-
-    if os.path.exists(pidfile):
-        err('pid file exists, cannot continue: ' + pidfile)
-    if os.path.exists(outfile):
-        os.unlink(outfile)
-    if os.path.exists(errfile):
-        os.unlink(errfile)
-
-    if os.fork():
-        sys.exit(0)  # exit the parent
-
-    os.umask(0)
-    os.setsid()
-    if os.fork():
-        sys.exit(0)  # exit the parent
-
-    logging.debug('daemon pid %d' % (os.getpid()))
-
-    sys.stdout.flush()
-    sys.stderr.flush()
-
-    stdin = file('/dev/null', 'r')
-    stdout = file(outfile, 'a+')
-    stderr = file(errfile, 'a+', 0)
-
-    os.dup2(stdin.fileno(), sys.stdin.fileno())
-    os.dup2(stdout.fileno(), sys.stdout.fileno())
-    os.dup2(stderr.fileno(), sys.stderr.fileno())
-
-    with open(pidfile, 'w') as ofp:
-        ofp.write('%i' % (os.getpid()))
 
 def main():
     ''' main entry '''
-    opts = getopts()  
+    opts = getopts()
     
-    if opts.daemonize != 'FALSE':
-        daemonize(opts)
-    logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=get_logging_level(opts))
+    global hclog
+    hclog = Log(__name__, opts.level)
+ 
     httpd(opts)
 
 

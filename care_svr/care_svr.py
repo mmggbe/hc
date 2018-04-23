@@ -16,8 +16,9 @@ import pytz
 
 from notifier import send_notification
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
+from HcLog import Log
 
-from HCsettings import HcDB, EventCode
+from HCsettings import HcDB, EventCode,  HcLog
 
    
 def getopts():
@@ -39,7 +40,7 @@ def getopts():
                         type=str,
                         default='info',
                         choices=['notset', 'debug', 'info', 'warning', 'error', 'critical',],
-                        help='define the logging level, the default is %(default)s')
+                        help='define the hclog level, the default is %(default)s')
 
   
     parser.add_argument('-V', '--version',
@@ -50,38 +51,18 @@ def getopts():
     return opts
    
 
-def get_logging_level(opts):
-    '''
-    Get the logging levels specified on the command line.
-    The level can only be set once.
-    '''
-    if opts.level == 'notset':
-        return logging.NOTSET
-    elif opts.level == 'debug':
-        return logging.DEBUG
-    elif opts.level == 'info':
-        return logging.INFO
-    elif opts.level == 'warning':
-        return logging.WARNING
-    elif opts.level == 'error':
-        return logging.ERROR
-    elif opts.level == 'critical':
-        return logging.CRITICAL
-
-
-
 def Main():
     
     opts = getopts()  
-    logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=get_logging_level(opts))
-
-    logging.info('starting up' )
-        
+    
+    hclog = Log("care_srv", opts.level)
+ 
+    hclog.info('starting up' )
 
     db_cur= DB_mngt( HcDB.config() ) 
 
     if db_cur.echec:
-        logging.info("Cannot open DB")
+        hclog.info("Cannot open DB")
         exit()
 
     else :
@@ -96,12 +77,12 @@ def Main():
         gw_list = gwDB.search_gw_with_Care_flag( "1" )
        
         for gw in gw_list:
-            logging.info("Scan rules of Gw= {}, current time= {}".format(gw[0], datetime.today().strftime("%Y-%m-%d %H:%M:%S") ) )
+            hclog.info("Scan rules of Gw= {}, current time= {}".format(gw[0], datetime.today().strftime("%Y-%m-%d %H:%M:%S") ) )
             
             rules= gwDB.search_rules_from_gwID( gw[0] )
     
             for rule in rules:
-                logging.info("Rule: sensor_id {}, start_time {}, end_time {}".format(rule[1],rule[2],rule[3]) )
+                hclog.info("Rule: sensor_id {}, start_time {}, end_time {}".format(rule[1],rule[2],rule[3]) )
                 
                 dt= datetime.combine(date, time(0, 0) ) + rule[2]
                 start = current_tz.localize(dt).astimezone(pytz.utc)                             # convert to UTC time
@@ -114,7 +95,7 @@ def Main():
                 if start <= datetime.now(timezone.utc) <= end:   # we are between the start and the end of the rule               
                     if rule[4] != "1":          # rule was not valid during the last script run
                         gwDB.upd_in_rule_flag(rule[0], "1")      # update flag of rule id
-                        logging.debug("Rule is applicable")
+                        hclog.debug("Rule is applicable")
  
                         break
                 
@@ -124,9 +105,9 @@ def Main():
                         gwDB.upd_in_rule_flag(rule[0], "0")      # deactivate flag of rule id
                         
                         evt_list = gwDB.apply_rule(rule[1], start.strftime("%Y-%m-%d %H:%M:%S"), end.strftime("%Y-%m-%d %H:%M:%S"))   # check if there was sensor messages between start and end time
-                        logging.debug( "Event List= {}".format(evt_list) )
+                        hclog.debug( "Event List= {}".format(evt_list) )
                         if len(evt_list) == 0:
-                            logging.debug( "No event found during rule validity period" )
+                            hclog.debug( "No event found during rule validity period" )
                             
                             snsr_list = gwDB.search_sensors_name_from_gwID( gw[0]) # get sensors from gateways
                             sensor_name=""
@@ -149,7 +130,7 @@ def Main():
  
         db_cur.close()       
     
-    logging.info('Finished' )
+    hclog.info('Finished' )
 
         
 if __name__ == '__main__':

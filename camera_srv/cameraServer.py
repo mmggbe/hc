@@ -33,7 +33,7 @@ from HcLog import Log
 
 
 #debug = False 
-debug = True
+#debug = True
 
 
 class HTTPServer(socketserver.TCPServer):
@@ -329,12 +329,13 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     """ This class allows to handle requests in separated threads.
         No further content needed, don't touch this. """
-
+"""
 def get_logging_level():
     if debug:
         return logging.DEBUG
     else:
         return logging.ERROR
+"""
 
 def run(HandlerClass=BaseHTTPRequestHandler,
          ServerClass=HTTPServer, protocol="HTTP/1.0", port=8000, bind=""):
@@ -359,18 +360,29 @@ def run(HandlerClass=BaseHTTPRequestHandler,
     
 
 if __name__ == '__main__':
+    
     parser = argparse.ArgumentParser()
+    
     parser.add_argument('--bind', '-b', default='', metavar='ADDRESS',
                         help='Specify alternate bind address '
                              '[default: all interfaces]')
-    parser.add_argument('port', action='store',
+    
+    parser.add_argument('port', 
+                        action='store',
                         default=8000, type=int,
                         nargs='?',
                         help='Specify alternate port [default: 8000]')
-    args = parser.parse_args()
     
+    parser.add_argument('-l', '--level',
+                        action='store',
+                        type=str,
+                        default='info',
+                        choices=['notset', 'debug', 'info', 'warning', 'error', 'critical',],
+                        help='define the logging level, the default is %(default)s')
+    
+    args = parser.parse_args()
         
-    hclog = Log("camera_srv", debug)
+    hclog = Log("camera_srv", args.level)
     
     
     handler_class = SimpleHTTPRequestHandler
