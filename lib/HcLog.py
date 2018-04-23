@@ -2,7 +2,7 @@
 HClog library.
 
 version 1.0
-March 2013
+March 2018
 
 @author: G. De Vocht
 '''
@@ -21,6 +21,7 @@ class Log(object):
         logPath= HcLog.config("logPath")
         retentionTime = int(HcLog.config("retentionTime"))
         
+        
         self.logger = logging.getLogger(srvName)
         
         self.logger.setLevel(self.get_logging_level(debug))
@@ -28,7 +29,8 @@ class Log(object):
         handler = TimedRotatingFileHandler(logPath + srvName + '.log',
                                         when='midnight',
                                         backupCount=retentionTime)
-        formatter = logging.Formatter('%(asctime)s %(name)s(%(process)d)[%(levelname)s]: %(message)s',datefmt='%b %d %H:%M:%S')
+        #formatter = logging.Formatter('%(asctime)s %(name)s(%(process)d)[%(levelname)s]: %(message)s',datefmt='%b %d %H:%M:%S')
+        formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s',datefmt='%b %d %H:%M:%S')
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
         
@@ -36,7 +38,13 @@ class Log(object):
         if debug:
             return logging.DEBUG
         else:
-            return logging.ERROR
+            return logging.INFO
+        
+    def get(srvName):
+        return logging.getLogger(srvName)
+        
+    def getL(self, srvName):
+            return logging.getLogger(srvName)
         
     def error(self, msg, ip=None):
         self.logger.error(self.__message(msg, ip))
@@ -51,7 +59,7 @@ class Log(object):
         if ip is None :
             return msg
         else:
-            return msg + " From " + ip
+            return "[client " + ip + "] " + msg
         
 if __name__ == '__main__':
 
