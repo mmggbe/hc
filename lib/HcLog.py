@@ -13,8 +13,9 @@ from HCsettings import HcLog
 class Log(object):
     '''
     Usage:
-             srvName: (= Service Name) Thisis the name of the service indicated in the log TimedRotatingFileHandler
-             debug: if true error and debug message will be logged, otherwise only error
+             srvName: (= Service Name) This is the name of the service indicated in the log TimedRotatingFileHandler
+             level: if ='debug' all syslog level will be written to the file
+                    else only level before info
     '''
     def __init__(self, srvName, level):
         
