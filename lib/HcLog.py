@@ -34,31 +34,17 @@ class Log(object):
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
         
-    """    
-    def get_logging_level(self, debug):
-        if debug:
-            return logging.DEBUG
-        else:
-            return logging.INFO
-    """
     
     def get_logging_level(self, level):
         '''
         Get the logging levels specified on the command line.
         The level can only be set once.
         '''
-        if level == 'notset':
-            return logging.NOTSET
-        elif level == 'debug':
+        if level == 'debug':
             return logging.DEBUG
-        elif level == 'info':
+        else :
             return logging.INFO
-        elif level == 'warning':
-            return logging.WARNING
-        elif level == 'error':
-            return logging.ERROR
-        elif level == 'critical':
-            return logging.CRITICAL
+        
    
         
     def get(srvName):
@@ -84,7 +70,7 @@ class Log(object):
         
 if __name__ == '__main__':
 
-    hclog = Log('testLog', True)
+    hclog = Log('testLog', 'debug')
     hclog.error ('this is a test error message without ip')
     hclog.debug('this  is a test debug message without ip')
     hclog.error ('this is a test error message with ip', '1.1.1.1')
