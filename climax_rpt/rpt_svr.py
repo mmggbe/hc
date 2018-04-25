@@ -206,8 +206,8 @@ def Main():
                         
                         now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 #                        now = time.strftime("%Y-%m-%d %H:%M:%S")                        
-                        hclog.info("Contact ID: UTC {} {} ".format(now, data))
-                      
+                        hclog.info("Contact ID: UTC {} {} ".format(now, data), client_address[0])
+
                         try:                         
                             data = data.decode()                                
                                                
@@ -255,7 +255,7 @@ def Main():
 
                                          
                             else:
-                                hclog.info("Error: bad contact id format")
+                                hclog.info("Error: bad contact id format", client_address[0])
 
                         except:
 

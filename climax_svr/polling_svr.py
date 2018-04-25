@@ -154,7 +154,7 @@ def make_request_handler_class(opts):
             '''
             Handle a HEAD request.
             '''
-            hclog.debug('HEADER %s' % (self.path))
+            hclog.info('HEADER %s' % (self.path), self.client_address[0])
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
@@ -205,7 +205,7 @@ def make_request_handler_class(opts):
             '''
             Handle a GET request.
             '''
-            hclog.info('GET %s' % (self.path))
+            hclog.info('GET %s' % (self.path), self.client_address[0])
 
             # Parse out the arguments.
             # The arguments follow a '?' in the URL. Here is an example:
@@ -247,7 +247,7 @@ def make_request_handler_class(opts):
             '''
             Handle POST requests.
             '''
-            hclog.debug('POST received %s' % (self.path))
+            hclog.info('POST %s' % (self.path), self.client_address[0])
 
             # CITATION: http://stackoverflow.com/questions/4233218/python-basehttprequesthandler-post-variables
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
@@ -267,7 +267,7 @@ def make_request_handler_class(opts):
 # get xml frame 
             command_enc= postvars["strRecXML".encode('iso-8859-1')]
             
-# decryt xml frame            
+# decrypt xml frame            
             command_xml = AES.decrypt(command_enc[0])
             hclog.info("POST decrypted: MAC = {}".format(MAC) )    # remove trailling zeros
             hclog.debug("{}\n".format(command_xml.replace('\x00',"")) )    # remove trailling zeros
