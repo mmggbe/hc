@@ -445,7 +445,7 @@ def main():
     opts = getopts()
     
     global hclog
-    hclog = Log(__name__, opts.level)
+    hclog = Log("climax_svr", opts.level)
  
     httpd(opts)
 

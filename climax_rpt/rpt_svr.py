@@ -160,10 +160,7 @@ def Main():
     opts = getopts()  
     
     global hclog
-    hclog = Log(__name__, opts.level)
-#    hclog = Log("reporting_srv", opts.level)
- #   opts = getopts()  
- #   hclog.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', level=get_logging_level(opts))
+    hclog = Log("reporting_svr", opts.level)
 
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

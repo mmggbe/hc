@@ -23,7 +23,7 @@ class Log(object):
         retentionTime = int(HcLog.config("retentionTime"))
         
         
-        self.logger = logging.getLogger(srvName)
+        self.logger = logging.getLogger(__name__)
         
         self.logger.setLevel(self.get_logging_level(level))
         
