@@ -18,7 +18,7 @@ from HCsettings import HcDB,GW_Pol_svr, Rpt_svr, HcLog
 
 from HcLog import Log
 
-hclog=Log.get(__name__)
+
 
 
 CLIMAX_CMD_HDR  = """
@@ -52,7 +52,7 @@ class cmdTo_climax():
         self.GW_ID = GW_ID
         self.rptip_ID = rptip_ID
         self.queue = cmd_queue(db_cur)
-
+        self.hclog=Log.get(__name__)
 
 # regular polling answer (no command to be sent     
     def polling(self, rptipid):
@@ -64,7 +64,7 @@ class cmdTo_climax():
     <date value="{}" />
 </polling>"""      
         response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid, time.strftime("%Y-%m-%d %H:%M:%S"))
-        hclog.debug("Polling response to GW= {0}\n".format(response) )
+        self.hclog.debug("Polling response to GW= {0}\n".format(response) )
 
         return response
     
@@ -95,7 +95,7 @@ class cmdTo_climax():
             GW_Pol_svr.config("ip"), GW_Pol_svr.config("port") , \
             rptipid, Rpt_svr.config("ip"), Rpt_svr.config("port"), \
             acct2 )
-        hclog.debug("XML command to be send = {0}".format(response) )
+        self.hclog.debug("XML command to be send = {0}".format(response) )
         
         return response
     
@@ -148,7 +148,7 @@ class cmdTo_climax():
         </command>"""
 
         response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid )
-        hclog.debug("XML command to be send = {0}".format(response) )
+        self.hclog.debug("XML command to be send = {0}".format(response) )
         
         return response
      
@@ -168,7 +168,7 @@ class cmdTo_climax():
 </polling>"""
 
         response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid )
-        hclog.debug("XML command to be send = {0}".format(response) )
+        self.hclog.debug("XML command to be send = {0}".format(response) )
         
         return response   
     
@@ -211,6 +211,7 @@ class cmd_queue():
        
         self.db = db_cur
         self.table ="alarm_commands"
+        self.hclog=Log.get(__name__)
    
     
     def add ( self, gw_id, cmd_xml, cmd_id ):

@@ -13,7 +13,7 @@ from GW_CMD.GW_cmd import cmd_queue
 from HcLog import Log
 from HCsettings import HcDB
 
-hclog=Log.get(__name__)
+
 
 CLIMAX_CMD_HDR  = r'<?xml version="1.0" encoding="ISO-8859-1"?>'
 
@@ -322,6 +322,7 @@ class answerFrom_climax():
         self.MAC = MAC
         self.user_ID = user_ID
         self.GW_ID = GW_ID
+        self.hclog=Log.get(__name__)
 
     
     def getUsers(self, data):
@@ -329,17 +330,17 @@ class answerFrom_climax():
         # store all sensors parameters to DB
         
         for cmdParam in data:
-            hclog.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
+            self.hclog.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
             if cmdParam.tag == "xmldata":
 
                 users=cmdParam.findall("user")
                 for user in users: 
-                    hclog.debug("{}".format(user.tag) )       
+                    self.hclog.debug("{}".format(user.tag) )       
                     for params in user:
                         
                         field = params.tag
                         value = params.get("value", "0")
-                        hclog.debug("   {}= {}".format(field, value) )
+                        self.hclog.debug("   {}= {}".format(field, value) )
                         
                         if field == "index":
                             index_usr_val= value
@@ -385,7 +386,7 @@ class answerFrom_climax():
                         values= ( self.GW_ID, index_usr_val, code_val, name_val, latch_val ) 
                         self.db_cur.executerReq(req, values)
                     
-                    hclog.debug( "req={}".format(req % values))
+                    self.hclog.debug( "req={}".format(req % values))
 
                 self.db_cur.commit()
                 
@@ -394,23 +395,23 @@ class answerFrom_climax():
         # store all sensors parameters to DB
         
         for cmdParam in data:
-            hclog.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
+            self.hclog.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
             if cmdParam.tag == "xmldata":
                 
                 sensor_nbr=cmdParam.find("size")
                 size=int(sensor_nbr.get ("value", "0"))
-                hclog.debug("Nbr of Sensors= {}\n".format(size))
+                self.hclog.debug("Nbr of Sensors= {}\n".format(size))
                 
                 zones=cmdParam.findall("zone")
                 for zone in zones:
                     
-                    hclog.debug("{}".format(zone.tag) )
+                    self.hclog.debug("{}".format(zone.tag) )
                     status_switch_val = status_power_val = status_energy_val = status_time_val = ""
                     for params in zone:
 
                         field = params.tag
                         value = params.get("value", "0")
-                        hclog.debug("   {}= {}".format(field, value) )
+                        self.hclog.debug("   {}= {}".format(field, value) )
                         
                         if field == "no":
                             no_val= value
@@ -491,14 +492,14 @@ class answerFrom_climax():
 
                         self.db_cur.executerReq(req, values) 
 
-                    hclog.debug( "req={}".format(req % values))
+                    self.hclog.debug( "req={}".format(req % values))
 
                 self.db_cur.commit()      
 
     def getSmartPlug(self,data):
             #find mode in xml
         for cmdParam in data:
-            hclog.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
+            self.hclog.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
             if cmdParam.tag == "xmldata":
                 elt=cmdParam.find("switchZPSS")
                 SmartPlug=elt.get ("result", "0")
@@ -511,7 +512,7 @@ class answerFrom_climax():
  
         #find mode in xml
         for cmdParam in data:
-            hclog.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
+            self.hclog.debug("{} -{}".format(cmdParam.tag, cmdParam.text))
             if cmdParam.tag == "xmldata":
                 elt=cmdParam.find("mode")
                 mode=elt.get ("value", "0")
@@ -532,7 +533,7 @@ class answerFrom_climax():
             cmd_name = cmd.get ("action", "0")
             cmd_ID = cmd.get ("id", "0")
             
-            hclog.info("{} -{} -{}".format(cmd.tag, cmd_ID, cmd_name))
+            self.hclog.info("{} -{} -{}".format(cmd.tag, cmd_ID, cmd_name))
             
             # each time a answer is received, up the cmd_id in the GW DB
             db = DB_gw(self.db_cur)        

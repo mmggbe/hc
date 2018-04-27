@@ -16,6 +16,7 @@ sys.path.append ('/home/hc/uat/hc/climax_web')
 sys.path.append ('/home/hc/uat/hc/climax_svr')
 sys.path.append ('/home/hc/uat/hc/climax_notif')
 sys.path.append ('/home/hc/uat/hc/history')
+sys.path.append ('/home/hc/uat/hc/lib')
 
 import shutil
 import logging
@@ -26,6 +27,7 @@ from HCsettings import HcDB, EventCode, HcFTP
 
 from GW_DB.Dj_Server_DB import DB_mngt
 from notifier import send_notification
+from HcLog import Log
 
 LOG_FILE = HcFTP.config("LOG_FILE")
 
@@ -56,38 +58,38 @@ def search_usrprofile_from_CamID( cam_id ):
 	return usr_profile[0]
 
 def do_movevideo(src, dest):
-	logger.info('>>>do_movevideo %s', src)
+	hclog.info('>>>do_movevideo {}'.format(src) )
 	result = False
 	
 	try:
 		shutil.move(src, dest)
 		
 	except IOError as e:
-		logger.info("I/O error({0}): {1}, cannot move to {2}".format(e.errno, e.strerror, dest))
+		hclog.info("ERROR: I/O error({0}): {1}, cannot move to {2}".format(e.errno, e.strerror, dest))
 		try:
 			os.remove(src)
 		except OSError as e:
-			logger.info( "Cannot delete {0}: OS error: {1}".format(src, os.strerror(e.errno)))
+			hclog.info( "ERROR: Cannot delete {0}: OS error: {1}".format(src, os.strerror(e.errno)))
 		else:
-			logger.info( "File deleted: {0}".format(src))			
+			hclog.info( "File deleted: {0}".format(src))			
 		
 	else:
-		logger.info('Succesfully moved from %s to %s', src, dest)
+		hclog.info('Succesfully moved from {} to {}'.format(src, dest) )
 		try:
 			os.chmod(dest, stat.S_IWGRP)
 		except Exception as e:
-			logger.info( "Cannot change file access: {0}".format(e))
+			hclog.info( "ERROR: Cannot change file access: {0}".format(e))
 		result=True
 	
 	finally:
-		logger.info('<<<do_movevideo')
+		hclog.info('<<<do_movevideo')
 	
 	return result
 
 
 def do_search_DB(mac):
 	
-	logger.info('>>>do_search_DB, MAC= %s', mac)
+	hclog.info('>>>do_search_DB, MAC= {}'.format(mac) )
 	db_cursor= DB_mngt(HcDB.config())
 	if db_cursor.echec:
 		sys.exit(1)
@@ -106,24 +108,24 @@ def do_search_DB(mac):
 	record_nbr = len(answer)
 		
 	if record_nbr >1:
-		logger.error('Multiple entries for MAC= %s', mac)
+		hclog.info('ERROR DB : Multiple entries for MAC= {}'.format(mac) )
 		exit()
 		
 	elif record_nbr == 0:
-		logger.info("MAC not found")
+		hclog.info("MAC not found")
 		rtn_val=[]
 		
 	else: # MAC is unique
 		rtn_val=answer[0]
 
-	logger.info('<<<do_search_DB, return camera_id= %s', rtn_val)
+	hclog.info('<<<do_search_DB, return camera_id= {}'.format (rtn_val))
 	return rtn_val
 
 def do_write_path_DB(cam_params, filepath):
 
 	head, tail = os.path.split(filepath)
 	
-	logger.info('>>>do_write_path_DB: CAM= %s File= %s', cam_params, tail)
+	hclog.info('>>>do_write_path_DB: CAM= %s File= {}'.format(cam_params, tail) )
 	
 	db_cursor= DB_mngt(HcDB.config()) 
 	if db_cursor.echec:
@@ -143,7 +145,7 @@ def do_write_path_DB(cam_params, filepath):
 	
 	# write into camera.file_list
 	
-	logger.info('<<<do_write_path_DB' )
+	hclog.info('<<<do_write_path_DB' )
 
 def do_create_vignette(filepath):
 
@@ -152,9 +154,9 @@ def do_create_vignette(filepath):
 	FFMPEG_BIN= "avconv"	# need to install: sudo apt-get install libav-tools
 
 	head, tail = os.path.split(filepath)
-	logger.info('>>>do_create_vignette: File= %s', filepath)
+	hclog.info('>>>do_create_vignette: File= {}'.format(filepath))
 	subprocess.call([FFMPEG_BIN, "-y", "-i", filepath, '-f', 'mjpeg', '-ss', '1', '-vframes', '1', '-s', '320x240', filepath[0:-4]+".jpg"] )
-	logger.info('<<<do_create_vignette' )
+	hclog.info('<<<do_create_vignette' )
 
 def do_create_mp4(filepath):
 
@@ -163,28 +165,28 @@ def do_create_mp4(filepath):
 		FFMPEG_BIN= "avconv"
 
 		head, tail = os.path.split(filepath)
-		logger.info('>>>do_create_mp4: File= %s', filepath)
+		hclog.info('>>>do_create_mp4: File= {}'.format(filepath))
 		subprocess.call([FFMPEG_BIN, "-y", "-i", filepath, '-strict', 'experimental', '-s', '640x480', '-c:v', 'libx264', '-c:a', 'aac', '-ac', '2','-ar', '8000', '-b:a', '32k', '-threads', 'auto', filepath[0:-4]+".mp4"] )
 
-		logger.info('<<<do_create_mp4' )
+		hclog.info('<<<do_create_mp4' )
 
 def do_count_record(cam):
-	logger.info('>>>do_count_record for camera id %s', cam)
+	hclog.info('>>>do_count_record for camera id {}'.format(cam))
 	db_cursor= DB_mngt(HcDB.config())
 	if db_cursor.echec:
-		logger.info('exit ')
+		hclog.info('exit ')
 		sys.exit(1)	   
 	db_cursor.executerReq("""select count(*) from history_events where cameraID_id = %s and video_file is not null""", (cam,))
 	answer = db_cursor.resultatReq()
 	db_cursor.close()
-	logger.info("<<<<do_count_record {0}".format(answer[0][0]))
+	hclog.info("<<<<do_count_record {0}".format(answer[0][0]))
 	return answer[0][0]
 
 def do_clean_up_files (cam_params):
-	logger.info('>>>do_delete_file')
+	hclog.info('>>>do_clean_up_files')
 	camID=cam_params[0]
 	while do_count_record(camID) > int(MAX_FILES):
-		logger.info("more than %s files need clean up!", MAX_FILES)
+		hclog.info("more than {} files need clean up!".format(MAX_FILES) )
 		#extract the oldest file from the db
 		db_cursor= DB_mngt(HcDB.config())
 		if db_cursor.echec:
@@ -196,58 +198,47 @@ def do_clean_up_files (cam_params):
 		try:
 			os.remove(VIDEO_STORAGE + file + ".mp4")
 		except:
-			logger.info("file: %s.mp4 doesn't exist", file)
+			hclog.info("ERROR: file: {}.mp4 doesn't exist".format(file) )
 		try:
 			os.remove(VIDEO_STORAGE + file + ".jpg")
 		except:
-			logger.info("file: %s.jpg doesn't exist", file)
+			hclog.info("ERROR: file: {}.jpg doesn't exist".format(file))
 			
-		logger.info("id: %s", id)
+		hclog.info("id: {}".format(id) )
 		db_cursor.executerReq("""delete from history_events where id = %s""", (id,))
 		db_cursor.commit()
-		logger.info("file: %s deleted", id)
+		hclog.info("file: {} deleted".format(id) )
 	
+	hclog.info('<<<do_clean_up_files' )
 
 def do_MAC_formatting(mac_string):
-	logger.info('>>>do_MAC_formatting' )
+	hclog.info('>>>do_MAC_formatting' )
 
 	try:
 			mac = (':'.join([mac_string[i]+mac_string[i+1] for i in range(0,12,2)]))
 	except:
-			logger.info( "Invalid MAC string: {0}".format(mac_string) )
+			hclog.info( "ERROR: Invalid MAC string: {0}".format(mac_string) )
 			ret = None
 	else:
 			ret = mac
 
-	logger.info('<<<do_MAC_formatting' )
+	hclog.info('<<<do_MAC_formatting' )
 	return ret
 
 def main(argv):
 
 
-	global logger 
+	global hclog 
 	global FTP_file_path
-
-	logger = logging.getLogger(__name__)
-	logger.setLevel(logging.INFO)
-
-# create a file handler
-	handler = logging.FileHandler(LOG_FILE)
-	handler.setLevel(logging.INFO)
-
-# create a logging format
-	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-	handler.setFormatter(formatter)
-
-# add the handlers to the logger
-	logger.addHandler(handler)
+	
+	hclog = Log("ftp_svr", "info")
 
 	for arg in sys.argv:
 			print( arg )
 
-	logger.info("++++ {0} started with UID {1}, GID {2} ++++".format(argv[0],os.getuid(),os.getgid()))
-	logger.info("path: {0}".format(LOG_FILE))
-	logger.info( ("Argument List: {}").format(str(sys.argv)))
+	hclog.info("++++ {0} started with UID {1}, GID {2} ++++".format(argv[0],os.getuid(),os.getgid()))
+	hclog.info("path: {0}".format(LOG_FILE))
+	hclog.info( ("Argument List: {}").format(str(sys.argv)))
 
 #000E8F88C2F1 201209031438030001.avi
 #000E8F9AF368 123456 201605181528390001.avi
@@ -265,7 +256,7 @@ def main(argv):
 
 	head, tail = os.path.split(argv[1])
 
-	logger.info( ("Camera MAC= {}, Timestamp= {}").format(MAC_str,timestamp))
+	hclog.info( ("Camera MAC= {}, Timestamp= {}").format(MAC_str,timestamp))
 
 	res=do_search_DB(MAC_str)
 	
@@ -288,19 +279,19 @@ def main(argv):
 				profile = search_usrprofile_from_CamID( camID )		# get user profile of the camera owner 
 				send_notification( profile, event )
 
-				logger.info( "{0} successfully terminated".format(argv[0]))
+				hclog.info( "{0} successfully terminated".format(argv[0]))
 
 		else:
-			logger.info("Issue with video file of camera {0}".format(MAC_str))
+			hclog.info("Issue with video file of camera {0}".format(MAC_str))
 				
 			try:
 				os.remove(FTP_file_path)
 
 			except OSError as e:
-				logger.info( "Cannot delete: {0}, OS error: {1}".format(FTP_file_path, os.strerror(e.errno)))
+				hclog.info( "ERROR: Cannot delete: {0}, OS error: {1}".format(FTP_file_path, os.strerror(e.errno)))
 			else:
-				logger.info( "File deleted: {0}".format(FTP_file_path))
-				logger.info( "{0} successfully terminated".format(argv[0]))
+				hclog.info( "File deleted: {0}".format(FTP_file_path))
+				hclog.info( "{0} successfully terminated".format(argv[0]))
 	
 
 if __name__ == "__main__":

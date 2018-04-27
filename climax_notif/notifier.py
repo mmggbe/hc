@@ -17,11 +17,13 @@ from email.mime.text import MIMEText
 from HcLog import Log
 from HCsettings import SMS_Notif, HcDB, Email_svr
 
-hclog=Log.get(__name__)
+
 
 def send_notification(usr, event):
 # list usr [username, propertyaddr, SN_SMS, SN_Voice, email, language]
 # list event eg: '100', "Medical", [ "1", "0", "0"] # code : "description, email to be sent, sms to be sent, voice call to be issued
+
+    hclog=Log.get(__name__)
 
     hclog.info("Notification to user id:{}, content : {}".format(usr[0],event[1]))
     hclog.debug("Notification to user:{}, content : {}".format(usr,event))
