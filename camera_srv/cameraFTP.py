@@ -231,7 +231,8 @@ def main(argv):
 	global hclog 
 	global FTP_file_path
 	
-	hclog = Log("ftp_svr", "info")
+	logger = logging.getLogger( __name__ )
+	hclog = Log("ftp_svr", logger, "info" )	 
 
 	for arg in sys.argv:
 			print( arg )

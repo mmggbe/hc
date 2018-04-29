@@ -17,20 +17,18 @@ class Log(object):
              level: if ='debug' all syslog level will be written to the file
                     else only level before info
     '''
-    def __init__(self, srvName, level):
+    def __init__(self, moduleName, loggerObject, level):
         
         logPath= HcLog.config("logPath")
         retentionTime = int(HcLog.config("retentionTime"))
         
-        
-        self.logger = logging.getLogger(__name__)
+        self.logger = loggerObject
         
         self.logger.setLevel(self.get_logging_level(level))
         
-        handler = TimedRotatingFileHandler(logPath + srvName + '.log',
+        handler = TimedRotatingFileHandler(logPath + moduleName + '.log',
                                         when='midnight',
                                         backupCount=retentionTime)
-        #formatter = logging.Formatter('%(asctime)s %(name)s(%(process)d)[%(levelname)s]: %(message)s',datefmt='%b %d %H:%M:%S')
         formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s',datefmt='%b %d %H:%M:%S')
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
@@ -45,15 +43,17 @@ class Log(object):
             return logging.DEBUG
         else :
             return logging.INFO
-        
    
-        
-    def get(srvName):
-        return logging.getLogger(srvName)
-        
+
+    def get():
+        return self.logger
+    
+#        return logging.getLogger(__name__)
+    """    
     def getL(self, srvName):
             return logging.getLogger(srvName)
-        
+    """
+
     def error(self, msg, ip=None):
         self.logger.error(self.__message(msg, ip))
         
@@ -71,7 +71,9 @@ class Log(object):
         
 if __name__ == '__main__':
 
-    hclog = Log('testLog', 'debug')
+    logger = logging.getLogger( __name__ )
+    hclog = Log("testLog", logger, "debug" ) 
+
     hclog.error ('this is a test error message without ip')
     hclog.debug('this  is a test debug message without ip')
     hclog.error ('this is a test error message with ip', '1.1.1.1')

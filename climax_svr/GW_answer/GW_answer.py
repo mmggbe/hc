@@ -322,7 +322,7 @@ class answerFrom_climax():
         self.MAC = MAC
         self.user_ID = user_ID
         self.GW_ID = GW_ID
-        self.hclog=Log.get(__name__)
+        self.hclog=logging.getLogger(__name__)
 
     
     def getUsers(self, data):

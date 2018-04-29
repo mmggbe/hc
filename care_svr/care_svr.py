@@ -55,7 +55,8 @@ def Main():
     
     opts = getopts()  
     
-    hclog = Log("care_srv", opts.level)
+    logger = logging.getLogger( __name__ )
+    hclog = Log("care_svr", logger, opts.level )     
  
     hclog.info('starting up' )
 

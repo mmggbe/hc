@@ -16,9 +16,6 @@ from lxml import etree
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 from HCsettings import HcDB,GW_Pol_svr, Rpt_svr, HcLog
 
-from HcLog import Log
-
-
 
 
 CLIMAX_CMD_HDR  = """
@@ -52,7 +49,7 @@ class cmdTo_climax():
         self.GW_ID = GW_ID
         self.rptip_ID = rptip_ID
         self.queue = cmd_queue(db_cur)
-        self.hclog=Log.get(__name__)
+        self.hclog=logging.getLogger(__name__)
 
 # regular polling answer (no command to be sent     
     def polling(self, rptipid):
@@ -211,7 +208,7 @@ class cmd_queue():
        
         self.db = db_cur
         self.table ="alarm_commands"
-        self.hclog=Log.get(__name__)
+        self.hclog=logging.getLogger(__name__)
    
     
     def add ( self, gw_id, cmd_xml, cmd_id ):

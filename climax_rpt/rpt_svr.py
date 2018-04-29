@@ -13,6 +13,8 @@ import os
 import sys
 import argparse
 import logging
+
+
 from notifier import send_notification
 
 from socket import error as SocketError
@@ -110,7 +112,7 @@ def translate(contactID, snsr_list, usr_list):
                 alarmMsg = "Event: Restore"
 
     except:
-        hclog.info("Error ContactID: {}, evt:{}, GG:{}, sensorid:{}".format(contactID,evt, GG, sensor_id))
+        hclog.info("ERROR ContactID: {}, evt:{}, GG:{}, sensorid:{}".format(contactID,evt, GG, sensor_id))
         return( "" )
         
     else:
@@ -151,8 +153,10 @@ def err(msg):
     '''
     Report an error message and exit.
     '''
+        
     hclog.debug('ERROR: %s' % (msg))
     sys.exit(1)
+
 
 
 def Main():
@@ -160,7 +164,11 @@ def Main():
     opts = getopts()  
     
     global hclog
-    hclog = Log("rpt_svr", opts.level)
+
+    
+    logger = logging.getLogger( __name__ )
+    hclog = Log("rpt_svr", logger, opts.level )     
+     
 
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -195,7 +203,7 @@ def Main():
                     
                 except SocketError as e:
                     errno, strerror = e.args
-                    hclog.info("Socket errorI/O error({0}): {1}".format(errno,strerror))
+                    hclog.info("ERROR: Socket errorI/O error({0}): {1}".format(errno,strerror))
 
                 else:
                     
@@ -243,7 +251,9 @@ def Main():
                                             req="INSERT INTO {} (timestamp, userWEB_id, type, gwID_id, sensorID_id, event_code, event_description) VALUES ( %s, %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
                                             value= (now, usr_profile[0][0], "GW", gw_id[0][0], event[3], event[0], event[1])
                                             db_cur.executerReq(req, value)
-                                            db_cur.commit() 
+                                            db_cur.commit()
+                                            
+                                             
                                             send_notification(usr_profile[0], event)
 
                                     
@@ -252,14 +262,14 @@ def Main():
 
                                          
                             else:
-                                hclog.info("Error: bad contact id format", client_address[0])
+                                hclog.info("ERROR: bad contact id format", client_address[0])
 
                         except:
 
                             if db_cur in locals():
                                 db_cur.close()  
 
-                            hclog.info("Error: bad Contact ID translation or user error in DB or issue sending notification")
+                            hclog.info("ERROR: bad Contact ID translation or user error in DB or issue sending notification")
                                  
                     else:
 #                        print ('no more data from {}'.format(client_address))
