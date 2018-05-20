@@ -12,16 +12,18 @@
 import sys, os
 
 sys.path.append ('/home/ftp/Env/userftp/lib/python3.5/site-packages')
+sys.path.append ('/home/hc/Env/uat/lib/python3.5/site-packages')
+sys.path.append ('/home/hc/uat/hc/lib')
 sys.path.append ('/home/hc/uat/hc/climax_web')
 sys.path.append ('/home/hc/uat/hc/climax_svr')
 sys.path.append ('/home/hc/uat/hc/climax_notif')
 sys.path.append ('/home/hc/uat/hc/history')
-sys.path.append ('/home/hc/uat/hc/lib')
 
 import shutil
 import logging
 import datetime
 import subprocess
+import getpass
 
 from HCsettings import HcDB, EventCode, HcFTP
 
@@ -230,7 +232,8 @@ def main(argv):
 
 	global hclog 
 	global FTP_file_path
-	
+
+	print( "Starting {} with user {}".format( __name__, getpass.getuser() ) )
 	logger = logging.getLogger( __name__ )
 	hclog = Log("ftp_svr", logger, "info" )	 
 
