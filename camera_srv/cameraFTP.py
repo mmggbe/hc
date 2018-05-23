@@ -17,13 +17,11 @@ sys.path.append ('/home/hc/uat/hc/lib')
 sys.path.append ('/home/hc/uat/hc/climax_web')
 sys.path.append ('/home/hc/uat/hc/climax_svr')
 sys.path.append ('/home/hc/uat/hc/climax_notif')
-# sys.path.append ('/home/hc/uat/hc/history')
 
 
 sys.path.append ('/home/marc/workspace2/hc/climax_web')
-sys.path.append ('/home/marc/workspace2/hc/climax_notif')
 sys.path.append ('/home/marc/workspace2/hc/climax_svr')
-#sys.path.append ('/home/marc/workspace2/hc/climax_notif')
+sys.path.append ('/home/marc/workspace2/hc/climax_notif')
 
 
 import shutil

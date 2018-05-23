@@ -11,12 +11,14 @@ from datetime import date, time, datetime, timezone
 import os
 import sys
 import argparse
-import logging
 import pytz
+
+import logging
+from logging.handlers import TimedRotatingFileHandler
 
 from notifier import send_notification
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
-from HcLog import Log
+
 
 from HCsettings import HcDB, EventCode,  HcLog
 
@@ -53,12 +55,31 @@ def getopts():
 
 def Main():
     
-    opts = getopts()  
+    opts = getopts() 
+     
+    logPath= HcLog.config("logPath")
+    retentionTime = int(HcLog.config("retentionTime"))
+    moduleName = "care_svr"
     
-    logger = logging.getLogger( __name__ )
-    hclog = Log("care_svr", logger, opts.level )     
- 
-    hclog.info('starting up' )
+    hclog = logging.getLogger()   # must be the rotlogger, otherwise sub-modules will not benefit from the config.
+     
+    handler = TimedRotatingFileHandler(logPath + moduleName + '.log',
+                                  when='midnight',
+                                  backupCount=retentionTime)   
+    if opts.level == 'debug':
+        hclog.setLevel(logging.DEBUG) 
+        handler.setLevel(logging.DEBUG) 
+    else:
+        hclog.setLevel(logging.INFO)
+        handler.setLevel(logging.INFO)      
+        
+    formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s',datefmt='%b %d %H:%M:%S')
+    handler.setFormatter(formatter)
+
+    hclog.addHandler(handler)
+  
+    print('Care Server starting up')
+    hclog.info('Care Server starting up' )
 
     db_cur= DB_mngt( HcDB.config() ) 
 
