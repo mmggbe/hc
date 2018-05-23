@@ -19,6 +19,7 @@ __all__ = [
 import http.client
 import socket # For gethostbyaddr()
 import socketserver
+import os
 import sys
 import argparse
 import time
@@ -26,15 +27,12 @@ import datetime
 from http import HTTPStatus
 from socketserver import ThreadingMixIn
 import mysql.connector
+
+import logging
+from logging.handlers import TimedRotatingFileHandler
+
 from HCsettings import HcDB, HcLog
 from GW_DB.Dj_Server_DB import DB_mngt
-import logging
-from HcLog import Log
-
-
-#debug = False 
-#debug = True
-
 
 class HTTPServer(socketserver.TCPServer):
 
@@ -277,13 +275,15 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         
         if cursor.echec:
             sys.exit(1)
-            hclog.debug ("cannot open db")
+            hclog.info ("ERROR: cannot open db")
 
         cursor.executerReq("""SELECT id from camera_camera WHERE CameraMac=%s""", (mac,))
         idCam = cursor.resultatReqOneRec()
-        hclog.debug ("camera id: {}".format(idCam[0]))
+
         
         if idCam:
+            
+            hclog.debug ("camera id: {}".format(idCam[0]))
 
             ts = time.time()
             timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
@@ -307,14 +307,16 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 
                 cursor.executerReq("""DELETE FROM camera_action_list WHERE id=%s""", (resp[0],))
                 cursor.commit()
-                hclog.info("Action for camera id {}, mac {}".format(idCam[0], mac) )
+                hclog.info("Action for camera id: {}, MAC: {}, cmd: {}".format(idCam[0], mac, answer) )
             else:
                 self.close_connection = False
                 hclog.debug("No action for camera id {}".format(idCam[0]))
             
             
-        else:
-            hclog.error("Camera not registred",self.address_string())
+        else:            
+            hclog.info("ERROR: Camera not registred: MAC {} [client {}]".format( mac, self.address_string()) )
+            
+            
             
         cursor.close()
         
@@ -357,12 +359,22 @@ def run(HandlerClass=BaseHTTPRequestHandler,
     except KeyboardInterrupt:
             print("\nKeyboard interrupt received, exiting.")
             sys.exit(0)
-    
 
-if __name__ == '__main__':
-    
-    parser = argparse.ArgumentParser()
-    
+
+def getopts():
+    '''
+    Get the command line options.
+    '''
+
+    # Get the help from the module documentation.
+    this = os.path.basename(sys.argv[0])
+    description = ('description:%s' % '\n  '.join(__doc__.split('\n')))
+    epilog = ' '
+    rawd = argparse.RawDescriptionHelpFormatter
+    parser = argparse.ArgumentParser(formatter_class=rawd,
+                                     description=description,
+                                     epilog=epilog)
+
     parser.add_argument('--bind', '-b', default='', metavar='ADDRESS',
                         help='Specify alternate bind address '
                              '[default: all interfaces]')
@@ -380,13 +392,49 @@ if __name__ == '__main__':
                         choices=['notset', 'debug', 'info', 'warning', 'error', 'critical',],
                         help='define the logging level, the default is %(default)s')
     
-    args = parser.parse_args()
-        
-    hclog = Log("camera_srv", args.level)
+
+    opts = parser.parse_args()
+
+    if opts.port < 1 or opts.port > 65535:
+        err('Port is out of range [1..65535]: %d' % (opts.port))
     
+    return opts
+
+
+
+
+    
+
+if __name__ == '__main__':
+    
+    opts = getopts() 
+     
+    logPath= HcLog.config("logPath")
+    retentionTime = int(HcLog.config("retentionTime"))
+    moduleName = "camera_srv"
+    
+    hclog = logging.getLogger()   # must be the rotlogger, otherwise sub-modules will not benefit from the config.
+     
+    handler = TimedRotatingFileHandler(logPath + moduleName + '.log',
+                                  when='midnight',
+                                  backupCount=retentionTime)   
+    if opts.level == 'debug':
+        hclog.setLevel(logging.DEBUG) 
+        handler.setLevel(logging.DEBUG) 
+    else:
+        hclog.setLevel(logging.INFO)
+        handler.setLevel(logging.INFO)      
+        
+    formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s',datefmt='%b %d %H:%M:%S')
+    handler.setFormatter(formatter)
+
+    hclog.addHandler(handler)  
+    
+    hclog.info("starting {} on {} port {}".format( moduleName, opts.bind, opts.port) )
+    print("starting {} on {} port {}".format( moduleName, opts.bind, opts.port) )
     
     handler_class = SimpleHTTPRequestHandler
-    run(HandlerClass=handler_class, port=args.port, bind=args.bind)
+    run(HandlerClass=handler_class, port=opts.port, bind=opts.bind)
     
     
     

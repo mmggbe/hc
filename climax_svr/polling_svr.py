@@ -119,6 +119,7 @@ import socketserver
 from urllib.parse import urlparse
 import cgi
 import logging
+from logging.handlers import TimedRotatingFileHandler
 import os
 import sys
 
@@ -247,7 +248,7 @@ def make_request_handler_class(opts):
             '''
             Handle POST requests.
             '''
-            hclog.info('POST %s' % (self.path), self.client_address[0])
+            hclog.info("POST %s [client {}]".format( self.path, self.client_address[0]) )
 
             # CITATION: http://stackoverflow.com/questions/4233218/python-basehttprequesthandler-post-variables
             ctype, pdict = cgi.parse_header(self.headers['content-type'])
@@ -428,7 +429,10 @@ def httpd(opts):
     '''
     RequestHandlerClass = make_request_handler_class(opts)
     server = http.server.HTTPServer((opts.host, opts.port), RequestHandlerClass)
+    
+    print('Server starting %s:%s (level=%s)' % (opts.host, opts.port, opts.level))
     hclog.info('Server starting %s:%s (level=%s)' % (opts.host, opts.port, opts.level))
+    
     try:
         server.serve_forever()
     except KeyboardInterrupt:
@@ -442,12 +446,30 @@ def httpd(opts):
 
 def main():
     ''' main entry '''
-    opts = getopts()
+    
+    opts = getopts() 
+     
+    logPath= HcLog.config("logPath")
+    retentionTime = int(HcLog.config("retentionTime"))
+    moduleName = "polling_svr"
     
     global hclog
+    hclog = logging.getLogger()   # must be the rotlogger, otherwise sub-modules will not benefit from the config.
+     
+    handler = TimedRotatingFileHandler(logPath + moduleName + '.log',
+                                  when='midnight',
+                                  backupCount=retentionTime)   
+    if opts.level == 'debug':
+        hclog.setLevel(logging.DEBUG) 
+        handler.setLevel(logging.DEBUG) 
+    else:
+        hclog.setLevel(logging.INFO)
+        handler.setLevel(logging.INFO)      
+        
+    formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s',datefmt='%b %d %H:%M:%S')
+    handler.setFormatter(formatter)
 
-    logger = logging.getLogger( __name__ )
-    hclog = Log("climax_svr", logger, opts.level )     
+    hclog.addHandler(handler)     
  
     httpd(opts)
 

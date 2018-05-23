@@ -6,14 +6,13 @@ Server that manages the reported alarms and that dispatchs them to the right cha
 VERSION = '1.0'
 
 import socket
-#import time
 import datetime
 import re
 import os
 import sys
 import argparse
 import logging
-
+from logging.handlers import TimedRotatingFileHandler
 
 from notifier import send_notification
 
@@ -22,7 +21,6 @@ import errno
 
 
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
-from HcLog import Log
 
 from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest, HcLog
 
@@ -32,7 +30,9 @@ from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest, HcLog
 # examle of contact Id received : [0730#74 181751000032CA2]
                 
 def translate(contactID, snsr_list, usr_list):
-    
+
+    hclog = logging.getLogger(__name__)
+      
     alarmMsg=""
 #[0730#74 18_1_751_00_003_2CA2]
 #[0730#119 18 3 401 00 015 C0CF]
@@ -43,7 +43,6 @@ def translate(contactID, snsr_list, usr_list):
     GG = contactID[-10:-8] # GG: partition number (always 00 for non partitioned panels)
     sensor_id= contactID[-7:-5]  # ZZZ: representing zone number C 1 = 0 (fixed) , C 2 C 3 = Zone number
     
-#    sensor=""
     sensor_id = sensor_id.lstrip('0') or '0' # remove leading zeros in text string
     sensor_ref_id=None
 
@@ -149,6 +148,7 @@ def getopts():
     opts = parser.parse_args()
     return opts
 
+"""
 def err(msg):
     '''
     Report an error message and exit.
@@ -156,20 +156,34 @@ def err(msg):
         
     hclog.debug('ERROR: %s' % (msg))
     sys.exit(1)
-
+"""
 
 
 def Main():
     
-    opts = getopts()  
-    
-    global hclog
-
-    
-    logger = logging.getLogger( __name__ )
-    hclog = Log("rpt_svr", logger, opts.level )     
+    opts = getopts() 
      
+    logPath= HcLog.config("logPath")
+    retentionTime = int(HcLog.config("retentionTime"))
+    moduleName = "reporting_svr"
+    
+    hclog = logging.getLogger()   # must be the rotlogger, otherwise sub-modules will not benefit from the config.
+     
+    handler = TimedRotatingFileHandler(logPath + moduleName + '.log',
+                                  when='midnight',
+                                  backupCount=retentionTime)   
+    if opts.level == 'debug':
+        hclog.setLevel(logging.DEBUG) 
+        handler.setLevel(logging.DEBUG) 
+    else:
+        hclog.setLevel(logging.INFO)
+        handler.setLevel(logging.INFO)      
+        
+    formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s',datefmt='%b %d %H:%M:%S')
+    handler.setFormatter(formatter)
 
+    hclog.addHandler(handler)
+  
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
@@ -180,6 +194,8 @@ def Main():
     server = (server_ip, int(server_port))
     
     hclog.info('starting up on %s port %s' % server)
+    print("Starting up on %s port %s" % server)
+    
     sock.bind(server)
     # Listen for incoming connections
     sock.listen(1)
@@ -210,8 +226,9 @@ def Main():
                     if data:
                         
                         now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-#                        now = time.strftime("%Y-%m-%d %H:%M:%S")                        
-                        hclog.info("Contact ID: UTC {} {} ".format(now, data), client_address[0])
+#                        now = time.strftime("%Y-%m-%d %H:%M:%S")    
+                    
+                        hclog.info("Contact ID: UTC {} {} [client {}]".format(now, data, client_address[0]) )
 
                         try:                         
                             data = data.decode()                                
@@ -262,14 +279,14 @@ def Main():
 
                                          
                             else:
-                                hclog.info("ERROR: bad contact id format", client_address[0])
+                                hclog.info("ERROR: Bad Contact ID: UTC {} {} [client {}]".format(now, data, client_address[0]) )
 
                         except:
 
                             if db_cur in locals():
                                 db_cur.close()  
 
-                            hclog.info("ERROR: bad Contact ID translation or user error in DB or issue sending notification")
+                            hclog.info("ERROR: bad Contact ID translation or user error in DB or issue sending notification: UTC {} {} [client {}]".format(now, data, client_address[0]))
                                  
                     else:
 #                        print ('no more data from {}'.format(client_address))

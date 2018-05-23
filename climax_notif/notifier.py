@@ -5,7 +5,6 @@ import requests
 import json 
 import logging
 
-
 import os, sys, stat
 import shutil
 import subprocess
@@ -14,8 +13,6 @@ from datetime import datetime
 
 import smtplib
 from email.mime.text import MIMEText
-
-from HcLog import Log
 
 from HCsettings import SMS_Notif, HcDB, Email_svr
 
@@ -88,14 +85,14 @@ def send_notification(usr, event):
         hclog.info(" Sending SMS to MSISDN {}".format(usr[2]) )
         
         try:
-            hclog.debug("EnCo SMS API: Acquiring token\n")
+            hclog.debug("EnCo SMS API: Acquiring token")
               
             payload = {'grant_type': 'client_credentials', 'scope': 'openid'}  
             
             enco_perm_token = SMS_Notif.config("enco_secret" )
             if enco_perm_token and enco_perm_token.strip():             # there is a EnCO SMS permanent token in the HCsettings.py file
                 tokenBearer = enco_perm_token
-                hclog.debug("Using Enco permanent token for SMS sending\n" )   
+                hclog.debug("Using Enco permanent token for SMS sending" )   
 
                 
             else:                                                       # use Marc account and accquire tmp token
@@ -106,7 +103,7 @@ def send_notification(usr, event):
                 authInfo = r.json()
                 tokenBearer = authInfo['access_token']
         
-                hclog.debug("Using token to retrieve user information\n")
+                hclog.debug("Using token to retrieve user information")
                 
                 auth_header = {'Authorization':'Bearer {}'.format(tokenBearer), 'Accept':'application/json'}
                 r = requests.get("https://api.enco.io/userinfo?schema=openid", headers=auth_header)
