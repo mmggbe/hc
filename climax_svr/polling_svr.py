@@ -131,7 +131,7 @@ from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 from GW_Crypto.cryptoAES import AESCipher
 from GW_CMD.GW_cmd import cmdTo_climax
 from GW_answer.GW_answer import answerFrom_climax
-from HcLog import Log
+#from HcLog import Log
 
 from HCsettings import HcDB, HcLog
 
