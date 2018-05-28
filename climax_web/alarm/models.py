@@ -22,6 +22,8 @@ class gateways(models.Model):
     sensorsNbr = models.CharField(max_length=2)     # "Number of sensors connected"
     registrationDatec = models.DateTimeField()      # "Registration date"
     lastSeenTimestamp = models.DateTimeField()      # "Last poll timestamp"
+    status = models.BooleanField(default=False)     # flag to indicate if the gw is polling
+
     
     def __str__(self):
         return self.mac

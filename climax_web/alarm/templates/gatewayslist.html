@@ -4,17 +4,45 @@
 {% block content %}
 
 <div class="col-md-6">
-    <ul class="list-unstyled">
+
+     <table class="table table-striped" id="table">
+
+        <thead>
+      <tr>
+        <th>Status</th>
+        <th>Gateway description</th>
+        <th>MAC</th>
+        <th>Delete</th>
+
+
+      </tr>
+    </thead>
+    
+     <tbody>
         {% for gw in gateways %}
-        <li>
-          <p>Gateway from {{ gw.userWEB }} : {{ gw.mac }}  :
-            <a class="btn btn-default" href="{% url 'gateway_delete' pk=gw.pk %}"><span class="fa fa-trash"></span></a> 
-            </p>                
-        </li>
+        <tr>
+        
+          <td>
+                {% if gw.status %}
+                    <img class="img-responsive" src="{% static "images/Green1.png" %}" alt="Nok" style="width:40px;height:40px;">
+                {% else %}
+                    <img class="img-responsive" src="/static/images/Red1.png" alt="Ok" style="width:40px;height:40px;">
+                {% endif %}
+           </td> 
+            
+            <td> Gateway from {{ gw.userWEB }} </td>
+            <td> {{ gw.mac }} </td>
+            <td> 
+                <a class="btn btn-default" href="{% url 'gateway_delete' pk=gw.pk %}"><span class="fa fa-trash"></span></a>
+            </td>
+          </td>                
+
         {% empty %}
           <p>No gateway configured.</p>
         {% endfor %}
-    </ul>
+     </tbody>
+   
+
 </div>  
     
 {% endblock %}

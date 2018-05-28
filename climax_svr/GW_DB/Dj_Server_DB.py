@@ -272,7 +272,7 @@ class DB_gw:
     def upd_cmd_id_gw(self, gw_id, cmd_id):
         
         now = time.strftime("%Y-%m-%d %H:%M:%S")
-        req="UPDATE {} SET lastSeenTimestamp = %s, last_cmd_id = %s WHERE id = %s;".format(self.table)
+        req="UPDATE {} SET status=1, lastSeenTimestamp = %s, last_cmd_id = %s WHERE id = %s;".format(self.table)
         value= ( now, cmd_id, gw_id )
         self.db.executerReq(req, value)
         self.db.commit() 
