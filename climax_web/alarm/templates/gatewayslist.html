@@ -9,8 +9,8 @@
 
         <thead>
       <tr>
-        <th>Status</th>
-        <th>Gateway description</th>
+        <th></th>
+        <th>Name</th>
         <th>MAC</th>
         <th>Delete</th>
 
@@ -20,22 +20,21 @@
     
      <tbody>
         {% for gw in gateways %}
-        <tr>
-        
-          <td>
+        <tr>       
+            <td>
                 {% if gw.status %}
-                    <img class="img-responsive" src="{% static "images/Green1.png" %}" alt="Nok" style="width:40px;height:40px;">
+                    <img class="img-responsive bullet-responsive" src={% static "images/Green1.png" %} alt="Nok">
                 {% else %}
-                    <img class="img-responsive" src="/static/images/Red1.png" alt="Ok" style="width:40px;height:40px;">
+                    <img class="img-responsive bullet-responsive" src={% static "images/Red1.png" %} alt="Ok">
                 {% endif %}
-           </td> 
+            </td> 
             
             <td> Gateway from {{ gw.userWEB }} </td>
             <td> {{ gw.mac }} </td>
             <td> 
-                <a class="btn btn-default" href="{% url 'gateway_delete' pk=gw.pk %}"><span class="fa fa-trash"></span></a>
+                <a class="btn btn-responsive btn-responsive1" href="{% url 'gateway_delete' pk=gw.pk %}"><span class="fa fa-trash"></span></a>
             </td>
-          </td>                
+        </tr>                
 
         {% empty %}
           <p>No gateway configured.</p>

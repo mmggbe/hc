@@ -71,56 +71,60 @@
 
 
 {% block content %}
+<div class="row">
 
-<div class="col-md-6">
-  <table class="table table-striped" id="table">
-    <thead>
-      <tr>
-        <th>Camera description</th>
-        <th></th>
-        <th>Arming</th>
-        <th>Status</th>
-
-      </tr>
-    </thead>
-    
-     <tbody>
-        {% for camera in cameras %}
+    <div class="col-md-6">
+      <table class="table table-striped" id="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th></th>
+            <th>Record</th>
+          </tr>
+        </thead>
         
-        <tr>
-        
-            <td>{{ camera.description }} </td>
-            <td><button class="btn btn-SnapShot" type="button" id="{{camera.pk}}"><em class="fa fa-film"></em></td>
-
-            <td>    
-                <div class="btn-group btn-toggle">                        
-                    {% if camera.securityStatus == "1" %}   
-                        <button class="btn btn-responsive" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
-                        <button class="btn btn-primary btn-responsive " type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Armed</button> 
-                    {% else %}
-                        <button class="btn btn-primary btn-responsive  " type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
-                        <button class="btn btn-responsive" type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Armed</button> 
-                    {% endif %}
-                </div>
-            </td>
-            <td>
-               
-                {% if camera.status %}
-                    <img class="img-responsive" src="{% static "images/Green1.png" %}" alt="Nok" style="width:40px;height:40px;">
-                {% else %}
-                    <img class="img-responsive" src="/static/images/Red1.png" alt="Ok" style="width:40px;height:40px;">
-                {% endif %}
-          </tr>  
+         <tbody>
+            {% for camera in cameras %}
             
-      
-        {% empty %}
-        <tr>
-            <td>No camera configured.</td>
-        </tr>
-        {% endfor %}
-        
-    </tbody>
+            <tr>
+            
+                <td>
+                   
+                    {% if camera.status %}
+                        <img class="img-responsive bullet-responsive" src={% static "images/Green1.png" %} alt="Nok">
+                    {% else %}
+                        <img class="img-responsive bullet-responsive" src={% static "images/Red1.png" %} alt="Ok">
+                    {% endif %}
+                </td>
+            
+                <td>{{ camera.description }} </td>
+                <td><button class="btn btn-SnapShot btn-responsive1" type="button" id="{{camera.pk}}"><em class="fa fa-film"></em></td>
     
+                <td>    
+                    <div class="btn-group btn-toggle">                        
+                        {% if camera.securityStatus == "1" %}   
+                            <button class="btn btn-responsive btn-responsive1" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> No</button> 
+                            <button class="btn btn-primary btn-responsive btn-responsive1" type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Yes</button> 
+                        {% else %}
+                            <button class="btn btn-primary btn-responsive btn-responsive1" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> No</button> 
+                            <button class="btn btn-responsive btn-responsive1" type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Yes</button> 
+                        {% endif %}
+                    </div>
+                </td>
+                <td>             
+            </tr>  
+                
+          
+            {% empty %}
+            <tr>
+                <td>No camera configured.</td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+        
+    </div>  
 </div>  
     
 {% endblock %}
