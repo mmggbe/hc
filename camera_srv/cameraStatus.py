@@ -23,6 +23,8 @@ def main(argv):
 #    cursor = db.cursor()
 #    cursor.execute("""UPDATE camera_camera SET status = 0  where lastSeenTimestamp < now() - interval 1 minute and status = 1""")
     db_cursor.executerReq("""UPDATE camera_camera SET status = 0  where lastSeenTimestamp < now() - interval 1 minute and status = 1""")
+    db_cursor.executerReq("""UPDATE alarm_gateways SET status = 0  where lastSeenTimestamp < now() - interval 1 minute and status = 1""")
+
 #    db.commit()
     db_cursor.commit()
  #   db.close
