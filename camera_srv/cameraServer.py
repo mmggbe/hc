@@ -191,6 +191,7 @@ class BaseHTTPRequestHandler(socketserver.StreamRequestHandler):
     def handle(self):
         """Handle multiple requests if necessary."""
         self.close_connection = True
+        self.request.settimeout(300)
 
         self.handle_one_request()
         while not self.close_connection:
