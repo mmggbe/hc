@@ -9,11 +9,10 @@
 
         <thead>
       <tr>
-        <th>Status</th>
-        <th>Name</th>
+        <th>Owner</th>
+        <th>Description</th>
         <th>MAC</th>
-        <th>Delete</th>
-
+        <th>Status</th>
 
       </tr>
     </thead>
@@ -21,7 +20,11 @@
      <tbody>
         {% for gw in gateways %}
         <tr>       
-            <td>
+            
+            <td> {{ gw.userWEB.username }} </td>
+            <td> {{ gw.description }} </td>
+            <td> {{ gw.mac }} </td>
+                        <td>
                 {% if gw.status %}
                     <img class="img-responsive bullet-responsive" src={% static "images/Green1.png" %} alt="Nok">
                 {% else %}
@@ -29,11 +32,7 @@
                 {% endif %}
             </td> 
             
-            <td> Gateway from {{ gw.userWEB }} </td>
-            <td> {{ gw.mac }} </td>
-            <td> 
-                <a class="btn btn-responsive btn-responsive1" href="{% url 'gateway_delete' pk=gw.pk %}"><span class="fa fa-trash"></span></a>
-            </td>
+
         </tr>                
 
         {% empty %}

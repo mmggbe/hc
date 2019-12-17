@@ -131,6 +131,42 @@ class DB_mngt:
         if self.DB:
             self.DB.close()
 
+class DB_camera:  
+            
+    def __init__(self, db ):
+        self.db =db
+        self.table ="camera_camera"
+        
+    def search_cam_list_from_user(self, user_id):
+        # select * from camera_camera where user_id=xxx and activateWithAlarm=1;
+           
+        req = "SELECT id, securityStatus, activateWithAlarm " \
+                "FROM {} AS cam " \
+                "WHERE cam.activateWithAlarm=1 and cam.user_id=%s;".format(self.table)
+        value= (user_id,)        
+        self.db.executerReq(req, value)
+        cam_list = self.db.resultatReq() # returns a tuple
+        return cam_list
+
+    def add_camera_cmd( self, cam_id, cmd):
+        # INSERT INTO camera_action_list (action, timestamp, camera_id)VALUES ("test", "0000-00-00 00:00:00.000000", 1)
+
+        now = time.strftime("%Y-%m-%d %H:%M:%S")
+        req= "INSERT INTO {} "\
+            "(action, timestamp, camera_id) "\
+            "VALUES( %s, %s, %s );".format("camera_action_list")
+        value= (cmd, now, cam_id)        
+        return_val=self.db.executerReq(req, value)   
+        return return_val
+    
+    def update_camera_security_flag(self, cam_id, status):
+        req= "UPDATE {} " \
+            "SET securityStatus = %s "\
+            "WHERE id=%s;".format("camera_camera")
+        value= (status, cam_id)        
+        return_val=self.db.executerReq(req, value)   
+        return return_val       
+
 
 class DB_gw:  
             

@@ -49,7 +49,7 @@ class cmdTo_climax():
         cmd_id= self.inc_last_cmd_id()
         self.add_queue ( CLIMAX_CMD_BODY.format(cmd_id), cmd_id )    
         
-    def setUsers(self, index_usr, code, name, latch):
+    def setUser(self, index_usr, code, name ):
         
         CLIMAX_CMD_BODY= """
         <command id="{}" action="setUser" >
@@ -60,7 +60,19 @@ class cmdTo_climax():
         </command >"""
         
         cmd_id= self.inc_last_cmd_id()
-        self.add_queue ( CLIMAX_CMD_BODY.format(cmd_id, index_usr, code, name, latch), cmd_id )
+        self.add_queue ( CLIMAX_CMD_BODY.format(cmd_id, index_usr, code, name, "1"), cmd_id )
+
+
+    def delUser(self, index_usr ):
+
+        CLIMAX_CMD_BODY= """
+        <command id="{}" action="delUser">
+            <index value="{}"/>
+        </command >"""
+    
+        cmd_id= self.inc_last_cmd_id()
+        self.add_queue ( CLIMAX_CMD_BODY.format(cmd_id, index_usr), cmd_id )
+ 
     
     def getSensors(self):
         

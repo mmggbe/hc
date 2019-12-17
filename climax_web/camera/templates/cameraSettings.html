@@ -7,6 +7,7 @@
      <table class="table table-striped" id="table">
     <thead>
       <tr>
+        <th>Satus</th>
         <th>Camera description</th>
         <th></th>
       </tr>
@@ -15,6 +16,15 @@
      <tbody>
         {% for camera in cameras %}
             <tr>
+                        
+                <td>               
+                    {% if camera.status %}
+                        <img class="img-responsive bullet-responsive" src={% static "images/Green1.png" %} alt="Nok">
+                    {% else %}
+                        <img class="img-responsive bullet-responsive" src={% static "images/Red1.png" %} alt="Ok">
+                    {% endif %}
+                </td>
+                
                 <td><a data-toggle="tooltip" title="Edit camera: {{camera.description }}" href={% url 'cameraEdit' pk=camera.pk  %}>{{ camera.description }} </a></td>
                 <td><a class="btn btn-default" href="{% url 'cameraDelete' pk=camera.pk %}"><span class="fa fa-trash"></span></a></td> 
             </tr>

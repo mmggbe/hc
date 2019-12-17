@@ -27,17 +27,20 @@ class gatewaysForm(forms.ModelForm):
         
 class userForm(forms.ModelForm):
     
+    """  
     USER_LATCH = (
         ('0', 'Disabled'),
         ('1', 'Enabled')
     )
-    
-    name= forms.CharField(required=False)
-    latch = forms.ChoiceField(label='Active user',widget=Select, choices = USER_LATCH)
+    """
+    code= forms.CharField(label='4 digit code',required=True,validators=[RegexValidator(regex=r'^\d{4}$', message='Should be 4 digits code XXXX')])
+#    latch = forms.ChoiceField(label='Report code usage',widget=Select, choices = USER_LATCH, message='Set to ON if feature "Arm camera together with alarm" is active')
+#    latch = forms.ChoiceField(label='Report code usage',widget=Select, choices = USER_LATCH )
     
     class Meta:
         model = users
-        fields = ('code', 'name', 'latch')
+#        fields = ('code', 'name', 'latch')
+        fields = ('code', 'name')
  
 class contactForm(forms.ModelForm):
     

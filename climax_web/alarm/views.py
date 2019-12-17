@@ -6,6 +6,7 @@ from random import randrange
 from django.http import JsonResponse
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import ModelForm
 from django.template import RequestContext
 
@@ -72,10 +73,13 @@ def index( request):
         else: # from "try:"
 
             cmd=cmdTo_climax(gw)      # refresh DB content if required
-            if users.objects.filter(gwID=gw.id).count() != 10 :     #should be 10 users, otherwise --> refresh
-                cmd.getUsers()
-                
+#            if users.objects.filter(gwID=gw.id).count() != 10 :     #should be 10 users, otherwise --> refresh
+            cmd.getUsers()
+            
+            cmd=cmdTo_climax(gw)      # refresh DB content if required  
             cmd.getSensors()           
+            
+            
             
             # return the value for GW and adapt it to the buttons
             if gw.mode == "3":
@@ -116,7 +120,7 @@ def users_list( request):
         gw=None
         
     else:
-        usr = users.objects.filter(gwID = gw.id )
+        usr = users.objects.filter(gwID = gw.id )[:6]
 
     finally:
     
@@ -132,12 +136,38 @@ def user_edit( request, pk ):
             
             gw=gateways.objects.get(userWEB=request.user)
             cmd=cmdTo_climax(gw)
-            cmd.setUsers( post.index_usr, post.code, post.name, post.latch )
+            cmd.setUser( post.index_usr, post.code, post.name )
             post.save()
             return redirect('users_list')
     else:
         usr_form = userForm( instance = post )
     return render( request, 'useredit.html', {'form': usr_form})
+
+@login_required(login_url="/")
+def user_delete( request, pk):
+    
+    usr = users.objects.get(pk=pk)
+    gw=gateways.objects.get(userWEB=request.user)
+    cmd=cmdTo_climax(gw)
+    cmd.delUser( usr.index_usr )
+
+    # erase user anme & code in DB
+    usr.code = ""
+    usr.name = ""
+    usr.save()
+    
+    return redirect('users_list')
+
+@staff_member_required
+def gatewaysListAdmin(request):
+    
+    gws_list = gateways.objects.all()
+    for ugw in gws_list :
+        a = ugw  
+   
+    return render(request,'gatewayslistadmin.html', {'gateways':gws_list})
+
+
 
 @login_required(login_url="/")
 def gateways_list( request ):       

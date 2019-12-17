@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
 from django.http import JsonResponse
+from django.contrib.auth.models import User
+
 import time
 import subprocess
 import os
@@ -17,6 +19,7 @@ from history.models import events
 
 from django.contrib.admin.views.decorators import staff_member_required
 
+
 @login_required(login_url="/")
 def cameraList(request):
     username = request.user.get_username()
@@ -25,12 +28,11 @@ def cameraList(request):
     
     return render(request,'cameraList.html', locals())
 
-@staff_member_required
+#@staff_member_required
+@login_required(login_url="/")
 def cameraListAdmin(request):
-    username = request.user.get_username()
-    cameras = camera.objects.all()
-    
 
+    cameras = camera.objects.all()
     
     return render(request,'cameraListAdmin.html', locals())
 
@@ -42,7 +44,7 @@ def cameraAdd( request ):
         if camera_form.is_valid():
             cam = camera_form.save(commit=False)
             cam.user_id = request.user.id
-            cam.securityStatus = '0'            # MaGe : disable motion detection per default to sabe CPU
+            cam.securityStatus = '0'            # MaGe : disable motion detection per default to save CPU
             cam.save()
             
             #Send the config to the camera
@@ -53,21 +55,12 @@ def cameraAdd( request ):
             actionCmd = 'GET /adm/set_group.cgi?group=FTP2&address=horus.ovh&username=rc8020&password=1987cameraLDC HTTP/1.1\r\n'
             n=action_list.objects.create(action=actionCmd, camera_id=camID)
             n.save()
-            """
-# MaGe    arm the camera to be aligned with securityStatus
-            cmd1='GET /adm/set_group.cgi?group=SYSTEM&pir_mode=1 HTTP/1.1\r\n'
-            cmd2='GET /adm/set_group.cgi?group=EVENT&event_trigger=1&event_interval=0&event_pir=ftpu:1&event_attach=avi,1,10,20 HTTP/1.1\r\n'
-            n=action_list.objects.create(action=cmd1, camera_id=camID)
-            n.save()
-            n=action_list.objects.create(action=cmd2, camera_id=camID)
-            n.save()
-            """
 
-        return redirect('cameraSettings')
+            return redirect('cameraSettings')
 
     else:
         camera_form = cameraEditForm(request.user)
-
+ 
     return render( request, 'cameraEdit.html', {'form': camera_form})
 
 

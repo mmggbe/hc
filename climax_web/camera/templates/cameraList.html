@@ -30,8 +30,7 @@
             
             complete : function(data){
                 //console.log("Ajax: no data from backend");
-
-       }
+            }
         });
         
 
@@ -50,7 +49,7 @@
                 if (data.attribute == "ok"){
                     alert ("The video will be placed in history within few seconds");}
                 else if (data.attribute == "camera is off"){
-                    alert ("Your camera is off");}
+                    alert ("Your camera is not connected");}
                 else {
                alert("A problem occured");}
             },
@@ -77,27 +76,16 @@
       <table class="table table-striped" id="table">
         <thead>
           <tr>
-            <th></th>
             <th>Name</th>
-            <th></th>
-            <th>Record</th>
+            <th>SnapShot</th>
+            <th>Recording active</th>
           </tr>
         </thead>
         
          <tbody>
             {% for camera in cameras %}
             
-            <tr>
-            
-                <td>
-                   
-                    {% if camera.status %}
-                        <img class="img-responsive bullet-responsive" src={% static "images/Green1.png" %} alt="Nok">
-                    {% else %}
-                        <img class="img-responsive bullet-responsive" src={% static "images/Red1.png" %} alt="Ok">
-                    {% endif %}
-                </td>
-            
+            <tr>       
                 <td>{{ camera.description }} </td>
                 <td><button class="btn btn-SnapShot btn-responsive1" type="button" id="{{camera.pk}}"><em class="fa fa-film"></em></td>
     

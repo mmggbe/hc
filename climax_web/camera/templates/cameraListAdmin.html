@@ -48,9 +48,9 @@
   <table class="table table-striped" id="table">
     <thead>
       <tr>
-        <th>Camera description</th>
-        <th></th>
-        <th>Arming</th>
+        <th>Owner</th>
+        <th>Description</th>
+        <th>Record</th>
         <th>Status</th>
 
       </tr>
@@ -60,18 +60,17 @@
         {% for camera in cameras %}
         
         <tr>
-        
+            <td><a> {{ camera.user }} </a></td>
             <td><a href={% url 'cameraTest' pk=camera.pk  %}>{{ camera.description }} </a></td>
-            <td><a class="btn" href="{% url 'cameraRT' pk=camera.pk %}"><span class="fa fa-film"></span></a></td>
 
             <td>    
                 <div class="btn-group btn-toggle">                        
                     {% if camera.securityStatus == "1" %}   
-                        <button class="btn btn-responsive" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
-                        <button class="btn btn-primary btn-responsive " type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Armed</button> 
+                        <button class="btn btn-responsive" type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> No</button> 
+                        <button class="btn btn-primary btn-responsive " type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Yes</button> 
                     {% else %}
-                        <button class="btn btn-primary btn-responsive  " type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> Unarm</button> 
-                        <button class="btn btn-responsive" type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Armed</button> 
+                        <button class="btn btn-primary btn-responsive  " type="button" id="{{camera.pk}}_0"><em class="fa fa-unlock"></em> No</button> 
+                        <button class="btn btn-responsive" type="button" id="{{camera.pk}}_1"><em class="fa fa-lock"></em> Yes</button> 
                     {% endif %}
                 </div>
             </td>

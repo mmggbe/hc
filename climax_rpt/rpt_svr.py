@@ -20,11 +20,9 @@ from socket import error as SocketError
 import errno
 
 
-from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
+from GW_DB.Dj_Server_DB import DB_mngt, DB_gw, DB_camera
 
 from HCsettings import HcDB, Rpt_svr, EventCode, ArmingRequest, HcLog
-
-
 
 
 # examle of contact Id received : [0730#74 181751000032CA2]
@@ -48,7 +46,7 @@ def translate(contactID, snsr_list, usr_list):
 
     try:
         
-        if evt == "401" or evt == "407" :
+        if evt == "401" or evt == "407" :     # GW has been armed/disarmed via Keyfob or Keypad
             
             user_name="WEB"                   # if user is not found then user is type 14, meaning WEB but redundant with message type "401"
             for u in usr_list:                  # search for sensor name based on sensor ID
@@ -249,7 +247,9 @@ def Main():
     
                                 else :
                                     gw=DB_gw(db_cur)
-                                    gw_id = gw.search_gw_from_acct( rptipid, acct2 ) # returns gateways_id
+                                    
+                                    # returns the_id of the gateway                              
+                                    gw_id = gw.search_gw_from_acct( rptipid, acct2 ) 
     
                                     if gw_id == []:    
                                         hclog.info( " No Gw found with acct2= {}".format(acct2))
@@ -263,17 +263,53 @@ def Main():
                                         event = translate(data, snsr_list, usr_list) # returns event code, formated alarm message, event action (send SMS, email , call) 
                                         
                                         if event[0] != '000':
+                                            
+                                            #get info about user
+                                            #user_id, propertyaddr, SN_SMS, SN_Voice, prof.email, language "
+                                            
                                             usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] ) # get usr_profile from gateway = username, propertyaddr, SN_SMS, SN_Voice, prof.email, language
                                         
-                                            req="INSERT INTO {} (timestamp, userWEB_id, type, gwID_id, sensorID_id, event_code, event_description) VALUES ( %s, %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
+                                            req="INSERT INTO {}"\
+                                                "(timestamp, userWEB_id, type, gwID_id, sensorID_id, event_code, event_description)"\
+                                                " VALUES ( %s, %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
                                             value= (now, usr_profile[0][0], "GW", gw_id[0][0], event[3], event[0], event[1])
                                             db_cur.executerReq(req, value)
                                             db_cur.commit()
                                             
-                                             
                                             send_notification(usr_profile[0], event)
+                                            
 
-                                    
+                                            if event[0] == "400" or event[0] == "407" :            # check if Horus has been armed via keyfob / keypad, then arm camera if relevant
+                                                
+                                                if event[1][:5] == "Armed":                     # dirty implementation ;-) , should pass the alarm status instead
+                                                    securityStatus = 1
+                                                elif event[1][:8] == "Disarmed":                     # dirty implementation ;-) , should pass the alarm status instead
+                                                    securityStatus = 0
+                                                else:
+                                                    securityStatus = 9
+                                                 
+                                                if securityStatus == 0 or securityStatus == 1:
+                                                    
+                                                    cam_cursor=DB_camera(db_cur)                                        
+                                                    cam_list = cam_cursor.search_cam_list_from_user(usr_profile[0][0])
+                                                    # returns : id, securityStatus (char), activateWithAlarm (Bolean)
+                                                    for cam in cam_list:
+                                                        
+                                                        if cam[2]== 1:
+                                                
+                                                            #send "Arm/Disarm command to the camera"
+                                                            #add_camera_cmd( self, cam_id, cmd):
+                                                            cam_cursor.add_camera_cmd(cam[0], 'GET /adm/set_group.cgi?group=SYSTEM&pir_mode={} HTTP/1.1\r\n'.format(securityStatus) )
+                                                            cam_cursor.add_camera_cmd(cam[0], 'GET /adm/set_group.cgi?group=EVENT&event_trigger=1&event_interval=0&event_pir=ftpu:1&event_attach=avi,1,10,20 HTTP/1.1\r\n')
+
+                                                            #change the camera security status 
+                                                            #update_camera_status(self, cam_id, status)
+                                                            cam_cursor.update_camera_security_flag(cam[0], securityStatus)
+
+                                                            db_cur.commit()
+                                                            hclog.info("Camera {} Armed/disarmed ( {} ) on Gw {} request".format(cam[0], securityStatus, gw_id[0][0] ) )
+                       
+                                                                                     
                                     db_cur.close()                               
 
 

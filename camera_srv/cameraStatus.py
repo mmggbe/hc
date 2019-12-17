@@ -15,19 +15,14 @@ from GW_DB.Dj_Server_DB import DB_mngt
 
 def main(argv):
 
-#    db = mysql.connector.connect(host="localhost", user="hc", password="HCMGGDB9", database="hcdb_branch_cam")
     db_cursor= DB_mngt(HcDB.config()) 
     if db_cursor.echec:
         sys.exit(1)
         
-#    cursor = db.cursor()
-#    cursor.execute("""UPDATE camera_camera SET status = 0  where lastSeenTimestamp < now() - interval 1 minute and status = 1""")
     db_cursor.executerReq("""UPDATE camera_camera SET status = 0  where lastSeenTimestamp < now() - interval 1 minute and status = 1""")
     db_cursor.executerReq("""UPDATE alarm_gateways SET status = 0  where lastSeenTimestamp < now() - interval 1 minute and status = 1""")
 
-#    db.commit()
     db_cursor.commit()
- #   db.close
     db_cursor.close()
 
 

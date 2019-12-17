@@ -6,6 +6,7 @@ urlpatterns= [
         url(r'^userslist$', views.users_list, name='users_list'),
         
         url(r'^userslist/(?P<pk>\d+)/edit/$', views.user_edit, name='user_edit'),
+        url(r'^usersdelete/(?P<pk>\d+)/edit/$', views.user_delete, name='user_delete'),
         
         url(r'^sensorslist$', views.sensors_list, name='sensors_list'),
 
@@ -14,6 +15,7 @@ urlpatterns= [
 
         url(r'^gateway/new$', views.gateway_new, name='gateway_new'),
         url(r'^gateway/list$', views.gateways_list, name='gateways_list'), 
+        url(r'^gateway/list/admin$', views.gatewaysListAdmin, name='gatewaysListAdmin'),
         url(r'^gateway/delete/(?P<pk>\d+)$', views.gateways_delete, name='gateway_delete'),
       
         url(r'^gateway/status$', views.gateway_status, name='gateway_status'),                                                                                   

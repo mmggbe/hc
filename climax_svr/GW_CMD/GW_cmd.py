@@ -96,79 +96,7 @@ class cmdTo_climax():
         
         return response
     
-    def getUsers_old(self, cmd_id):
-        
-        CLIMAX_CMD_BODY= """
-        <command id= "{}" action="getUsers"/>""" 
-        self.queue.add ( self.GW_ID, CLIMAX_CMD_BODY.format(cmd_id), cmd_id )
-    
-    def getSensors_old(self, cmd_id):
-        
-        CLIMAX_CMD_BODY= """
-        <command id= "{}" action="getSensors"/>""" 
-        self.queue.add ( self.GW_ID, CLIMAX_CMD_BODY.format(cmd_id), cmd_id )
- 
-    
-    def setMode_old(self, cmd_id, mode):
-        
-        CLIMAX_CMD_BODY= """
-        <command id= "{0}" action="setMode">
-            <mode value = "{1}"/>
-        </command>"""
-  
-        self.queue.add ( self.GW_ID, CLIMAX_CMD_BODY.format(cmd_id,mode), cmd_id )   
-    
-    
-    def configAll_old(self, rptipid):
-        
-        CLIMAX_CMD_BODY= """
-        <command id="101" action="getUsers" />
-        <command id="102" action="getSpecParams" />
-        <command id="104" action="setPolling">
-            <url1 value="polln://192.168.157.4:8080" />
-            <url2 value="pollg://192.168.157.4:8080" />
-            <interval value="20" />
-            <errnotify value="20" />
-        </command>
-        <command id="105" action="setRpt">
-            <url1 value="rptn://0701@192.168.157.4:27017" />
-            <url2 value="rptg://0701@192.168.157.4:27017" />
-            <acct2 value="330260" />
-        </command>
-        <command id="106" action="setPanel">
-            <doorchime value="0" />
-            <offtimer value="1" />
-        </command>
-        <command id="107" action="setUpload">
-            <url1 value="ftp://:@192.168.157.4" />
-            <prefix value="001D94030F16" />
-        </command>"""
-
-        response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid )
-        self.hclog.debug("XML command to be send = {0}".format(response) )
-        
-        return response
      
-    def setPolling_old(self, rptipid):
-        CLIMAX_CMD_BODY= """
-<polling>
-    <mac value="{}" />
-    <rptipid value="" />
-    <commands>
-        <command id="104" action="setPolling">
-            <url1 value="polln://v03.hub.belgacomhome.be/service.aspx" />
-            <url2 value="pollg://v03.hub.belgacomhome.be/service.aspx" />
-            <interval value="20" />
-            <errnotify value="20" />
-        </command>
-    </commands>
-</polling>"""
-
-        response = CLIMAX_CMD_HDR+CLIMAX_CMD_BODY.format( self.MAC, rptipid )
-        self.hclog.debug("XML command to be send = {0}".format(response) )
-        
-        return response   
-    
     
     def server_cmd( self ):
         # check if there is a command to be sent

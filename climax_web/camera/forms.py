@@ -7,7 +7,7 @@ from .models import camera
 
 class cameraEditForm(forms.ModelForm):
     
-    CameraMac = forms.CharField(label='MAC address',validators=[RegexValidator(regex=r'^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$', message='MAC addrss should be XX:XX:XX:XX:XX:XX')])
+    CameraMac = forms.CharField(label='MAC address',validators=[RegexValidator(regex=r'^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$', message='MAC address should be XX:XX:XX:XX:XX:XX')])
     description = forms.CharField()
 
     def clean_CameraMac(self):
@@ -31,14 +31,14 @@ class cameraEditForm(forms.ModelForm):
         (False, 'No'),
         (True, 'Yes')
     )
-    activateWithAlarm = forms.ChoiceField(label='Arm camera toghether with alarm',widget=forms.Select, choices = YES_NO, initial=True)
+    activateWithAlarm = forms.ChoiceField(label='Arm camera together with alarm',widget=forms.Select, choices = YES_NO, initial=True)
 
   
   
 
     class Meta:
         model = camera
-        fields = ('CameraMac','description','notificationEnabled', 'activateWithAlarm')    
+        fields = ('CameraMac','description','notificationEnabled', 'activateWithAlarm',)    
         
         
     def __init__(self, user, *args, **kwargs):
