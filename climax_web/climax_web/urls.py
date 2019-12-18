@@ -25,7 +25,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', al_views.index, name='home'),
-    url(r'^admin/', include(admin.site.urls)),
+#    url(r'^admin/', include(admin.site.urls)),
+    url(r'^niadm/', include(admin.site.urls)),
     url(r'', include('accounts.urls')), 
     url(r'^camera/', include ('camera.urls')),
     url(r'^history/', include ('history.urls')),

@@ -28,7 +28,7 @@ def cameraList(request):
     
     return render(request,'cameraList.html', locals())
 
-#@staff_member_required
+@staff_member_required
 @login_required(login_url="/")
 def cameraListAdmin(request):
 
