@@ -273,98 +273,106 @@ def make_request_handler_class(opts):
             hclog.info("POST decrypted: MAC = {}".format(MAC) )    # remove trailling zeros
             hclog.debug("{}\n".format(command_xml.replace('\x00',"")) )    # remove trailling zeros
      
+            try:
 # check if MAC is defined in DB_GW
-            climax_xml= etree.fromstring(command_xml.encode('iso-8859-1'))
+                climax_xml= etree.fromstring(command_xml.encode('iso-8859-1').replace(b'&', b''))  # remove "&" Ampersand
+     
+                elt=climax_xml.find("mac")
+                MAC_xml = elt.get ("value", "0")
+                
+                if MAC_xml != "" :
+                
 
-            elt=climax_xml.find("mac")
-            MAC_xml = elt.get ("value", "0")
-            
-            if MAC_xml != "" :
-            
-                db_cur= DB_mngt(HcDB.config()) 
-            
-                if db_cur.echec:
-                    sys.exit()
-            
-                gw=DB_gw(db_cur)
-                gw_params = gw.search_gw(MAC_xml)
-             
-            
-                if (gw_params):
-                    hclog.debug( "MAC {} found in Climax_DB".format(MAC_xml) )
-                    mac_gwParams = gw_params[0]
-                    acct2_gwParams = gw_params[1]
-                    gw_ID_gwParams = gw_params[2]
-                    user_ID_gwParams = gw_params[3]
-                    rptip_ID_gwParams = gw_params[4]
-                    
-                    elt=climax_xml.find("rptipid")
-                    rptipid_xml= elt.get ("value", "0")
-                    
-                    if rptipid_xml == "" or rptip_ID_gwParams == "":
-                        hclog.info("Register GW MAC : {}".format(MAC_xml))
-   
-                        # get acct2 number in config file					
-                        config = configparser.ConfigParser()
-                        config.read("config.ini")
-                        last_acct2_created=config.get('other', 'last_acct2_created')
-                        acct2= int(last_acct2_created)+1
-                        last_acct2_created=str(acct2)	
-                        # update incremented acct2 number in config for next time...
-                        config.set('other','last_acct2_created',last_acct2_created)
-                     
-                        # get rptipid (Internet reporting ID) to provision the gw
-                        rptipid_xml=config.get('other', 'rptipid')
-                        
-                        # save the updated values                      							
-                        cfgfile = open("config.ini",'w')
-                        
-                        config.write(cfgfile)
-                        cfgfile.close()
-
-                        cmd=cmdTo_climax(db_cur, MAC_xml, user_ID_gwParams, gw_ID_gwParams,rptipid_xml)
-                        
-                        server_resp=cmd.autoRegister(rptipid_xml,last_acct2_created)
-                        gw.upd_account_gw(MAC_xml, rptipid_xml,last_acct2_created)
-
-
-                        hclog.info("POST: Register sent to GW= {0}".format(server_resp) )
-                    
-                        
-                    else:       # GW is registered, analyse GW answer                        
-                        answer_gw = answerFrom_climax(db_cur, MAC_xml, user_ID_gwParams, gw_ID_gwParams) 
-                        cmdTo_gw = cmdTo_climax(db_cur, MAC_xml, user_ID_gwParams, gw_ID_gwParams,rptip_ID_gwParams)                                              
-
-                        elt=climax_xml.find("commands")                       
-                        if elt != None:                     # received cmd to process
-                            answer_gw.parsing(elt)
-                                                            # get from the queue the commands to be sent 
-                        server_resp = cmdTo_gw.server_cmd()
-                        if server_resp == None:
-                            server_resp=cmdTo_gw.polling(rptip_ID_gwParams)
-                                          
-                        hclog.debug("POST: Polling sent to GW= {0}\n".format(server_resp) )
-
-
-                       
-                    AES= AESCipher(MAC[0]) 
-                    server_xml_resp = server_resp.encode('iso-8859-1') 
-                    command = AES.encrypt(server_xml_resp)  
-                    
-                    self.send_response(200)  # OK # bud display IP address of the GW , Why???  
-                                            # according to doc : text/xml , but according to trace text/html              
-                    self.send_header('Content-type', 'text/xml; charset=utf-8')
-                    self.send_header('Content-Length', "{0}".format(len(command)) )
-                    self.send_header('Set-Cookies', 'path=/')
-                    self.end_headers()
-                    self.wfile.write(command)
-
+                    db_cur= DB_mngt(HcDB.config()) 
+                
+                    if db_cur.echec:
+                        hclog.info("Unable to open DB" )
+                        sys.exit()
+                
+                    gw=DB_gw(db_cur)
+                    gw_params = gw.search_gw(MAC_xml)
                  
-                else:
-                    hclog.info("Polling : MAC not found in DB {}".format(MAC_xml) )
                 
+                    if (gw_params):
+                        hclog.debug( "MAC {} found in Climax_DB".format(MAC_xml) )
+                        mac_gwParams = gw_params[0]
+                        acct2_gwParams = gw_params[1]
+                        gw_ID_gwParams = gw_params[2]
+                        user_ID_gwParams = gw_params[3]
+                        rptip_ID_gwParams = gw_params[4]
+                        
+                        elt=climax_xml.find("rptipid")
+                        rptipid_xml= elt.get ("value", "0")
+                        
+                        if rptipid_xml == "" or rptip_ID_gwParams == "":
+                            hclog.info("Register GW MAC : {}".format(MAC_xml))
+       
+                            # get acct2 number in config file					
+                            config = configparser.ConfigParser()
+                            config.read("config.ini")
+                            last_acct2_created=config.get('other', 'last_acct2_created')
+                            acct2= int(last_acct2_created)+1
+                            last_acct2_created=str(acct2)	
+                            # update incremented acct2 number in config for next time...
+                            config.set('other','last_acct2_created',last_acct2_created)
+                         
+                            # get rptipid (Internet reporting ID) to provision the gw
+                            rptipid_xml=config.get('other', 'rptipid')
+                            
+                            # save the updated values                      							
+                            cfgfile = open("config.ini",'w')
+                            
+                            config.write(cfgfile)
+                            cfgfile.close()
+    
+                            cmd=cmdTo_climax(db_cur, MAC_xml, user_ID_gwParams, gw_ID_gwParams,rptipid_xml)
+                            
+                            server_resp=cmd.autoRegister(rptipid_xml,last_acct2_created)
+                            gw.upd_account_gw(MAC_xml, rptipid_xml,last_acct2_created)
+    
+    
+                            hclog.info("POST: Register sent to GW= {0}".format(server_resp) )
+                        
+                            
+                        else:       # GW is registered, analyse GW answer                        
+                            answer_gw = answerFrom_climax(db_cur, MAC_xml, user_ID_gwParams, gw_ID_gwParams) 
+                            cmdTo_gw = cmdTo_climax(db_cur, MAC_xml, user_ID_gwParams, gw_ID_gwParams,rptip_ID_gwParams)                                              
+    
+                            elt=climax_xml.find("commands")                       
+                            if elt != None:                     # received cmd to process
+                                answer_gw.parsing(elt)
+                                                                # get from the queue the commands to be sent 
+                            server_resp = cmdTo_gw.server_cmd()
+                            if server_resp == None:
+                                server_resp=cmdTo_gw.polling(rptip_ID_gwParams)
+                                              
+                            hclog.debug("POST: Polling sent to GW= {0}\n".format(server_resp) )
+    
+    
+                           
+                        AES= AESCipher(MAC[0]) 
+                        server_xml_resp = server_resp.encode('iso-8859-1') 
+                        command = AES.encrypt(server_xml_resp)  
+                        
+                        self.send_response(200)  # OK # bud display IP address of the GW , Why???  
+                                                # according to doc : text/xml , but according to trace text/html              
+                        self.send_header('Content-type', 'text/xml; charset=utf-8')
+                        self.send_header('Content-Length', "{0}".format(len(command)) )
+                        self.send_header('Set-Cookies', 'path=/')
+                        self.end_headers()
+                        self.wfile.write(command)
+    
+    
+                     
+                    else:
+                        hclog.info("Polling : MAC not found in DB {}".format(MAC_xml) )
+    
+                    db_cur.close()
+            
+            except:
+                hclog.info("ERROR : unexpected error in parsing GW answer")   
                 
-                db_cur.close()
+
             
             hclog.debug("POST: exit POST function\n\n\n" )
    
