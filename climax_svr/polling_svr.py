@@ -1,131 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-Simple web server that demonstrates how browser/server interactions
-work for GET and POST requests. Use it as a starting point to create a
-custom web server for handling specific requests but don't try to use
-it for any production work.
-
-You start by creating a simple index.html file in web directory
-somewhere like you home directory: ~/www.
-
-You then add an HTML file: ~/www/index.html. It can be very
-simple. Something like this will do nicely:
-
-   <!DOCTYPE html>
-   <html>
-     <head>
-       <meta charset="utf-8">
-       <title>WebServer Test</title>
-     </head>
-     <body>
-       <p>Hello, world!</p>
-     </body>
-   </html>
-
-At this point you have a basic web infrastructure with a single file
-so you start the server and point to the ~/www root directory:
-
-   $ webserver.py -r ~/www
-
-This will start the web server listening on your localhost on port
-8080. You can change both the host name and the port using the --host
-and --port options. See the on-line help for more information (-h,
---help).
-
-If you do not specify a root directory, it will use the directory that
-you started the server from.
-
-Now go to your browser and enter http://0.0.0.0:8080 on the command
-line and you will see your page.
-
-Try entering http://0.0.0.0:8080/info to see some server information.
-
-You can also use http://127.0.0.1.
-
-By default the server allows you to see directory listings if there is
-no index.html or index.htm file. You can disable this by specifying
-the --no-dirlist option.
-
-If you want to see a directory listing of a directory that contains a
-index.html or index.htm directory, type three trailing backslashes in
-the URL like this: http://foo/bar/spam///. This will not work if the
---no-dirlist option is specified.
-
-The default logging level is "info". You can change it using the
-"--level" option.
-
-The example below shows how to use a number of the switches to run a
-server for host foobar on port 8080 with no directory listing
-capability and very little output serving files from ~/www:
-
-  $ hostname
-  foobar
-  $ webserver --host foobar --port 8080 --level warning --no-dirlist --rootdir ~/www
-
-To daemonize a process, specify the -d or --daemonize option with a
-process directory. That directory will contain the log (stdout), err
-(stderr) and pid (process id) files for the daemon process. Here is an
-example:
-
-  $ hostname
-  foobar
-  $ webserver --host foobar --port 8080 --level warning --no-dirlist --rootdir ~/www --daemonize ~/www/logs
-  $ ls ~/www/logs
-  webserver-foobar-8080.err webserver-foobar-8080.log webserver-foobar-8080.pid
-  
-  To install configparser:   
-      pip3 install Parser
-
-
+Simple web server fro Climax GW
 '''
 
-
+VERSION = '2.0'
 
 from pyasn1.compat.octets import null
 import urllib
 
 
-# LICENSE
-#   Copyright (c) 2015 Joe Linoff
-#   
-#   Permission is hereby granted, free of charge, to any person obtaining a copy
-#   of this software and associated documentation files (the "Software"), to deal
-#   in the Software without restriction, including without limitation the rights
-#   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#   copies of the Software, and to permit persons to whom the Software is
-#   furnished to do so, subject to the following conditions:
-#   
-#   The above copyright notice and this permission notice shall be included in
-#   all copies or substantial portions of the Software.
-#   
-#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#   THE SOFTWARE.
-
-# VERSIONS
-#   1.0  initial release
-#   1.1  replace req with self in request handler, add favicon
-#   1.2  added directory listings, added --no-dirlist, fixed plain text displays, logging level control, daemonize
-VERSION = '1.3'
+import http.server
+import socket
+import socketserver
+from socketserver import ThreadingMixIn
 
 import argparse
-import http.server
-import socketserver
+import configparser
 from urllib.parse import urlparse
+from lxml import etree
+
 import cgi
 import logging
 from logging.handlers import TimedRotatingFileHandler
+
 import os
 import sys
-
-import configparser
-
-from lxml import etree
 
 from GW_DB.Dj_Server_DB import DB_mngt, DB_gw
 from GW_Crypto.cryptoAES import AESCipher
@@ -155,10 +55,11 @@ def make_request_handler_class(opts):
             '''
             Handle a HEAD request.
             '''
-            hclog.info('HEADER %s' % (self.path), self.client_address[0])
+            hclog.info("HEADER {} {}".format(self.path, self.client_address[0]))
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
+
 
         def info(self):
             '''
@@ -381,13 +282,45 @@ def make_request_handler_class(opts):
    
     return MyRequestHandler
 
-
 def err(msg):
     '''
     Report an error message and exit.
     '''
     hclog.debug('ERROR: %s' % (msg))
     sys.exit(1)
+    
+
+class HTTPServer(socketserver.TCPServer):
+
+    allow_reuse_address = 1    # Seems to make sense in testing environment
+
+    def server_bind(self):
+        """Override server_bind to store the server name."""
+        socketserver.TCPServer.server_bind(self)
+        host, port = self.server_address[:2]
+        self.server_name = socket.getfqdn(host)
+        self.server_port = port
+
+class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
+    """ This class allows to handle requests in separated threads.
+        No further content needed, don't touch this. """
+
+def httpd(opts):
+    '''
+    HTTP server
+    '''
+    RequestHandlerClass = make_request_handler_class(opts)
+#    server = http.server.HTTPServer((opts.host, opts.port), RequestHandlerClass)
+    server= ThreadedHTTPServer((opts.host, opts.port), RequestHandlerClass)  
+    print('Server starting %s:%s (level=%s)' % (opts.host, opts.port, opts.level))
+    hclog.info('Server starting %s:%s (level=%s)' % (opts.host, opts.port, opts.level))
+    
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    server.server_close()
+    hclog.info('Server stopping %s:%s' % (opts.host, opts.port))
 
 
 def getopts():
@@ -432,24 +365,6 @@ def getopts():
     if opts.port < 1 or opts.port > 65535:
         err('Port is out of range [1..65535]: %d' % (opts.port))
     return opts
-
-
-def httpd(opts):
-    '''
-    HTTP server
-    '''
-    RequestHandlerClass = make_request_handler_class(opts)
-    server = http.server.HTTPServer((opts.host, opts.port), RequestHandlerClass)
-    
-    print('Server starting %s:%s (level=%s)' % (opts.host, opts.port, opts.level))
-    hclog.info('Server starting %s:%s (level=%s)' % (opts.host, opts.port, opts.level))
-    
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    server.server_close()
-    hclog.info('Server stopping %s:%s' % (opts.host, opts.port))
 
 
 
