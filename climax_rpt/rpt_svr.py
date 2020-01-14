@@ -137,113 +137,124 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     def handle(self):
 
         Contact_ID_filter = re.compile(r'^\[[0-9A-Fa-f]{4}#[0-9A-Fa-f\s]{4}18[0-9A-Fa-f\s]{13}\]$') # contact ID
-                      
-        self.data = self.request.recv(32)
-                      
-        now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-        hclog.info("Contact ID: UTC {} {} [client {}:{}] {}".format(now, self.data, self.client_address[0], self.client_address[1], threading.current_thread()) )
-
-        try:
-            data = self.data.decode()                                
-                                   
-            if Contact_ID_filter.match(data):
-                self.request.sendall( b'\x06' )       # respond only if Contact ID is correct
-                 
-                hclog.debug("Contact ID format OK, acknowledge sent")
-                  
-                rptipid = data[1:5]
-                tmp = data[6:].split(' ')
-                acct2 = tmp[0]
-                 
-                db_cur= DB_mngt( HcDB.config() ) 
-
-                if db_cur.echec:
-                    hclog.info("Cannot open DB")
-
-                else :
-                    gw=DB_gw(db_cur)
-                     
-                    # returns the_id of the gateway                              
-                    gw_id = gw.search_gw_from_acct( rptipid, acct2 ) 
-
-                    if gw_id == []:    
-                        hclog.info( " No Gw found with acct2= {}".format(acct2))
-                    else:
-                        hclog.debug( " on Gw_id {}".format(gw_id[0][0]))
-
-                        snsr_list = gw.search_sensors_name_from_gwID( gw_id[0][0] ) # get sensors from gateways
-                        usr_list = gw.search_users_name_from_gwID( gw_id[0][0] ) # get users from gateways)
-                         
-                        event=[] # data          [0730#74 181751000032CA2] 
-                        event = translate(data, snsr_list, usr_list) # returns event code, formated alarm message, event action (send SMS, email , call) 
-                         
-                        if event[0] != '000':
-                             
-                            #get info about user
-                            #user_id, propertyaddr, SN_SMS, SN_Voice, prof.email, language "
-                             
-                            usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] ) # get usr_profile from gateway = username, propertyaddr, SN_SMS, SN_Voice, prof.email, language
-                         
-                            req="INSERT INTO {}"\
-                                 "(timestamp, userWEB_id, type, gwID_id, sensorID_id, event_code, event_description)"\
-                                 " VALUES ( %s, %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
-                            value= (now, usr_profile[0][0], "GW", gw_id[0][0], event[3], event[0], event[1])
-                            db_cur.executerReq(req, value)
-                            db_cur.commit()
-                             
-                            send_notification(usr_profile[0], event)
-                             
-
-                            if event[0] == "400" or event[0] == "407" :            # check if Horus has been armed via keyfob / keypad, then arm camera if relevant
-                                 
-                                if event[1][:5] == "Armed":                     # dirty implementation ;-) , should pass the alarm status instead
-                                    securityStatus = 1
-                                elif event[1][:8] == "Disarmed":                     # dirty implementation ;-) , should pass the alarm status instead
-                                    securityStatus = 0
-                                else:
-                                    securityStatus = 9
-                                  
-                                if securityStatus == 0 or securityStatus == 1:
-                                     
-                                    cam_cursor=DB_camera(db_cur)                                        
-                                    cam_list = cam_cursor.search_cam_list_from_user(usr_profile[0][0])
-                                    # returns : id, securityStatus (char), activateWithAlarm (Bolean)
-                                    for cam in cam_list:
-                                         
-                                        if cam[2]== 1:
-                                 
-                                            #send "Arm/Disarm command to the camera"
-                                            #add_camera_cmd( self, cam_id, cmd):
-                                            cam_cursor.add_camera_cmd(cam[0], 'GET /adm/set_group.cgi?group=SYSTEM&pir_mode={} HTTP/1.1\r\n'.format(securityStatus) )
-                                            cam_cursor.add_camera_cmd(cam[0], 'GET /adm/set_group.cgi?group=EVENT&event_trigger=1&event_interval=0&event_pir=ftpu:1&event_attach=avi,1,10,20 HTTP/1.1\r\n')
-
-                                            #change the camera security status 
-                                            #update_camera_status(self, cam_id, status)
-                                            cam_cursor.update_camera_security_flag(cam[0], securityStatus)
-
-                                            db_cur.commit()
-                                            hclog.info("Camera {} Armed/disarmed ( {} ) on Gw {} request".format(cam[0], securityStatus, gw_id[0][0] ) )
         
-                    # "if..." close the opened DB                                            
-                    db_cur.close()                               
-
-
-            # data not matching the Contact ID format              
-            else:
-                hclog.info("ERROR: Bad Contact ID: UTC {} {} [client {}]".format(now, self.data, self.client_address[0]) )
-
-        except:
-
-            if 'db_cur' in locals():
-                db_cur.close()  
-
-            hclog.info("ERROR: bad Contact ID translation or user error in DB or issue sending notification: UTC {} {} [client {}]".format(now, self.data, self.client_address[0]))
-
+        self.request.settimeout(10) 
+        self.IPaddr= self.client_address[0]           
+        try:
+            self.data = self.request.recv(32)
+        
+        except socket.timeout: # fail after x seconds of no activity, connection automatically closed
+            now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")          
+            hclog.info("ERROR: session opened without content UTC {} [client {}] {}".format(now, self.IPaddr, threading.current_thread()) )
+    
+        else:             
+            now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+            hclog.info("Contact ID: UTC {} {} [client {}:{}] {}".format(now, self.data, self.client_address[0], self.client_address[1], threading.current_thread()) )
+    
+            try:
+                data = self.data.decode()                                
+                                       
+                if Contact_ID_filter.match(data):
+                    self.request.sendall( b'\x06' )       # respond only if Contact ID is correct
+                     
+                    hclog.debug("Contact ID format OK, acknowledge sent")
+                      
+                    rptipid = data[1:5]
+                    tmp = data[6:].split(' ')
+                    acct2 = tmp[0]
+                     
+                    db_cur= DB_mngt( HcDB.config() ) 
+    
+                    if db_cur.echec:
+                        hclog.info("Cannot open DB")
+    
+                    else :
+                        gw=DB_gw(db_cur)
+                         
+                        # returns the_id of the gateway                              
+                        gw_id = gw.search_gw_from_acct( rptipid, acct2 ) 
+    
+                        if gw_id == []:    
+                            hclog.info( " No Gw found with acct2= {}".format(acct2))
+                        else:
+                            hclog.debug( " on Gw_id {}".format(gw_id[0][0]))
+    
+                            snsr_list = gw.search_sensors_name_from_gwID( gw_id[0][0] ) # get sensors from gateways
+                            usr_list = gw.search_users_name_from_gwID( gw_id[0][0] ) # get users from gateways)
+                             
+                            event=[] # data          [0730#74 181751000032CA2] 
+                            event = translate(data, snsr_list, usr_list) # returns event code, formated alarm message, event action (send SMS, email , call) 
+                             
+                            if event[0] != '000':
+                                 
+                                #get info about user
+                                #user_id, propertyaddr, SN_SMS, SN_Voice, prof.email, language "
+                                 
+                                usr_profile = gw.search_usrprofile_from_gwID( gw_id[0][0] ) # get usr_profile from gateway = username, propertyaddr, SN_SMS, SN_Voice, prof.email, language
+                             
+                                req="INSERT INTO {}"\
+                                     "(timestamp, userWEB_id, type, gwID_id, sensorID_id, event_code, event_description)"\
+                                     " VALUES ( %s, %s, %s, %s, %s, %s, %s )".format("history_events")                                                                         
+                                value= (now, usr_profile[0][0], "GW", gw_id[0][0], event[3], event[0], event[1])
+                                db_cur.executerReq(req, value)
+                                db_cur.commit()
+                                 
+                                send_notification(usr_profile[0], event)
+                                 
+    
+                                if event[0] == "400" or event[0] == "407" :            # check if Horus has been armed via keyfob / keypad, then arm camera if relevant
+                                     
+                                    if event[1][:5] == "Armed":                     # dirty implementation ;-) , should pass the alarm status instead
+                                        securityStatus = 1
+                                    elif event[1][:8] == "Disarmed":                     # dirty implementation ;-) , should pass the alarm status instead
+                                        securityStatus = 0
+                                    else:
+                                        securityStatus = 9
+                                      
+                                    if securityStatus == 0 or securityStatus == 1:
+                                         
+                                        cam_cursor=DB_camera(db_cur)                                        
+                                        cam_list = cam_cursor.search_cam_list_from_user(usr_profile[0][0])
+                                        # returns : id, securityStatus (char), activateWithAlarm (Bolean)
+                                        for cam in cam_list:
+                                             
+                                            if cam[2]== 1:
+                                     
+                                                #send "Arm/Disarm command to the camera"
+                                                #add_camera_cmd( self, cam_id, cmd):
+                                                cam_cursor.add_camera_cmd(cam[0], 'GET /adm/set_group.cgi?group=SYSTEM&pir_mode={} HTTP/1.1\r\n'.format(securityStatus) )
+                                                cam_cursor.add_camera_cmd(cam[0], 'GET /adm/set_group.cgi?group=EVENT&event_trigger=1&event_interval=0&event_pir=ftpu:1&event_attach=avi,1,10,20 HTTP/1.1\r\n')
+    
+                                                #change the camera security status 
+                                                #update_camera_status(self, cam_id, status)
+                                                cam_cursor.update_camera_security_flag(cam[0], securityStatus)
+    
+                                                db_cur.commit()
+                                                hclog.info("Camera {} Armed/disarmed ( {} ) on Gw {} request".format(cam[0], securityStatus, gw_id[0][0] ) )
+            
+                        # "if..." close the opened DB                                            
+                        db_cur.close()                               
+    
+    
+                # data not matching the Contact ID format              
+                else:
+                    hclog.info("ERROR: Bad Contact ID: UTC {} {} [client {}]".format(now, self.data, self.client_address[0]) )
+    
+            except:
+    
+                if 'db_cur' in locals():
+                    db_cur.close()  
+    
+                hclog.info("ERROR: bad Contact ID translation or user error in DB or issue sending notification: UTC {} {} [client {}]".format(now, self.data, self.client_address[0]))
+    
+            finally:
+                self.request.close()
         finally:
-            self.request.close()
+            pass    
             
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
+        
 
 def getopts():
     '''
@@ -323,8 +334,13 @@ if __name__ == '__main__':
     server = ThreadedTCPServer(server, ThreadedTCPRequestHandler)
 
 
+
+
+
     # Activate the server; this will keep running until you
     # interrupt the program with Ctrl-C
-    server.serve_forever()  
-
-
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print( "Got keyboard interrupt, shutting down" )
+        server.shutdown()

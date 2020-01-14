@@ -50,6 +50,10 @@ def make_request_handler_class(opts):
         additional class variables.
         '''
         m_opts = opts
+        
+        def setup(self):
+            http.server.BaseHTTPRequestHandler.setup(self)
+            self.request.settimeout(60)
 
         def do_HEAD(self):
             '''
@@ -293,6 +297,7 @@ def err(msg):
 class HTTPServer(socketserver.TCPServer):
 
     allow_reuse_address = 1    # Seems to make sense in testing environment
+    
 
     def server_bind(self):
         """Override server_bind to store the server name."""
@@ -304,6 +309,7 @@ class HTTPServer(socketserver.TCPServer):
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     """ This class allows to handle requests in separated threads.
         No further content needed, don't touch this. """
+    pass
 
 def httpd(opts):
     '''
