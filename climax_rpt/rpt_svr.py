@@ -8,6 +8,8 @@ VERSION = '2.0'
 
 import socket
 import socketserver
+import threading
+
 import datetime
 import re
 import os
@@ -122,7 +124,7 @@ def translate(contactID, snsr_list, usr_list):
 
   
  
-class MyTCPHandler(socketserver.BaseRequestHandler):
+class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     """
     The request handler class for our server.
 
@@ -130,16 +132,16 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     override the handle() method to implement communication to the
     client.
     """
-    allow_reuse_address = 1    # otherwise bind error when starting teh 2nd thread
+    allow_reuse_address = 1    # otherwise bind error when starting the 2nd thread
 
     def handle(self):
 
         Contact_ID_filter = re.compile(r'^\[[0-9A-Fa-f]{4}#[0-9A-Fa-f\s]{4}18[0-9A-Fa-f\s]{13}\]$') # contact ID
                       
         self.data = self.request.recv(32)
-                   
+                      
         now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-        hclog.info("Contact ID: UTC {} {} [client {}]".format(now, self.data, self.client_address[0]) )
+        hclog.info("Contact ID: UTC {} {} [client {}:{}] {}".format(now, self.data, self.client_address[0], self.client_address[1], threading.current_thread()) )
 
         try:
             data = self.data.decode()                                
@@ -239,6 +241,9 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
         finally:
             self.request.close()
+            
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    pass
 
 def getopts():
     '''
@@ -314,8 +319,9 @@ if __name__ == '__main__':
     hclog.info('starting up on %s port %s' % server)
     print("Starting up on %s port %s" % server)
 
-    # Create the server, binding to localhost on port 9999
-    server = socketserver.TCPServer(server, MyTCPHandler)
+    # Create the server
+    server = ThreadedTCPServer(server, ThreadedTCPRequestHandler)
+
 
     # Activate the server; this will keep running until you
     # interrupt the program with Ctrl-C
