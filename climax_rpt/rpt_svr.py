@@ -149,7 +149,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     
         else:             
             now=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-            hclog.info("Contact ID: UTC {} {} [client {}:{}] {}".format(now, self.data, self.client_address[0], self.client_address[1], threading.current_thread()) )
+            hclog.info("Contact ID: UTC {} {} [client {}]:{} {}".format(now, self.data, self.client_address[0], self.client_address[1], threading.current_thread()) )
     
             try:
                 data = self.data.decode()                                
